@@ -1,18 +1,19 @@
 import Link from "next/link";
-import { ProductListItemCoverImage } from "@/ui/atoms/ProductListItemCoverImage";
-import { ProductListItemDescription } from "@/ui/atoms/ProductListItemDescription";
-import { type ProductListItem as ProductListItemType } from "@/types";
+import { ProductListItemCoverImage } from "../atoms/ProductListItemCoverImage";
+import { ProductListItemDescription } from "../atoms/ProductListItemDescription";
+import { type Product } from "@/types";
 
 type Props = {
-	product: ProductListItemType;
+	product: Product;
 };
 
 export const ProductListItem = ({ product }: Props) => {
+	const { id, image, name, price, category } = product;
 	return (
 		<li>
-			<Link href={`/product/${product.id}`}>
-				<ProductListItemCoverImage product={product} />
-				<ProductListItemDescription product={product} />
+			<Link href={`/product/${id}`}>
+				<ProductListItemCoverImage src={image} alt={name} />
+				<ProductListItemDescription name={name} price={price} category={category} />
 			</Link>
 		</li>
 	);

@@ -1,10 +1,17 @@
-import { ProductList } from "@/ui/organisms/ProductList";
-import { products } from "@/constants";
+import Link from "next/link";
+import { executeGraphql } from "@/api/products";
+import { ProductsGetListDocument } from "@/gql/graphql";
 
-export default function Products() {
+export default async function ProductsPage() {
+	const { products } = await executeGraphql(ProductsGetListDocument);
+
 	return (
-		<section className="sm:py-18 mx-auto flex w-full max-w-2xl flex-grow flex-col px-8 py-12 sm:px-6 lg:max-w-7xl">
-			<ProductList products={products} />
-		</section>
+		<ul>
+			{products.map((product) => (
+				<li key={product.id}>
+					<Link href={`/product/${product.id}`}>{product.name}</Link>
+				</li>
+			))}
+		</ul>
 	);
 }

@@ -17,6 +17,7 @@
 		"incremental": true,
 		"allowUnreachableCode": true,
 		"noUnusedLocals": true,
+		"noUncheckedIndexedAccess": true,
 		"noUnusedParameters": true,
 		"plugins": [
 			{

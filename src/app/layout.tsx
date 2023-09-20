@@ -1,11 +1,13 @@
-import "./globals.css";
 import type { Metadata } from "next";
 import { Roboto_Flex } from "next/font/google";
+
 import { Footer } from "@/ui/organisms/Footer";
 import { Navbar } from "@/ui/organisms/Navbar";
 import { cn } from "@/utils";
 
-const robotoFlex = Roboto_Flex({ subsets: ["latin"] });
+import "./globals.css";
+
+const robotoFlex = Roboto_Flex({ subsets: ["latin", "latin-ext"] });
 
 export const metadata: Metadata = {
 	title: "Produkty",

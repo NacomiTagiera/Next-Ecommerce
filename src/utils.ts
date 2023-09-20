@@ -2,9 +2,9 @@ import clsx, { type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 export const formatPrice = (price: number) =>
-	new Intl.NumberFormat("pl-PL", {
+	new Intl.NumberFormat("en-US", {
 		style: "currency",
-		currency: "PLN",
+		currency: "USD",
 	}).format(price);
 
 export const cn = (...classes: ClassValue[]) => twMerge(clsx(...classes));

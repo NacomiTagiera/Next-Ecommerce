@@ -1,17 +1,8 @@
-import Link from "next/link";
-import { executeGraphql } from "@/api/products";
-import { ProductsGetListDocument } from "@/gql/graphql";
+import { getAllProducts } from "@/api/products";
+import { ProductList } from "@/ui/organisms/ProductList";
 
 export default async function ProductsPage() {
-	const { products } = await executeGraphql(ProductsGetListDocument);
+	const products = await getAllProducts();
 
-	return (
-		<ul>
-			{products.map((product) => (
-				<li key={product.id}>
-					<Link href={`/product/${product.id}`}>{product.name}</Link>
-				</li>
-			))}
-		</ul>
-	);
+	return <ProductList products={products} />;
 }

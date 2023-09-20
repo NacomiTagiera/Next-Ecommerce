@@ -1,9 +1,8 @@
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
-import { executeGraphql, getProduct } from "@/api/products";
+import { getProduct } from "@/api/products";
 import { formatPrice } from "@/utils";
 import { CustomImage } from "@/ui/atoms/CustomImage";
-import { ProductGetByIdDocument } from "@/gql/graphql";
 
 // export const generateStaticParams = async () => {
 // 	const products = await getProductsList();
@@ -16,42 +15,38 @@ import { ProductGetByIdDocument } from "@/gql/graphql";
 // 		.slice(0, 10);
 // };
 
-export const generateMetadata = async ({
+export async function generateMetadata({
 	params,
 }: {
-	params: { productId: string };
-}): Promise<Metadata> => {
-	const { name, description, image } = await getProduct(params.productId);
-	return {
-		title: name,
-		description: description,
-		openGraph: {
-			title: name,
-			description: description,
-			images: [image],
-		},
-	};
-};
+	params: { slug: string };
+}): Promise<Metadata> {
+	const product = await getProduct(params.slug);
 
-export default async function ProductPage({ params }: { params: { productId: string } }) {
-	const { product } = await executeGraphql(ProductGetByIdDocument, {
-		id: params.productId,
-	});
+	return {
+		title: product ? product.name : "Product not found",
+		description: product ? product.description : "Product not found",
+	};
+}
+
+export default async function ProductPage({ params }: { params: { slug: string } }) {
+	const product = await getProduct(params.slug);
 
 	if (!product) {
-		notFound();
+		throw notFound();
 	}
 
 	return (
 		<article>
 			<div className="flex flex-col gap-4 md:flex-row">
-				<CustomImage
-					src={product.images[0]?.url}
-					alt={product.name}
-					width={320}
-					height={320}
-					className="aspect-square transition-transform hover:scale-105"
-				/>
+				{product.images[0] && (
+					<CustomImage
+						src={product.images[0]?.url}
+						alt={product.name}
+						width={320}
+						height={320}
+						className="aspect-square transition-transform hover:scale-105"
+					/>
+				)}
 				<section>
 					<h2 className="title-font text-sm uppercase tracking-widest text-gray-500">
 						{product.categories[0]?.name}

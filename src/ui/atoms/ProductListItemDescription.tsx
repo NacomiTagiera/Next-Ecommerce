@@ -1,17 +1,16 @@
-type Props = {
-	name: string;
-	price: number;
-	category: string;
-};
-
+import { type ProductsListItemFragment } from "@/gql/graphql";
 import { formatPrice } from "@/utils";
 
-export const ProductListItemDescription = ({ name, price, category }: Props) => {
+type Props = {
+	product: ProductsListItemFragment;
+};
+
+export const ProductListItemDescription = ({ product: { name, price, categories } }: Props) => {
 	return (
 		<div className="grid grid-cols-5">
 			<div className="col-span-4">
 				<h3 className="font-semibold">{name}</h3>
-				<p>{category}</p>
+				{categories[0] && <p className="text-sm">{categories[0].name}</p>}
 			</div>
 			<div className="col-span-1 justify-self-end">{formatPrice(price / 100)}</div>
 		</div>

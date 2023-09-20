@@ -1,8 +1,8 @@
 import { ProductListItem } from "../molecules/ProductListItem";
-import { type Product } from "@/types";
+import type { ProductsListItemFragment } from "@/gql/graphql";
 
 type Props = {
-	products: Product[];
+	products: ProductsListItemFragment[];
 };
 
 export const ProductList = ({ products }: Props) => {
@@ -12,7 +12,7 @@ export const ProductList = ({ products }: Props) => {
 			data-testid="products-list"
 		>
 			{products.map((product) => (
-				<ProductListItem key={product.id} product={product} />
+				<ProductListItem key={product.slug} product={product} />
 			))}
 		</ul>
 	);

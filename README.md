@@ -1,6 +1,6 @@
 # NEXT 13 MASTERS Project
 
-Ecommerce Next.js app based on [Next 13 Masters](https://www.next13masters.pl/) course.
+Ecommerce Next.js 13 GraphQL app. Work in progress, more updates soon!
 
 ## Getting Started
 

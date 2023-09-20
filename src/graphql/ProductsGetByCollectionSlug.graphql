@@ -1,0 +1,7 @@
+query ProductsGetByCollectionSlug($slug: String!) {
+	collections(where: { slug: $slug }) {
+		products {
+			...ProductsListItem
+		}
+	}
+}

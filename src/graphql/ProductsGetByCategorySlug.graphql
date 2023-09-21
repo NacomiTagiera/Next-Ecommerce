@@ -1,5 +1,5 @@
 query ProductsGetByCategorySlug($slug: String!) {
-	categories(where: { slug: $slug }) {
+	category(where: { slug: $slug }) {
 		products {
 			...ProductsListItem
 		}

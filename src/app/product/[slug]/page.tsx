@@ -1,7 +1,7 @@
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getProduct } from "@/api/products";
-import { formatPrice } from "@/utils";
+import { getProductBySlug } from "@/api/products";
+import { formatPrice } from "@/lib/utils";
 import { CustomImage } from "@/ui/atoms/CustomImage";
 
 // export const generateStaticParams = async () => {
@@ -20,7 +20,7 @@ export async function generateMetadata({
 }: {
 	params: { slug: string };
 }): Promise<Metadata> {
-	const product = await getProduct(params.slug);
+	const product = await getProductBySlug(params.slug);
 
 	return {
 		title: product ? product.name : "Product not found",
@@ -29,7 +29,7 @@ export async function generateMetadata({
 }
 
 export default async function ProductPage({ params }: { params: { slug: string } }) {
-	const product = await getProduct(params.slug);
+	const product = await getProductBySlug(params.slug);
 
 	if (!product) {
 		throw notFound();

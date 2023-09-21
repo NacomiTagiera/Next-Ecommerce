@@ -1,4 +1,4 @@
-import { CustomImage } from "./CustomImage";
+import NextImage from "next/image";
 import { type ProductsListItemFragment } from "@/gql/graphql";
 
 type Props = {
@@ -7,8 +7,16 @@ type Props = {
 
 export const ProductListItemCoverImage = ({ product: { name, images } }: Props) => {
 	return (
-		<div className="aspect-square rounded-md bg-slate-50 p-4 transition-colors hover:bg-slate-100">
-			{images[0] && <CustomImage src={images[0].url} alt={name} width={320} height={320} />}
+		<div className="aspect-square">
+			{images[0] && (
+				<NextImage
+					src={images[0].url}
+					alt={name}
+					width={320}
+					height={320}
+					className="relative h-full w-full object-contain transition duration-300 ease-in-out group-hover:scale-105"
+				/>
+			)}
 		</div>
 	);
 };

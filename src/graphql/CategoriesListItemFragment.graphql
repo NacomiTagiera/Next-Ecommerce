@@ -1,5 +1,0 @@
-fragment CategoriesListItem on Category {
-	slug
-	name
-	description
-}

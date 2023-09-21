@@ -1,0 +1,5 @@
+query ColorsGetList {
+	productColorVariants {
+		color
+	}
+}

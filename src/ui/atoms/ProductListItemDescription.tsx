@@ -1,5 +1,5 @@
 import { type ProductsListItemFragment } from "@/gql/graphql";
-import { formatPrice } from "@/utils";
+import { formatPrice } from "@/lib/utils";
 
 type Props = {
 	product: ProductsListItemFragment;
@@ -7,12 +7,12 @@ type Props = {
 
 export const ProductListItemDescription = ({ product: { name, price, categories } }: Props) => {
 	return (
-		<div className="grid grid-cols-5">
-			<div className="col-span-4">
-				<h3 className="font-semibold">{name}</h3>
-				{categories[0] && <p className="text-sm">{categories[0].name}</p>}
+		<div className="flex items-center justify-between pt-6">
+			<div>
+				<h3 className="text-base">{name}</h3>
+				<p className="text-gray-600">{categories[0]?.name}</p>
 			</div>
-			<div className="col-span-1 justify-self-end">{formatPrice(price / 100)}</div>
+			<span className="text-xl font-bold text-blue-600">{formatPrice(price / 100)}</span>
 		</div>
 	);
 };

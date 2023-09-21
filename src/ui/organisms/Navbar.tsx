@@ -1,5 +1,5 @@
 import { ActiveLink } from "../atoms/ActiveLink";
-import { navLinks } from "@/constants";
+import { navLinks } from "@/lib/constants";
 
 export const Navbar = () => {
 	return (

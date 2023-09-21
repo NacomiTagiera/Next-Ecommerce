@@ -9,7 +9,7 @@ type Props = {
 
 export const ProductListItem = ({ product }: Props) => {
 	return (
-		<li>
+		<li className="aspect-square animate-fadeIn rounded-lg border border-neutral-200 bg-white transition-opacity hover:border-blue-600">
 			<Link href={`/product/${product.slug}`}>
 				<ProductListItemCoverImage product={product} />
 				<ProductListItemDescription product={product} />

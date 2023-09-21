@@ -1,4 +1,9 @@
-import { ProductGetBySugDocument, ProductsGetListDocument } from "@/gql/graphql";
+import {
+	CategoriesGetListDocument,
+	ProductGetBySlugDocument,
+	ProductsGetListDocument,
+	type ProductsListItemFragment,
+} from "@/gql/graphql";
 import { executeGraphql } from "@/lib/executeGraphql";
 
 export const getAllProducts = async () => {
@@ -7,8 +12,14 @@ export const getAllProducts = async () => {
 	return res.products;
 };
 
-export const getProduct = async (slug: string) => {
-	const res = await executeGraphql(ProductGetBySugDocument, { slug: slug });
+export const getProductBySlug = async (slug: ProductsListItemFragment["slug"]) => {
+	const res = await executeGraphql(ProductGetBySlugDocument, { slug: slug });
 
-	return res.products[0];
+	return res.product;
+};
+
+export const getAllCategories = async () => {
+	const res = await executeGraphql(CategoriesGetListDocument);
+
+	return res.categories;
 };

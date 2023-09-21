@@ -1,6 +1,6 @@
 import Image, { type ImageProps } from "next/image";
 
-import { cn } from "@/utils";
+import { cn } from "@/lib/utils";
 
 export const CustomImage = ({ src, alt, height, width, className, ...rest }: ImageProps) => {
 	return (

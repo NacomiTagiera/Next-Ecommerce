@@ -10766,12 +10766,12 @@ export type _SystemDateTimeFieldVariation =
 export type CategoriesGetListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CategoriesGetListQuery = { categories: Array<{ slug: string, name: string, description?: string | null }> };
+export type CategoriesGetListQuery = { categories: Array<{ slug: string, name: string }> };
 
 export type CollectionsGetListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CollectionsGetListQuery = { collections: Array<{ name: string, slug: string, image: { url: string } }> };
+export type CollectionsGetListQuery = { collections: Array<{ name: string, slug: string }> };
 
 export type ColorsGetListQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -10858,7 +10858,6 @@ export const CategoriesGetListDocument = new TypedDocumentString(`
   categories {
     slug
     name
-    description
   }
 }
     `) as unknown as TypedDocumentString<CategoriesGetListQuery, CategoriesGetListQueryVariables>;
@@ -10867,9 +10866,6 @@ export const CollectionsGetListDocument = new TypedDocumentString(`
   collections {
     name
     slug
-    image {
-      url
-    }
   }
 }
     `) as unknown as TypedDocumentString<CollectionsGetListQuery, CollectionsGetListQueryVariables>;

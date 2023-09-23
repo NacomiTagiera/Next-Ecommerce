@@ -1,5 +1,0 @@
-query ProductsGetList {
-	products {
-		...ProductsListItem
-	}
-}

@@ -1,8 +1,0 @@
-query ProductsGetRelated($slug: String!, $categories: [String!]) {
-	products(
-		where: { slug_not: $slug, AND: { categories_some: { slug_in: $categories } } }
-		first: 4
-	) {
-		...ProductsListItem
-	}
-}

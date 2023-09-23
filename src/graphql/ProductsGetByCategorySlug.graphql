@@ -1,7 +1,0 @@
-query ProductsGetByCategorySlug($slug: String!) {
-	category(where: { slug: $slug }) {
-		products {
-			...ProductsListItem
-		}
-	}
-}

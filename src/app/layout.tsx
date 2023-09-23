@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Roboto_Flex } from "next/font/google";
 
-import { Footer } from "@/ui/organisms/Footer";
-import { Navbar } from "@/ui/organisms/Navbar";
+import { Footer } from "@/components/Layout/Footer";
+import { Header } from "@/components/Layout/Header";
 import { cn } from "@/lib/utils";
 
 import "./globals.css";
@@ -75,7 +75,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 					robotoFlex.className,
 				)}
 			>
-				<Navbar />
+				<Header />
 				<main className="flex-grow">{children}</main>
 				<Footer />
 			</body>

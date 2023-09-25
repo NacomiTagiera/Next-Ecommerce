@@ -1,6 +1,5 @@
 query CollectionsGetList {
 	collections {
-		name
-		slug
+		...CollectionListItem
 	}
 }

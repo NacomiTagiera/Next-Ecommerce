@@ -6,17 +6,6 @@ import { getProductBySlug } from "@/api/products";
 import { formatPrice } from "@/lib/utils";
 import { RelatedProducts } from "@/components/Products/ProductDetails/RelatedProducts";
 
-// export const generateStaticParams = async () => {
-// 	const products = await getProductsList();
-// 	return products
-// 		.map((product) => {
-// 			return {
-// 				productId: product.id,
-// 			};
-// 		})
-// 		.slice(0, 10);
-// };
-
 export async function generateMetadata({
 	params,
 }: {
@@ -26,7 +15,7 @@ export async function generateMetadata({
 
 	return {
 		title: product ? product.name : "Product not found",
-		description: product ? product.description : "Product not found",
+		description: product?.description,
 	};
 }
 
@@ -53,9 +42,14 @@ export default async function ProductPage({ params }: { params: { slug: string }
 						/>
 					)}
 					<section>
-						<h2 className="title-font text-sm uppercase tracking-widest text-gray-500">
-							{product.categories[0]?.name}
-						</h2>
+						{product.categories.map((category) => (
+							<h2
+								key={category.slug}
+								className="title-font text-sm uppercase tracking-widest text-gray-500"
+							>
+								{category.name}
+							</h2>
+						))}
 						<h1 className="title-font mb-1 text-3xl font-medium text-gray-900">{product.name}</h1>
 						<p className="border-gray-1 border-b-2 pb-5 leading-relaxed">{product.description}</p>
 						<div className="mt-5 flex justify-between align-baseline">

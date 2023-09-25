@@ -2,11 +2,12 @@ import Link from "next/link";
 import NextImage from "next/image";
 import { FooterMenu } from "./FooterMenu";
 import { restOfFooterLinks, socials } from "@/lib/constants";
-import { getAllCategories, getAllCollections } from "@/api/products";
+import { getCategoriesList } from "@/api/categories";
+import { getCollectionsList } from "@/api/collections";
 
 const getFooterLinks = async () => {
-	const categories = await getAllCategories();
-	const collections = await getAllCollections();
+	const categories = await getCategoriesList();
+	const collections = await getCollectionsList();
 
 	const footerLinks = [
 		{

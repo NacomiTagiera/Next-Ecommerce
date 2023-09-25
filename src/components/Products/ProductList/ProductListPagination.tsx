@@ -1,6 +1,12 @@
+import { type Route } from "next";
 import { ActiveLink } from "../../Shared/ActiveLink";
 
-export const ProductsListPagination = ({ numberOfPages }: { numberOfPages: number }) => {
+type Props<T extends string> = {
+	href: Route<T>;
+	numberOfPages: number;
+};
+
+export const ProductListPagination = <T extends string>({ href, numberOfPages }: Props<T>) => {
 	const pageNumbers = [...Array(numberOfPages).keys()].map((index) => index + 1);
 
 	return (
@@ -13,7 +19,7 @@ export const ProductsListPagination = ({ numberOfPages }: { numberOfPages: numbe
 				{pageNumbers.map((pageNo) => (
 					<li key={pageNo}>
 						<ActiveLink
-							href={`/products/${pageNo.toString()}`}
+							href={`${href}/${pageNo.toString()}` as Route}
 							className="inline-flex items-center border-t-2 px-4 pt-4 text-sm font-medium"
 							activeClassName="border-pumpkin text-pumpkin-600"
 						>

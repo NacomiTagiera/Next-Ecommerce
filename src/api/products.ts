@@ -1,50 +1,50 @@
 import {
-	CategoriesGetListDocument,
-	CollectionsGetListDocument,
 	ProductGetBySlugDocument,
 	ProductGetListDocument,
+	ProductsGetCountDocument,
 	ProductsGetRelatedDocument,
 } from "@/gql/graphql";
+import { executeGraphql } from "@/api/graphqlApi";
 import { PRODUCTS_PAGE_SIZE } from "@/lib/constants";
-import { executeGraphql } from "@/lib/executeGraphql";
 
-export const getAllProducts = async (page: number) => {
-	const {
-		products,
-		productsConnection: {
-			aggregate: { count },
+export const getProductsList = async (page: number) => {
+	const { products } = await executeGraphql({
+		query: ProductGetListDocument,
+		variables: {
+			first: PRODUCTS_PAGE_SIZE,
+			skip: (page - 1) * PRODUCTS_PAGE_SIZE,
 		},
-	} = await executeGraphql(ProductGetListDocument, {
-		first: PRODUCTS_PAGE_SIZE,
-		skip: (page - 1) * PRODUCTS_PAGE_SIZE,
 	});
 
-	return { products, count };
+	return products;
 };
 
 export const getProductBySlug = async (slug: string) => {
-	const res = await executeGraphql(ProductGetBySlugDocument, { slug: slug });
+	const res = await executeGraphql({ query: ProductGetBySlugDocument, variables: { slug: slug } });
 
 	return res.product;
 };
 
 export const getRelatedProducts = async (productSlug: string, categoriesSlugs: string[]) => {
-	const res = await executeGraphql(ProductsGetRelatedDocument, {
-		slug: productSlug,
-		categoriesSlugs,
+	const res = await executeGraphql({
+		query: ProductsGetRelatedDocument,
+		variables: {
+			slug: productSlug,
+			categoriesSlugs,
+		},
 	});
 
 	return res.products;
 };
 
-export const getAllCategories = async () => {
-	const res = await executeGraphql(CategoriesGetListDocument);
+export const getProductsCount = async (categoriesSlugs?: string[], collectionsSlugs?: string[]) => {
+	const res = await executeGraphql({
+		query: ProductsGetCountDocument,
+		variables: {
+			categoriesSlugs,
+			collectionsSlugs,
+		},
+	});
 
-	return res.categories;
-};
-
-export const getAllCollections = async () => {
-	const res = await executeGraphql(CollectionsGetListDocument);
-
-	return res.collections;
+	return res.productsConnection.aggregate.count;
 };

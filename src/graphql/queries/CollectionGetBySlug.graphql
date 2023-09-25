@@ -1,5 +1,10 @@
-query ProductsGetByCollectionSlug($slug: String!) {
+query CollectionGetBySlug($slug: String!) {
 	collection(where: { slug: $slug }) {
+		...CollectionListItem
+		description
+		image {
+			url
+		}
 		products {
 			...ProductListItem
 		}

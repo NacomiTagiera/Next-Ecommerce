@@ -1,0 +1,14 @@
+query ProductsGetCount($categoriesSlugs: [String], $collectionsSlugs: [String]) {
+	productsConnection(
+		where: {
+			OR: [
+				{ categories_some: { slug_in: $categoriesSlugs } }
+				{ collections_some: { slug_in: $collectionsSlugs } }
+			]
+		}
+	) {
+		aggregate {
+			count
+		}
+	}
+}

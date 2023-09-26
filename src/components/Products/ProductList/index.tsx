@@ -1,11 +1,16 @@
+import { type Route } from "next";
+
 import { ProductListItem } from "./ProductListItem";
+import { ProductListPagination } from "./ProductListPagination";
 import type { ProductListItemFragment } from "@/gql/graphql";
 
-type Props = {
+type Props<T extends string> = {
 	products: ProductListItemFragment[];
+	href: Route<T>;
+	numberOfPages: number;
 };
 
-export const ProductList = ({ products }: Props) => {
+export const ProductList = <T extends string>({ products, href, numberOfPages }: Props<T>) => {
 	return (
 		<section className="sm:py-18 mx-auto flex w-full max-w-2xl flex-grow flex-col px-8 py-12 sm:px-6 lg:max-w-7xl">
 			<ul
@@ -16,6 +21,7 @@ export const ProductList = ({ products }: Props) => {
 					<ProductListItem key={product.slug} product={product} />
 				))}
 			</ul>
+			<ProductListPagination href={href} numberOfPages={numberOfPages} />
 		</section>
 	);
 };

@@ -1,16 +1,18 @@
 import { type Metadata } from "next";
+import { notFound } from "next/navigation";
 
 import { getCategoriesList, getCategoryBySlug } from "@/api/categories";
-import { getProductsCount } from "@/api/products";
+import { getProductsCountInCategory } from "@/api/products";
+import { ProductList } from "@/components/Products/ProductList";
 import { PRODUCTS_PAGE_SIZE } from "@/lib/constants";
 
-export const generateStaticParams = async ({
-	params,
-}: {
+type Props = {
 	params: { category: string; pageNumber: string };
-}) => {
+};
+
+export const generateStaticParams = async ({ params }: Props) => {
 	const categories = await getCategoriesList();
-	const productsCount = await getProductsCount([params.category]);
+	const productsCount = await getProductsCountInCategory(params.category);
 	const numberOfPages = Math.ceil(productsCount / PRODUCTS_PAGE_SIZE);
 
 	const result = [];
@@ -27,12 +29,8 @@ export const generateStaticParams = async ({
 	return result;
 };
 
-export const generateMetadata = async ({
-	params,
-}: {
-	params: { category: string; pageNumber: string };
-}): Promise<Metadata> => {
-	const category = await getCategoryBySlug(params.category);
+export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
+	const category = await getCategoryBySlug(params.category, 1);
 
 	return {
 		title: category?.name,
@@ -40,6 +38,25 @@ export const generateMetadata = async ({
 	};
 };
 
-export default function CategoryPage() {
-	return <div>page</div>;
+export default async function CategoryPage({ params }: Props) {
+	const category = await getCategoryBySlug(params.category, +params.pageNumber);
+	const productsCount = await getProductsCountInCategory(params.category);
+
+	if (!category?.products.length) {
+		return notFound();
+	}
+
+	const numberOfPages = Math.ceil(productsCount / PRODUCTS_PAGE_SIZE);
+
+	return (
+		<>
+			<h2>{category.name}</h2>
+			<p>{category.description}</p>
+			<ProductList
+				products={category.products}
+				href={`/categories/${params.category}`}
+				numberOfPages={numberOfPages}
+			/>
+		</>
+	);
 }

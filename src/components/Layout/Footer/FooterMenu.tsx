@@ -1,6 +1,7 @@
+import { type Route } from "next";
 import { ActiveLink } from "@/components/Shared/ActiveLink";
 
-type FooterMenuProps = {
+type Props = {
 	header: string;
 	items: {
 		slug: string;
@@ -8,7 +9,10 @@ type FooterMenuProps = {
 	}[];
 };
 
-export const FooterMenu = ({ header, items }: FooterMenuProps) => {
+export const FooterMenu = ({ header, items }: Props) => {
+	const linkPrefix =
+		header === "Categories" || header === "Collections" ? `/${header.toLowerCase()}` : "";
+
 	return (
 		<>
 			<h5 className="font-semibold leading-6 text-black">{header}</h5>
@@ -16,9 +20,10 @@ export const FooterMenu = ({ header, items }: FooterMenuProps) => {
 				{items.map((item) => (
 					<li key={item.slug}>
 						<ActiveLink
-							href={`/${item.slug}`}
+							href={`${linkPrefix}/${item.slug}` as Route}
 							className="hover:text-black hover:underline hover:underline-offset-4"
 							activeClassName="text-black"
+							exact={false}
 						>
 							{item.name}
 						</ActiveLink>

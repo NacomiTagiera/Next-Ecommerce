@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import { getProductsCount, getProductsList } from "@/api/products";
 import { ProductList } from "@/components/Products/ProductList";
 import { PRODUCTS_PAGE_SIZE } from "@/lib/constants";
-import { ProductListPagination } from "@/components/Products/ProductList/ProductListPagination";
 
 export const generateStaticParams = async () => {
 	const productsCount = await getProductsCount();
@@ -31,8 +30,7 @@ export default async function ProductsPage({ params }: { params: { pageNumber: s
 
 	return (
 		<>
-			<ProductList products={products} />
-			<ProductListPagination href={`/products`} numberOfPages={numberOfPages} />
+			<ProductList products={products} href="/products" numberOfPages={numberOfPages} />
 		</>
 	);
 }

@@ -1,5 +1,5 @@
 import { type Route } from "next";
-import { AiFillFacebook, AiFillLinkedin, AiOutlineGithub } from "react-icons/ai";
+import { Facebook, Github, Linkedin } from "lucide-react";
 
 export const PRODUCTS_PAGE_SIZE = 4;
 
@@ -10,17 +10,17 @@ export const navLinks: { text: string; href: Route; exact: boolean }[] = [
 
 export const socials = [
 	{
-		icon: AiFillLinkedin,
+		icon: Linkedin,
 		href: "https://www.linkedin.com/in/jakub-pawlak-frontend-dev",
 		name: "LinkedIn",
 	},
 	{
-		icon: AiOutlineGithub,
+		icon: Github,
 		href: "https://github.com/NacomiTagiera",
 		name: "GitHub",
 	},
 	{
-		icon: AiFillFacebook,
+		icon: Facebook,
 		href: "https://www.facebook.com/kubapawlak123321",
 		name: "Facebook",
 	},

@@ -1,8 +1,8 @@
-query CategoryGetBySlug($slug: String!) {
+query CategoryGetBySlug($slug: String!, $limit: Int!, $offset: Int!) {
 	category(where: { slug: $slug }) {
 		...CategoryListItem
 		description
-		products {
+		products(first: $limit, skip: $offset) {
 			...ProductListItem
 		}
 	}

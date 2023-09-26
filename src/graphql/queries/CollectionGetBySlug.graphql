@@ -1,11 +1,11 @@
-query CollectionGetBySlug($slug: String!) {
+query CollectionGetBySlug($slug: String!, $limit: Int!, $offset: Int!) {
 	collection(where: { slug: $slug }) {
 		...CollectionListItem
 		description
 		image {
 			url
 		}
-		products {
+		products(first: $limit, skip: $offset) {
 			...ProductListItem
 		}
 	}

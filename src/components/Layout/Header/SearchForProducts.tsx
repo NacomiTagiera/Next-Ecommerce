@@ -9,7 +9,7 @@ import { useDebounce } from "@/hooks/useDebounce";
 export const SearchForProducts = () => {
 	const router = useRouter();
 	const searchParams = useSearchParams();
-	const [searchValue, setSearchValue] = useState(searchParams.get("search") || "");
+	const [searchValue, setSearchValue] = useState(searchParams.get("query") || "");
 	const debouncedValue = useDebounce(searchValue, 500);
 
 	const handleChange = ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
@@ -17,11 +17,13 @@ export const SearchForProducts = () => {
 			router.back();
 		}
 
-		setSearchValue(value);
+		setSearchValue(value.trim());
 	};
 
 	useEffect(() => {
-		if (debouncedValue) router.replace(`/search?query=${debouncedValue}`);
+		if (debouncedValue) {
+			router.push(`/search?query=${debouncedValue}`);
+		}
 	}, [debouncedValue, router]);
 
 	return (
@@ -41,6 +43,7 @@ export const SearchForProducts = () => {
 					value={searchValue}
 					aria-label="Search for products"
 					onChange={handleChange}
+					onBlur={() => setSearchValue("")}
 					autoComplete="off"
 					autoCorrect="off"
 					autoCapitalize="off"

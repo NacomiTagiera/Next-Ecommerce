@@ -10806,12 +10806,26 @@ export type ProductGetBySlugQueryVariables = Exact<{
 
 export type ProductGetBySlugQuery = { product?: { slug: string, name: string, description: string, price: number, categories: Array<{ slug: string, name: string }>, images: Array<{ url: string }> } | null };
 
+export type ProductGetColorsQueryVariables = Exact<{
+  slug: Scalars['String']['input'];
+}>;
+
+
+export type ProductGetColorsQuery = { product?: { variants: Array<{ name: string } | {}> } | null };
+
 export type ProductsGetCountInCollectionQueryVariables = Exact<{
   slug?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
 export type ProductsGetCountInCollectionQuery = { productsConnection: { aggregate: { count: number } } };
+
+export type ProductGetSizesQueryVariables = Exact<{
+  slug: Scalars['String']['input'];
+}>;
+
+
+export type ProductGetSizesQuery = { product?: { variants: Array<{ name: string } | {}> } | null };
 
 export type ProductsGetBySearchQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -10847,6 +10861,11 @@ export type ProductsGetRelatedQueryVariables = Exact<{
 
 
 export type ProductsGetRelatedQuery = { products: Array<{ slug: string, name: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> }> };
+
+export type ProductsGetSlugsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ProductsGetSlugsQuery = { products: Array<{ slug: string }> };
 
 export class TypedDocumentString<TResult, TVariables>
   extends String
@@ -10994,6 +11013,17 @@ export const ProductGetBySlugDocument = new TypedDocumentString(`
     url
   }
 }`) as unknown as TypedDocumentString<ProductGetBySlugQuery, ProductGetBySlugQueryVariables>;
+export const ProductGetColorsDocument = new TypedDocumentString(`
+    query ProductGetColors($slug: String!) {
+  product(where: {slug: $slug}) {
+    variants {
+      ... on ProductColorVariant {
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<ProductGetColorsQuery, ProductGetColorsQueryVariables>;
 export const ProductsGetCountInCollectionDocument = new TypedDocumentString(`
     query ProductsGetCountInCollection($slug: String) {
   productsConnection(where: {collections_some: {slug: $slug}}) {
@@ -11003,6 +11033,17 @@ export const ProductsGetCountInCollectionDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<ProductsGetCountInCollectionQuery, ProductsGetCountInCollectionQueryVariables>;
+export const ProductGetSizesDocument = new TypedDocumentString(`
+    query ProductGetSizes($slug: String!) {
+  product(where: {slug: $slug}) {
+    variants {
+      ... on ProductSizeVariant {
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<ProductGetSizesQuery, ProductGetSizesQueryVariables>;
 export const ProductsGetBySearchDocument = new TypedDocumentString(`
     query ProductsGetBySearch($search: String!) {
   products(where: {_search: $search}) {
@@ -11075,3 +11116,10 @@ export const ProductsGetRelatedDocument = new TypedDocumentString(`
     url
   }
 }`) as unknown as TypedDocumentString<ProductsGetRelatedQuery, ProductsGetRelatedQueryVariables>;
+export const ProductsGetSlugsDocument = new TypedDocumentString(`
+    query ProductsGetSlugs {
+  products {
+    slug
+  }
+}
+    `) as unknown as TypedDocumentString<ProductsGetSlugsQuery, ProductsGetSlugsQueryVariables>;

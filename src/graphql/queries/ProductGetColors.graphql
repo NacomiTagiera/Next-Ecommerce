@@ -1,0 +1,9 @@
+query ProductGetColors($slug: String!) {
+	product(where: { slug: $slug }) {
+		variants {
+			... on ProductColorVariant {
+				name
+			}
+		}
+	}
+}

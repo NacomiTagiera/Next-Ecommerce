@@ -23,12 +23,15 @@ const documents = {
     "query CollectionGetBySlug($slug: String!, $limit: Int!, $offset: Int!) {\n  collection(where: {slug: $slug}) {\n    ...CollectionListItem\n    description\n    image {\n      url\n    }\n    products(first: $limit, skip: $offset) {\n      ...ProductListItem\n    }\n  }\n}": types.CollectionGetBySlugDocument,
     "query CollectionsGetList {\n  collections {\n    ...CollectionListItem\n  }\n}": types.CollectionsGetListDocument,
     "query ProductGetBySlug($slug: String!) {\n  product(where: {slug: $slug}) {\n    ...ProductDetails\n  }\n}": types.ProductGetBySlugDocument,
+    "query ProductGetColors($slug: String!) {\n  product(where: {slug: $slug}) {\n    variants {\n      ... on ProductColorVariant {\n        name\n      }\n    }\n  }\n}": types.ProductGetColorsDocument,
     "query ProductsGetCountInCollection($slug: String) {\n  productsConnection(where: {collections_some: {slug: $slug}}) {\n    aggregate {\n      count\n    }\n  }\n}": types.ProductsGetCountInCollectionDocument,
+    "query ProductGetSizes($slug: String!) {\n  product(where: {slug: $slug}) {\n    variants {\n      ... on ProductSizeVariant {\n        name\n      }\n    }\n  }\n}": types.ProductGetSizesDocument,
     "query ProductsGetBySearch($search: String!) {\n  products(where: {_search: $search}) {\n    ...ProductListItem\n  }\n}": types.ProductsGetBySearchDocument,
     "query ProductsGetCount {\n  productsConnection {\n    aggregate {\n      count\n    }\n  }\n}": types.ProductsGetCountDocument,
     "query ProductsGetCountInCategory($slug: String) {\n  productsConnection(where: {categories_some: {slug: $slug}}) {\n    aggregate {\n      count\n    }\n  }\n}": types.ProductsGetCountInCategoryDocument,
     "query ProductGetList($limit: Int!, $offset: Int!) {\n  products(first: $limit, skip: $offset) {\n    ...ProductListItem\n  }\n}": types.ProductGetListDocument,
     "query ProductsGetRelated($slug: String!, $categoriesSlugs: [String!]) {\n  products(\n    where: {slug_not: $slug, AND: {categories_some: {slug_in: $categoriesSlugs}}}\n    first: 6\n  ) {\n    ...ProductListItem\n  }\n}": types.ProductsGetRelatedDocument,
+    "query ProductsGetSlugs {\n  products {\n    slug\n  }\n}": types.ProductsGetSlugsDocument,
 };
 
 /**
@@ -70,7 +73,15 @@ export function graphql(source: "query ProductGetBySlug($slug: String!) {\n  pro
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "query ProductGetColors($slug: String!) {\n  product(where: {slug: $slug}) {\n    variants {\n      ... on ProductColorVariant {\n        name\n      }\n    }\n  }\n}"): typeof import('./graphql').ProductGetColorsDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "query ProductsGetCountInCollection($slug: String) {\n  productsConnection(where: {collections_some: {slug: $slug}}) {\n    aggregate {\n      count\n    }\n  }\n}"): typeof import('./graphql').ProductsGetCountInCollectionDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "query ProductGetSizes($slug: String!) {\n  product(where: {slug: $slug}) {\n    variants {\n      ... on ProductSizeVariant {\n        name\n      }\n    }\n  }\n}"): typeof import('./graphql').ProductGetSizesDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -91,6 +102,10 @@ export function graphql(source: "query ProductGetList($limit: Int!, $offset: Int
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "query ProductsGetRelated($slug: String!, $categoriesSlugs: [String!]) {\n  products(\n    where: {slug_not: $slug, AND: {categories_some: {slug_in: $categoriesSlugs}}}\n    first: 6\n  ) {\n    ...ProductListItem\n  }\n}"): typeof import('./graphql').ProductsGetRelatedDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "query ProductsGetSlugs {\n  products {\n    slug\n  }\n}"): typeof import('./graphql').ProductsGetSlugsDocument;
 
 
 export function graphql(source: string) {

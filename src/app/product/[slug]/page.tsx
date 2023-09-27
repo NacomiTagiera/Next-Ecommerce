@@ -5,12 +5,13 @@ import { notFound } from "next/navigation";
 import { getProductBySlug } from "@/api/products";
 import { formatPrice } from "@/lib/utils";
 import { RelatedProducts } from "@/components/Products/ProductDetails/RelatedProducts";
+import { VariantSelector } from "@/components/Products/ProductDetails/VariantSelector";
 
-export async function generateMetadata({
-	params,
-}: {
+type Props = {
 	params: { slug: string };
-}): Promise<Metadata> {
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const product = await getProductBySlug(params.slug);
 
 	return {
@@ -19,7 +20,7 @@ export async function generateMetadata({
 	};
 }
 
-export default async function ProductPage({ params }: { params: { slug: string } }) {
+export default async function ProductPage({ params }: Props) {
 	const product = await getProductBySlug(params.slug);
 
 	if (!product) {
@@ -56,6 +57,23 @@ export default async function ProductPage({ params }: { params: { slug: string }
 							<p className="text-2xl font-medium text-gray-900">
 								{formatPrice(product.price / 100)}
 							</p>
+							<VariantSelector
+								variant={{
+									name: "Size",
+									values: [{ name: "XL" }, { name: "L" }, { name: "M" }, { name: "S" }],
+								}}
+							/>
+							<VariantSelector
+								variant={{
+									name: "Color",
+									values: [
+										{ name: "Red" },
+										{ name: "Green" },
+										{ name: "Blue" },
+										{ name: "Yellow" },
+									],
+								}}
+							/>
 							<button className="inline-block rounded border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition-colors hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500">
 								Add to cart
 							</button>

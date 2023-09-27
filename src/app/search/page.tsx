@@ -22,10 +22,10 @@ export default async function SearchPage({
 		return notFound();
 	}
 
-	console.log(products);
-
-	return;
-	<>
-		<ProductList products={products} href={"/"} numberOfPages={1} />
-	</>;
+	return (
+		<>
+			<h2>Results for: &quot;{searchParams.query}&quot;</h2>
+			<ProductList products={products} />
+		</>
+	);
 }

@@ -1,4 +1,3 @@
-import { type Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
@@ -10,15 +9,6 @@ import { VariantSelector } from "@/components/Products/ProductDetails/VariantSel
 type Props = {
 	params: { slug: string };
 };
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-	const product = await getProductBySlug(params.slug);
-
-	return {
-		title: product ? product.name : "Product not found",
-		description: product?.description,
-	};
-}
 
 export default async function ProductPage({ params }: Props) {
 	const product = await getProductBySlug(params.slug);
@@ -57,23 +47,7 @@ export default async function ProductPage({ params }: Props) {
 							<p className="text-2xl font-medium text-gray-900">
 								{formatPrice(product.price / 100)}
 							</p>
-							<VariantSelector
-								variant={{
-									name: "Size",
-									values: [{ name: "XL" }, { name: "L" }, { name: "M" }, { name: "S" }],
-								}}
-							/>
-							<VariantSelector
-								variant={{
-									name: "Color",
-									values: [
-										{ name: "Red" },
-										{ name: "Green" },
-										{ name: "Blue" },
-										{ name: "Yellow" },
-									],
-								}}
-							/>
+							<VariantSelector variants={product.variants} />
 							<button className="inline-block rounded border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition-colors hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500">
 								Add to cart
 							</button>

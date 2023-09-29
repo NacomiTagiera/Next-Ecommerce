@@ -1,9 +1,0 @@
-query ProductGetSizes($slug: String!) {
-	product(where: { slug: $slug }) {
-		variants {
-			... on ProductSizeVariant {
-				name
-			}
-		}
-	}
-}

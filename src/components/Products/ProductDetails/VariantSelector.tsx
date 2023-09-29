@@ -3,47 +3,47 @@
 import { type Route } from "next";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-import { cn, createUrl } from "@/lib/utils";
+import { cn, createUrl, getConvertedVariants } from "@/lib/utils";
+import {
+	type SingleProductColorVariantFragment,
+	type SingleProductSizeVariantFragment,
+} from "@/gql/graphql";
 
 type Props = {
-	variant: {
-		name: string;
-		values: { name: string }[];
-	};
+	variants: SingleProductColorVariantFragment[] | SingleProductSizeVariantFragment[] | {}[];
 };
 
-export const VariantSelector = ({ variant }: Props) => {
+export const VariantSelector = ({ variants }: Props) => {
 	const router = useRouter();
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
-	const hasNoOptionsOrJustOneOption = !variant.values.length || variant.values.length === 1;
+	const convertedVariants = getConvertedVariants(variants);
 
-	if (hasNoOptionsOrJustOneOption) {
+	if (!convertedVariants) {
 		return null;
 	}
 
-	return (
-		<dl className="mb-8">
+	return convertedVariants.map((variant) => (
+		<dl className="mb-8" key={variant.name}>
 			<dt className="mb-4 text-sm uppercase tracking-wide">{variant.name}</dt>
 			<dd className="flex flex-wrap gap-3">
-				{variant.values?.map((value) => {
-					const variantNameLowerCase = variant.name.toLowerCase();
+				{variant.values.map((value) => {
 					const variantSearchParams = new URLSearchParams(searchParams.toString());
 
-					variantSearchParams.set(variantNameLowerCase, value.name);
+					variantSearchParams.set(variant.name, value);
 					const variantUrl = createUrl(pathname, variantSearchParams);
 
-					const isActive = searchParams.get(variantNameLowerCase) === value.name;
+					const isActive = searchParams.get(variant.name) === value;
 
 					return (
 						<button
-							key={value.name}
+							key={value}
 							onClick={() => {
 								router.replace(variantUrl as Route, {
 									scroll: false,
 								});
 							}}
-							title={`${variant.name} ${value.name}`}
+							title={`${variant.name} ${value}`}
 							className={cn(
 								"flex min-w-[48px] items-center justify-center rounded-full border bg-neutral-100 px-2 py-1 text-sm ring-1 ring-transparent transition duration-300 ease-in-out hover:scale-110 hover:ring-pumpkin-600",
 								{
@@ -51,11 +51,11 @@ export const VariantSelector = ({ variant }: Props) => {
 								},
 							)}
 						>
-							{value.name}
+							{value}
 						</button>
 					);
 				})}
 			</dd>
 		</dl>
-	);
+	));
 };

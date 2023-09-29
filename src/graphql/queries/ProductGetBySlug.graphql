@@ -1,5 +1,23 @@
 query ProductGetBySlug($slug: String!) {
 	product(where: { slug: $slug }) {
-		...ProductDetails
+		slug
+		name
+		description
+		price
+		categories {
+			slug
+			name
+		}
+		images {
+			url
+		}
+		variants {
+			... on ProductColorVariant {
+				...SingleProductColorVariant
+			}
+			... on ProductSizeVariant {
+				...SingleProductSizeVariant
+			}
+		}
 	}
 }

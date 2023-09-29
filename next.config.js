@@ -8,6 +8,8 @@ const nextConfig = {
 		mdxRs: true,
 		serverActions: true,
 		typedRoutes: true,
+		workerThreads: false,
+		cpus: 1,
 	},
 	redirects: async () => {
 		return [

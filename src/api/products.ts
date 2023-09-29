@@ -1,9 +1,7 @@
 import { executeGraphql } from "@/api/graphqlApi";
 import {
 	ProductGetBySlugDocument,
-	ProductGetColorsDocument,
 	ProductGetListDocument,
-	ProductGetSizesDocument,
 	ProductsGetBySearchDocument,
 	ProductsGetCountDocument,
 	ProductsGetCountInCategoryDocument,
@@ -25,24 +23,6 @@ export const getProductBySlug = async (slug: string) => {
 	const res = await executeGraphql({ query: ProductGetBySlugDocument, variables: { slug } });
 
 	return res.product;
-};
-
-export const getProductVariants = async (slug: string) => {
-	const resSizes = await executeGraphql({ query: ProductGetSizesDocument, variables: { slug } });
-	const resColors = await executeGraphql({ query: ProductGetColorsDocument, variables: { slug } });
-
-	const variants = [
-		{
-			name: "Size",
-			values: resSizes.product?.variants,
-		},
-		{
-			name: "Color",
-			values: resColors.product?.variants,
-		},
-	];
-
-	return variants;
 };
 
 export const getRelatedProducts = async (productSlug: string, categoriesSlugs: string[]) => {

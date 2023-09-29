@@ -10767,9 +10767,11 @@ export type CategoryListItemFragment = { slug: string, name: string };
 
 export type CollectionListItemFragment = { slug: string, name: string };
 
-export type ProductDetailsFragment = { slug: string, name: string, description: string, price: number, categories: Array<{ slug: string, name: string }>, images: Array<{ url: string }> };
-
 export type ProductListItemFragment = { slug: string, name: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> };
+
+export type SingleProductColorVariantFragment = { __typename: 'ProductColorVariant', name: string };
+
+export type SingleProductSizeVariantFragment = { __typename: 'ProductSizeVariant', name: string };
 
 export type CategoriesGetListQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -10804,14 +10806,7 @@ export type ProductGetBySlugQueryVariables = Exact<{
 }>;
 
 
-export type ProductGetBySlugQuery = { product?: { slug: string, name: string, description: string, price: number, categories: Array<{ slug: string, name: string }>, images: Array<{ url: string }> } | null };
-
-export type ProductGetColorsQueryVariables = Exact<{
-  slug: Scalars['String']['input'];
-}>;
-
-
-export type ProductGetColorsQuery = { product?: { variants: Array<{ name: string } | {}> } | null };
+export type ProductGetBySlugQuery = { product?: { slug: string, name: string, description: string, price: number, categories: Array<{ slug: string, name: string }>, images: Array<{ url: string }>, variants: Array<{ __typename: 'ProductColorVariant', name: string } | { __typename: 'ProductSizeVariant', name: string } | {}> } | null };
 
 export type ProductsGetCountInCollectionQueryVariables = Exact<{
   slug?: InputMaybe<Scalars['String']['input']>;
@@ -10819,13 +10814,6 @@ export type ProductsGetCountInCollectionQueryVariables = Exact<{
 
 
 export type ProductsGetCountInCollectionQuery = { productsConnection: { aggregate: { count: number } } };
-
-export type ProductGetSizesQueryVariables = Exact<{
-  slug: Scalars['String']['input'];
-}>;
-
-
-export type ProductGetSizesQuery = { product?: { variants: Array<{ name: string } | {}> } | null };
 
 export type ProductsGetBySearchQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -10862,11 +10850,6 @@ export type ProductsGetRelatedQueryVariables = Exact<{
 
 export type ProductsGetRelatedQuery = { products: Array<{ slug: string, name: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> }> };
 
-export type ProductsGetSlugsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ProductsGetSlugsQuery = { products: Array<{ slug: string }> };
-
 export class TypedDocumentString<TResult, TVariables>
   extends String
   implements DocumentTypeDecoration<TResult, TVariables>
@@ -10893,21 +10876,6 @@ export const CollectionListItemFragmentDoc = new TypedDocumentString(`
   name
 }
     `, {"fragmentName":"CollectionListItem"}) as unknown as TypedDocumentString<CollectionListItemFragment, unknown>;
-export const ProductDetailsFragmentDoc = new TypedDocumentString(`
-    fragment ProductDetails on Product {
-  slug
-  name
-  description
-  price
-  categories {
-    slug
-    name
-  }
-  images {
-    url
-  }
-}
-    `, {"fragmentName":"ProductDetails"}) as unknown as TypedDocumentString<ProductDetailsFragment, unknown>;
 export const ProductListItemFragmentDoc = new TypedDocumentString(`
     fragment ProductListItem on Product {
   slug
@@ -10921,6 +10889,18 @@ export const ProductListItemFragmentDoc = new TypedDocumentString(`
   }
 }
     `, {"fragmentName":"ProductListItem"}) as unknown as TypedDocumentString<ProductListItemFragment, unknown>;
+export const SingleProductColorVariantFragmentDoc = new TypedDocumentString(`
+    fragment SingleProductColorVariant on ProductColorVariant {
+  __typename
+  name
+}
+    `, {"fragmentName":"SingleProductColorVariant"}) as unknown as TypedDocumentString<SingleProductColorVariantFragment, unknown>;
+export const SingleProductSizeVariantFragmentDoc = new TypedDocumentString(`
+    fragment SingleProductSizeVariant on ProductSizeVariant {
+  __typename
+  name
+}
+    `, {"fragmentName":"SingleProductSizeVariant"}) as unknown as TypedDocumentString<SingleProductSizeVariantFragment, unknown>;
 export const CategoriesGetListDocument = new TypedDocumentString(`
     query CategoriesGetList {
   categories {
@@ -10997,33 +10977,35 @@ export const CollectionsGetListDocument = new TypedDocumentString(`
 export const ProductGetBySlugDocument = new TypedDocumentString(`
     query ProductGetBySlug($slug: String!) {
   product(where: {slug: $slug}) {
-    ...ProductDetails
-  }
-}
-    fragment ProductDetails on Product {
-  slug
-  name
-  description
-  price
-  categories {
     slug
     name
-  }
-  images {
-    url
-  }
-}`) as unknown as TypedDocumentString<ProductGetBySlugQuery, ProductGetBySlugQueryVariables>;
-export const ProductGetColorsDocument = new TypedDocumentString(`
-    query ProductGetColors($slug: String!) {
-  product(where: {slug: $slug}) {
+    description
+    price
+    categories {
+      slug
+      name
+    }
+    images {
+      url
+    }
     variants {
       ... on ProductColorVariant {
-        name
+        ...SingleProductColorVariant
+      }
+      ... on ProductSizeVariant {
+        ...SingleProductSizeVariant
       }
     }
   }
 }
-    `) as unknown as TypedDocumentString<ProductGetColorsQuery, ProductGetColorsQueryVariables>;
+    fragment SingleProductColorVariant on ProductColorVariant {
+  __typename
+  name
+}
+fragment SingleProductSizeVariant on ProductSizeVariant {
+  __typename
+  name
+}`) as unknown as TypedDocumentString<ProductGetBySlugQuery, ProductGetBySlugQueryVariables>;
 export const ProductsGetCountInCollectionDocument = new TypedDocumentString(`
     query ProductsGetCountInCollection($slug: String) {
   productsConnection(where: {collections_some: {slug: $slug}}) {
@@ -11033,17 +11015,6 @@ export const ProductsGetCountInCollectionDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<ProductsGetCountInCollectionQuery, ProductsGetCountInCollectionQueryVariables>;
-export const ProductGetSizesDocument = new TypedDocumentString(`
-    query ProductGetSizes($slug: String!) {
-  product(where: {slug: $slug}) {
-    variants {
-      ... on ProductSizeVariant {
-        name
-      }
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<ProductGetSizesQuery, ProductGetSizesQueryVariables>;
 export const ProductsGetBySearchDocument = new TypedDocumentString(`
     query ProductsGetBySearch($search: String!) {
   products(where: {_search: $search}) {
@@ -11116,10 +11087,3 @@ export const ProductsGetRelatedDocument = new TypedDocumentString(`
     url
   }
 }`) as unknown as TypedDocumentString<ProductsGetRelatedQuery, ProductsGetRelatedQueryVariables>;
-export const ProductsGetSlugsDocument = new TypedDocumentString(`
-    query ProductsGetSlugs {
-  products {
-    slug
-  }
-}
-    `) as unknown as TypedDocumentString<ProductsGetSlugsQuery, ProductsGetSlugsQueryVariables>;

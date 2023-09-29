@@ -1,7 +1,7 @@
 import { type Route } from "next";
 import { Facebook, Github, Linkedin } from "lucide-react";
 
-export const PRODUCTS_PAGE_SIZE = 4;
+export const PRODUCTS_PER_PAGE = 4;
 
 export const navLinks: { text: string; href: Route; exact: boolean }[] = [
 	{ text: "Home", href: "/", exact: true },

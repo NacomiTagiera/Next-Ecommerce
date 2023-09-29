@@ -3,11 +3,11 @@ import { notFound } from "next/navigation";
 
 import { getProductsCount, getProductsList } from "@/api/products";
 import { ProductList } from "@/components/Products/ProductList";
-import { PRODUCTS_PAGE_SIZE } from "@/lib/constants";
+import { PRODUCTS_PER_PAGE } from "@/lib/constants";
 
 export const generateStaticParams = async () => {
 	const productsCount = await getProductsCount();
-	const numberOfPages = Math.ceil(productsCount / PRODUCTS_PAGE_SIZE);
+	const numberOfPages = Math.ceil(productsCount / PRODUCTS_PER_PAGE);
 
 	return Array.from({ length: numberOfPages }, (_, index) => ({
 		pageNumber: `${index + 1}`,
@@ -26,7 +26,7 @@ export default async function ProductsPage({ params }: { params: { pageNumber: s
 		return notFound();
 	}
 
-	const numberOfPages = Math.ceil(productsCount / PRODUCTS_PAGE_SIZE);
+	const numberOfPages = Math.ceil(productsCount / PRODUCTS_PER_PAGE);
 
 	return (
 		<>

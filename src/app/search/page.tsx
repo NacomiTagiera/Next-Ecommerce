@@ -24,7 +24,7 @@ export default async function SearchPage({
 
 	return (
 		<>
-			<h2>Results for: &quot;{searchParams.query}&quot;</h2>
+			<h1>Results for: &quot;{searchParams.query}&quot;</h1>
 			<ProductList products={products} />
 		</>
 	);

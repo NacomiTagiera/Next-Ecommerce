@@ -1,7 +1,7 @@
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getCollectionBySlug, getCollectionsList } from "@/api/collections";
+import { getCollectionBySlug } from "@/api/collections";
 import { ProductList } from "@/components/Products/ProductList";
 import { PRODUCTS_PER_PAGE } from "@/lib/constants";
 import { getProductsCountInCollection } from "@/api/products";
@@ -10,24 +10,26 @@ type Props = {
 	params: { collection: string; pageNumber: string };
 };
 
-export async function generateStaticParams({ params }: Props) {
-	const collections = await getCollectionsList();
-	const productsCount = await getProductsCountInCollection(params.collection);
-	const numberOfPages = Math.ceil(productsCount / PRODUCTS_PER_PAGE);
+// export const dynamicParams = false;
 
-	const result = [];
+// export async function generateStaticParams({ params }: Props) {
+// 	const collections = await getCollectionsList();
+// 	const productsCount = await getProductsCountInCollection(params.collection);
+// 	const numberOfPages = Math.ceil(productsCount / PRODUCTS_PER_PAGE);
 
-	for (let index = 0; index < numberOfPages; index++) {
-		for (const collection of collections) {
-			result.push({
-				collection: collection.slug,
-				pageNumber: `${index + 1}`,
-			});
-		}
-	}
+// 	const result = [];
 
-	return result;
-}
+// 	for (let index = 0; index < numberOfPages; index++) {
+// 		for (const collection of collections) {
+// 			result.push({
+// 				collection: collection.slug,
+// 				pageNumber: `${index + 1}`,
+// 			});
+// 		}
+// 	}
+
+// 	return result;
+// }
 
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
 	const collection = await getCollectionBySlug(params.collection, 1);
@@ -50,7 +52,7 @@ export default async function CollectionPage({ params }: Props) {
 
 	return (
 		<>
-			<h2>{collection.name}</h2>
+			<h1>{collection.name}</h1>
 			<p>{collection.description}</p>
 			<ProductList
 				products={collection.products}
@@ -59,6 +61,4 @@ export default async function CollectionPage({ params }: Props) {
 			/>
 		</>
 	);
-
-	return <div>page</div>;
 }

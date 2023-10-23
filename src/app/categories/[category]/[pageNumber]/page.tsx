@@ -1,8 +1,8 @@
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getCategoryBySlug } from "@/api/categories";
-import { getProductsCountInCategory } from "@/api/products";
+import { getCategoriesList, getCategoryBySlug } from "@/app/api/categories";
+import { getProductsCountInCategory } from "@/app/api/products";
 import { ProductList } from "@/components/Products/ProductList";
 import { PRODUCTS_PER_PAGE } from "@/lib/constants";
 
@@ -10,26 +10,24 @@ type Props = {
 	params: { category: string; pageNumber: string };
 };
 
-// export const dynamicParams = false;
+export const generateStaticParams = async ({ params }: Props) => {
+	const categories = await getCategoriesList();
+	const productsCount = await getProductsCountInCategory(params.category);
+	const numberOfPages = Math.ceil(productsCount / PRODUCTS_PER_PAGE);
 
-// export const generateStaticParams = async ({ params }: Props) => {
-// 	const categories = await getCategoriesList();
-// 	const productsCount = await getProductsCountInCategory(params.category);
-// 	const numberOfPages = Math.ceil(productsCount / PRODUCTS_PER_PAGE);
+	const result = [];
 
-// 	const result = [];
+	for (let index = 0; index < numberOfPages; index++) {
+		for (const category of categories) {
+			result.push({
+				pageNumber: `${index + 1}`,
+				category: category.slug,
+			});
+		}
+	}
 
-// 	for (let index = 0; index < numberOfPages; index++) {
-// 		for (const category of categories) {
-// 			result.push({
-// 				pageNumber: `${index + 1}`,
-// 				category: category.slug,
-// 			});
-// 		}
-// 	}
-
-// 	return result;
-// };
+	return result;
+};
 
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
 	const category = await getCategoryBySlug(params.category, 1);

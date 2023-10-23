@@ -1,5 +1,5 @@
 import { ProductListItem } from "../ProductList/ProductListItem";
-import { getRelatedProducts } from "@/api/products";
+import { getRelatedProducts } from "@/app/api/products";
 
 export const RelatedProducts = async ({
 	productSlug,

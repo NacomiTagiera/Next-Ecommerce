@@ -1,5 +1,5 @@
 import NextImage from "next/image";
-import { type ProductListItemFragment } from "@/gql/graphql";
+import { type ProductListItemFragment } from "@/graphql/generated/graphql";
 
 type Props = {
 	product: ProductListItemFragment;

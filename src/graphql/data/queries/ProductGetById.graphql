@@ -1,5 +1,6 @@
-query ProductGetBySlug($slug: String!) {
-	product(where: { slug: $slug }) {
+query ProductGetById($id: ID!) {
+	product(where: { id: $id }) {
+		id
 		slug
 		name
 		description

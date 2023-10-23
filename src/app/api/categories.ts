@@ -1,5 +1,5 @@
 import { executeGraphql } from "./graphqlApi";
-import { CategoriesGetListDocument, CategoryGetBySlugDocument } from "@/gql/graphql";
+import { CategoriesGetListDocument, CategoryGetBySlugDocument } from "@/graphql/generated/graphql";
 import { paginationArgs } from "@/lib/utils";
 
 export const getCategoriesList = async () => {
@@ -9,10 +9,10 @@ export const getCategoriesList = async () => {
 };
 
 export const getCategoryBySlug = async (slug: string, page: number) => {
-	const res = await executeGraphql({
+	const { category } = await executeGraphql({
 		query: CategoryGetBySlugDocument,
 		variables: { slug, ...paginationArgs(page) },
 	});
 
-	return res.category;
+	return category;
 };

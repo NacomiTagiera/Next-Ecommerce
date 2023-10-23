@@ -1,4 +1,4 @@
-mutation CartRemoveItem($itemId: ID!) {
+mutation CartRemoveProduct($itemId: ID!) {
 	deleteOrderItem(where: { id: $itemId }) {
 		id
 	}

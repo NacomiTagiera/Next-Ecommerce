@@ -7,7 +7,7 @@ import { cn, createUrl, getConvertedVariants } from "@/lib/utils";
 import {
 	type SingleProductColorVariantFragment,
 	type SingleProductSizeVariantFragment,
-} from "@/gql/graphql";
+} from "@/graphql/generated/graphql";
 
 type Props = {
 	variants: SingleProductColorVariantFragment[] | SingleProductSizeVariantFragment[] | {}[];

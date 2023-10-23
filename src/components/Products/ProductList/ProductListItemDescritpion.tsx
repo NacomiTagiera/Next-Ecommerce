@@ -1,4 +1,4 @@
-import { type ProductListItemFragment } from "@/gql/graphql";
+import { type ProductListItemFragment } from "@/graphql/generated/graphql";
 import { formatPrice } from "@/lib/utils";
 
 type Props = {

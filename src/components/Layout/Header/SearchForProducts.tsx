@@ -17,12 +17,12 @@ export const SearchForProducts = () => {
 			router.back();
 		}
 
-		setSearchValue(value.trim());
+		setSearchValue(value);
 	};
 
 	useEffect(() => {
 		if (debouncedValue) {
-			router.push(`/search?query=${debouncedValue}`);
+			router.push(`/search?query=${debouncedValue.trim()}`);
 		}
 	}, [debouncedValue, router]);
 

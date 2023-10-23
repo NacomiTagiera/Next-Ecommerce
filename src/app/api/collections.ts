@@ -1,18 +1,21 @@
 import { executeGraphql } from "./graphqlApi";
-import { CollectionGetBySlugDocument, CollectionsGetListDocument } from "@/gql/graphql";
+import {
+	CollectionGetBySlugDocument,
+	CollectionsGetListDocument,
+} from "@/graphql/generated/graphql";
 import { paginationArgs } from "@/lib/utils";
 
 export const getCollectionsList = async () => {
-	const res = await executeGraphql({ query: CollectionsGetListDocument });
+	const { collections } = await executeGraphql({ query: CollectionsGetListDocument });
 
-	return res.collections;
+	return collections;
 };
 
 export const getCollectionBySlug = async (slug: string, page: number) => {
-	const res = await executeGraphql({
+	const { collection } = await executeGraphql({
 		query: CollectionGetBySlugDocument,
 		variables: { slug, ...paginationArgs(page) },
 	});
 
-	return res.collection;
+	return collection;
 };

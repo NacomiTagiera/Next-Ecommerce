@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { ProductListItemCoverImage } from "./ProductListItemCoverImage";
 import { ProductListItemDescription } from "./ProductListItemDescritpion";
-import { type ProductListItemFragment } from "@/gql/graphql";
+import { type ProductListItemFragment } from "@/graphql/generated/graphql";
 import { cn } from "@/lib/utils";
 
 type Props = {

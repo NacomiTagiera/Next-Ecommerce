@@ -1,4 +1,4 @@
-mutation CartAddItem($cartId: ID!, $productId: ID!, $total: Int!) {
+mutation CartAddProduct($cartId: ID!, $productId: ID!, $total: Int!) {
 	createOrderItem(
 		data: {
 			quantity: 1

@@ -1,20 +1,18 @@
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getProductsCount, getProductsList } from "@/api/products";
+import { getProductsCount, getProductsList } from "@/app/api/products";
 import { ProductList } from "@/components/Products/ProductList";
 import { PRODUCTS_PER_PAGE } from "@/lib/constants";
 
-// export const dynamicParams = false;
+export const generateStaticParams = async () => {
+	const productsCount = await getProductsCount();
+	const numberOfPages = Math.ceil(productsCount / PRODUCTS_PER_PAGE);
 
-// export const generateStaticParams = async () => {
-// 	const productsCount = await getProductsCount();
-// 	const numberOfPages = Math.ceil(productsCount / PRODUCTS_PER_PAGE);
-
-// 	return Array.from({ length: numberOfPages }, (_, index) => ({
-// 		pageNumber: `${index + 1}`,
-// 	}));
-// };
+	return Array.from({ length: numberOfPages }, (_, index) => ({
+		pageNumber: `${index + 1}`,
+	}));
+};
 
 export const metadata: Metadata = {
 	title: "All Products",

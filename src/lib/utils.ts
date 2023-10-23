@@ -7,7 +7,7 @@ import { PRODUCTS_PER_PAGE } from "./constants";
 import {
 	type SingleProductColorVariantFragment,
 	type SingleProductSizeVariantFragment,
-} from "@/gql/graphql";
+} from "@/graphql/generated/graphql";
 
 export const cn = (...classes: ClassValue[]) => twMerge(clsx(...classes));
 

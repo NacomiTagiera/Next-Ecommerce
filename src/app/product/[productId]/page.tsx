@@ -1,17 +1,17 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
-import { getProductBySlug } from "@/api/products";
+import { getProductById } from "@/app/api/products";
 import { formatPrice } from "@/lib/utils";
 import { RelatedProducts } from "@/components/Products/ProductDetails/RelatedProducts";
 import { VariantSelector } from "@/components/Products/ProductDetails/VariantSelector";
 
 type Props = {
-	params: { slug: string };
+	params: { productId: string };
 };
 
 export default async function ProductPage({ params }: Props) {
-	const product = await getProductBySlug(params.slug);
+	const product = await getProductById(params.productId);
 
 	if (!product) {
 		throw notFound();
@@ -34,14 +34,11 @@ export default async function ProductPage({ params }: Props) {
 					)}
 					<section>
 						{product.categories.map((category) => (
-							<h2
-								key={category.slug}
-								className="title-font text-sm uppercase tracking-widest text-gray-500"
-							>
+							<h2 key={category.slug} className="text-sm uppercase tracking-widest text-gray-500">
 								{category.name}
 							</h2>
 						))}
-						<h1 className="title-font mb-1 text-3xl font-medium text-gray-900">{product.name}</h1>
+						<h1 className="mb-1 text-3xl font-medium text-gray-900">{product.name}</h1>
 						<p className="border-gray-1 border-b-2 pb-5 leading-relaxed">{product.description}</p>
 						<div className="mt-5 flex justify-between align-baseline">
 							<p className="text-2xl font-medium text-gray-900">

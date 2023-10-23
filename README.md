@@ -1,4 +1,4 @@
-# NEXT 13 MASTERS Project
+# NEXT SPORTS
 
 Ecommerce Next.js 13 GraphQL app. Work in progress, more updates soon!
 

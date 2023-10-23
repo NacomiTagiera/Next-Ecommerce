@@ -1,13 +1,13 @@
-import { executeGraphql } from "@/api/graphqlApi";
+import { executeGraphql } from "@/app/api/graphqlApi";
 import {
-	ProductGetBySlugDocument,
+	ProductGetByIdDocument,
 	ProductGetListDocument,
 	ProductsGetBySearchDocument,
 	ProductsGetCountDocument,
 	ProductsGetCountInCategoryDocument,
 	ProductsGetCountInCollectionDocument,
 	ProductsGetRelatedDocument,
-} from "@/gql/graphql";
+} from "@/graphql/generated/graphql";
 import { paginationArgs } from "@/lib/utils";
 
 export const getProductsList = async (page: number) => {
@@ -19,14 +19,17 @@ export const getProductsList = async (page: number) => {
 	return products;
 };
 
-export const getProductBySlug = async (slug: string) => {
-	const res = await executeGraphql({ query: ProductGetBySlugDocument, variables: { slug } });
+export const getProductById = async (id: string) => {
+	const { product } = await executeGraphql({
+		query: ProductGetByIdDocument,
+		variables: { id },
+	});
 
-	return res.product;
+	return product;
 };
 
 export const getRelatedProducts = async (productSlug: string, categoriesSlugs: string[]) => {
-	const res = await executeGraphql({
+	const { products } = await executeGraphql({
 		query: ProductsGetRelatedDocument,
 		variables: {
 			slug: productSlug,
@@ -34,18 +37,18 @@ export const getRelatedProducts = async (productSlug: string, categoriesSlugs: s
 		},
 	});
 
-	return res.products;
+	return products;
 };
 
 export const getProductsBySearch = async (query: string) => {
-	const res = await executeGraphql({
+	const { products } = await executeGraphql({
 		query: ProductsGetBySearchDocument,
 		variables: {
 			search: query,
 		},
 	});
 
-	return res.products;
+	return products;
 };
 
 export const getProductsCount = async () => {

@@ -1,35 +1,33 @@
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getCollectionBySlug } from "@/api/collections";
+import { getCollectionBySlug, getCollectionsList } from "@/app/api/collections";
 import { ProductList } from "@/components/Products/ProductList";
 import { PRODUCTS_PER_PAGE } from "@/lib/constants";
-import { getProductsCountInCollection } from "@/api/products";
+import { getProductsCountInCollection } from "@/app/api/products";
 
 type Props = {
 	params: { collection: string; pageNumber: string };
 };
 
-// export const dynamicParams = false;
+export async function generateStaticParams({ params }: Props) {
+	const collections = await getCollectionsList();
+	const productsCount = await getProductsCountInCollection(params.collection);
+	const numberOfPages = Math.ceil(productsCount / PRODUCTS_PER_PAGE);
 
-// export async function generateStaticParams({ params }: Props) {
-// 	const collections = await getCollectionsList();
-// 	const productsCount = await getProductsCountInCollection(params.collection);
-// 	const numberOfPages = Math.ceil(productsCount / PRODUCTS_PER_PAGE);
+	const result = [];
 
-// 	const result = [];
+	for (let index = 0; index < numberOfPages; index++) {
+		for (const collection of collections) {
+			result.push({
+				collection: collection.slug,
+				pageNumber: `${index + 1}`,
+			});
+		}
+	}
 
-// 	for (let index = 0; index < numberOfPages; index++) {
-// 		for (const collection of collections) {
-// 			result.push({
-// 				collection: collection.slug,
-// 				pageNumber: `${index + 1}`,
-// 			});
-// 		}
-// 	}
-
-// 	return result;
-// }
+	return result;
+}
 
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
 	const collection = await getCollectionBySlug(params.collection, 1);

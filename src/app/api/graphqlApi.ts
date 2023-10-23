@@ -1,4 +1,4 @@
-import { type TypedDocumentString } from "@/gql/graphql";
+import { type TypedDocumentString } from "@/graphql/generated/graphql";
 
 type GraphQLResponse<T> =
 	| { data?: undefined; errors: { message: string }[] }

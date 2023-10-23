@@ -2,7 +2,7 @@ import { type Route } from "next";
 
 import { ProductListItem } from "./ProductListItem";
 import { ProductListPagination } from "./ProductListPagination";
-import type { ProductListItemFragment } from "@/gql/graphql";
+import type { ProductListItemFragment } from "@/graphql/generated/graphql";
 
 type Props<T extends string> = {
 	products: ProductListItemFragment[];

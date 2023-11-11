@@ -1,5 +1,6 @@
 import Link from "next/link";
 import NextImage from "next/image";
+
 import { FooterMenu } from "./FooterMenu";
 import { restOfFooterLinks, socials } from "@/lib/constants";
 import { getCategoriesList } from "@/app/api/categories";

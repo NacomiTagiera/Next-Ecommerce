@@ -6,7 +6,6 @@ const nextConfig = {
 	},
 	experimental: {
 		mdxRs: true,
-		serverActions: true,
 		typedRoutes: true,
 		workerThreads: false,
 		cpus: 1,

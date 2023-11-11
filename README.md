@@ -1,4 +1,4 @@
-# NEXT SPORTS
+# NEXT SPORTS - Next.js 13 GraphQL Ecommerce Website
 
 Ecommerce Next.js 13 GraphQL app. Work in progress, more updates soon!
 

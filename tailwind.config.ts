@@ -1,7 +1,8 @@
-import headlessuiPlugin from "@headlessui/tailwindcss";
+import type { Config } from "tailwindcss";
 import formsPlugin from "@tailwindcss/forms";
 import typographyPlugin from "@tailwindcss/typography";
-import type { Config } from "tailwindcss";
+
+import headlessuiPlugin from "@headlessui/tailwindcss";
 
 export default {
 	content: ["./src/**/*.{js,jsx,ts,tsx}"],
@@ -35,18 +36,57 @@ export default {
 				sans: ["var(--font-roboto-flex)"],
 			},
 			colors: {
-				pumpkin: {
-					DEFAULT: "#ff7d1a",
-					50: "#fff7ed",
-					100: "#ffeed4",
-					200: "#ffd9a8",
-					300: "#ffbd70",
-					400: "#ff9637",
-					500: "#f05b06",
-					600: "#c74307",
-					700: "#9e350e",
-					800: "#7f2f0f",
-					900: "#451405",
+				"azure-radiance": {
+					default: "#3b82f6",
+					"50": "#eff5ff",
+					"100": "#dbe8fe",
+					"200": "#bfd7fe",
+					"300": "#93bbfd",
+					"400": "#609afa",
+					"500": "#2570eb",
+					"600": "#1d64d8",
+					"700": "#1e55af",
+					"800": "#1e478a",
+					"900": "#172e54",
+				},
+				zircon: {
+					default: "#f7f9ff",
+					"50": "#dbe3fe",
+					"100": "#bfcffe",
+					"200": "#93b1fd",
+					"300": "#6088fa",
+					"400": "#3b5ff6",
+					"500": "#253eeb",
+					"600": "#1d2bd8",
+					"700": "#1e25af",
+					"800": "#1e268a",
+					"900": "#171a54",
+				},
+				"wild-blue-yonder": {
+					default: "#858fbb",
+					"50": "#f4f6f9",
+					"100": "#eaeff5",
+					"200": "#d9e0ec",
+					"300": "#c2ccdf",
+					"400": "#a8b3d1",
+					"500": "#7a7fb1",
+					"600": "#686c9a",
+					"700": "#565a7d",
+					"800": "#494d66",
+					"900": "#2b2d3b",
+				},
+				"aqua-squeeze": {
+					default: "#e6f4f1",
+					"50": "#d8efea",
+					"100": "#b0dfd7",
+					"200": "#80c8bd",
+					"300": "#56aba1",
+					"400": "#3c9088",
+					"500": "#2e736e",
+					"600": "#285d5a",
+					"700": "#244b4a",
+					"800": "#21403e",
+					"900": "#0f2424",
 				},
 			},
 			keyframes: {

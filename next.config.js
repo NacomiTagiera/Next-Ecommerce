@@ -2,7 +2,14 @@
 const nextConfig = {
 	pageExtensions: ["ts", "tsx", "mdx"],
 	images: {
-		domains: ["media.graphassets.com"],
+		remotePatterns: [
+			{
+				protocol: "https",
+				hostname: "media.graphassets.com",
+				port: "",
+				pathname: "/**",
+			},
+		],
 	},
 	experimental: {
 		mdxRs: true,

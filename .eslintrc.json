@@ -1,6 +1,6 @@
 {
 	"$schema": "https://json.schemastore.org/eslintrc.json",
-	"plugins": ["@typescript-eslint", "import"],
+	"plugins": ["@typescript-eslint", "import", "simple-import-sort"],
 	"parserOptions": {
 		"project": "tsconfig.json"
 	},
@@ -13,12 +13,13 @@
 		"next/core-web-vitals"
 	],
 	"rules": {
-		// sort imports
-		"import/order": "error",
-
 		// no let exports
 		"import/no-mutable-exports": "error",
 
+		"simple-import-sort/imports": "error",
+		"simple-import-sort/exports": "error",
+		"import/first": "error",
+		"import/no-duplicates": ["error", { "prefer-inline": true }],
 		"import/no-cycle": "error",
 		"import/no-default-export": "error",
 
@@ -41,19 +42,17 @@
 			}
 		],
 
-		"import/no-duplicates": ["error", { "prefer-inline": true }],
-
 		// false negatives
 		"import/namespace": ["off"],
 
-		// we allow empty interfaces
+		// allow empty interfaces
 		"no-empty-pattern": "off",
 		"@typescript-eslint/no-empty-interface": "off",
 
-		// we allow empty functions
+		// allow empty functions
 		"@typescript-eslint/no-empty-function": "off",
 
-		// we sometimes use async functions that don't await anything
+		// I sometimes use async functions that don't await anything
 		"@typescript-eslint/require-await": "off",
 
 		// make sure to `await` inside try…catch
@@ -79,6 +78,13 @@
 					"attributes": false
 				}
 			}
+		],
+		"no-restricted-imports": [
+			"error",
+			{
+				"name": "next/router",
+				"message": "Please use next/navigation instead"
+			}
 		]
 	},
 	"overrides": [
@@ -86,6 +92,25 @@
 			"files": ["src/app/**/*.ts?(x)"],
 			"rules": {
 				"import/no-default-export": "off"
+			}
+		},
+		{
+			"files": ["src/**/*.ts?(x)"],
+			"rules": {
+				"simple-import-sort/imports": [
+					"error",
+					{
+						"groups": [
+							["^react", "^@?\\w"],
+							["^next", "^@?\\w"],
+							["^(@|components|hooks|lib|types)(/.*|$)"],
+							["^\\u0000"],
+							["^\\.\\.(?!/?$)", "^\\.\\./?$"],
+							["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
+							["^.+\\.s?css$"]
+						]
+					}
+				]
 			}
 		}
 	],

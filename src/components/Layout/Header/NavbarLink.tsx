@@ -1,5 +1,6 @@
 import { type Route } from "next";
-import { ActiveLink } from "@/components/Shared/ActiveLink";
+
+import { ActiveLink } from "@/components/UI/ActiveLink";
 
 export const NavbarLink = ({
 	href,

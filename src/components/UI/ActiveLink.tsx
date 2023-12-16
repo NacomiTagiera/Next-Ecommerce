@@ -36,7 +36,7 @@ export const ActiveLink = <T extends string>({
 				pathname: url,
 				query,
 			}}
-			aria-current={isActive}
+			aria-current={isActive ? "page" : undefined}
 			className={cn(className, isActive && activeClassName)}
 		>
 			{children}

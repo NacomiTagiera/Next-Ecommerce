@@ -1,13 +1,14 @@
-import { type ReadonlyURLSearchParams } from "next/navigation";
-
 import clsx, { type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-import { PRODUCTS_PER_PAGE } from "./constants";
+import { type ReadonlyURLSearchParams } from "next/navigation";
+
 import {
 	type SingleProductColorVariantFragment,
 	type SingleProductSizeVariantFragment,
 } from "@/graphql/generated/graphql";
+
+import { PRODUCTS_PER_PAGE } from "./constants";
 
 export const cn = (...classes: ClassValue[]) => twMerge(clsx(...classes));
 

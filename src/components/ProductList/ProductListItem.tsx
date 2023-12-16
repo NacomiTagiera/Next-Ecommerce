@@ -1,9 +1,10 @@
 import Link from "next/link";
 
-import { ProductListItemCoverImage } from "./ProductListItemCoverImage";
-import { ProductListItemDescription } from "./ProductListItemDescritpion";
 import { type ProductListItemFragment } from "@/graphql/generated/graphql";
 import { cn } from "@/lib/utils";
+
+import { ProductListItemCoverImage } from "./ProductListItemCoverImage";
+import { ProductListItemDescription } from "./ProductListItemDescritpion";
 
 type Props = {
 	product: ProductListItemFragment;
@@ -14,7 +15,7 @@ export const ProductListItem = ({ product, className }: Props) => {
 	return (
 		<li
 			className={cn(
-				"animate-fadeIn rounded-lg border border-neutral-200 bg-white transition-opacity hover:border-pumpkin",
+				"hover:border-pumpkin animate-fade-in rounded-lg border border-neutral-200 bg-white transition-opacity",
 				className,
 			)}
 		>

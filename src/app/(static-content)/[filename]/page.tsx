@@ -1,4 +1,5 @@
 import { type ComponentType } from "react";
+
 import { notFound } from "next/navigation";
 
 export default async function StaticPage({ params }: { params: { filename: string } }) {

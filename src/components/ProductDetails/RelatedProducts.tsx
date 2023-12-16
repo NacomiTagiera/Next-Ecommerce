@@ -1,5 +1,6 @@
-import { ProductListItem } from "../ProductList/ProductListItem";
 import { getRelatedProducts } from "@/app/api/products";
+
+import { ProductListItem } from "../ProductList/ProductListItem";
 
 export const RelatedProducts = async ({
 	productSlug,
@@ -11,7 +12,7 @@ export const RelatedProducts = async ({
 	const products = await getRelatedProducts(productSlug, categoriesSlugs);
 
 	return (
-		<aside data-testid="related-products" className="py-8">
+		<aside className="py-8">
 			<h2 className="mb-4 text-2xl font-bold">Related Products</h2>
 			<ul className="flex w-full gap-4 overflow-x-auto pt-1">
 				{products.map((product) => (

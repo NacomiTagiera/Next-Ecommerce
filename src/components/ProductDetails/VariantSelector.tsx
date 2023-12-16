@@ -3,11 +3,11 @@
 import { type Route } from "next";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-import { cn, createUrl, getConvertedVariants } from "@/lib/utils";
 import {
 	type SingleProductColorVariantFragment,
 	type SingleProductSizeVariantFragment,
 } from "@/graphql/generated/graphql";
+import { cn, createUrl, getConvertedVariants } from "@/lib/utils";
 
 type Props = {
 	variants: SingleProductColorVariantFragment[] | SingleProductSizeVariantFragment[] | {}[];
@@ -45,9 +45,9 @@ export const VariantSelector = ({ variants }: Props) => {
 							}}
 							title={`${variant.name} ${value}`}
 							className={cn(
-								"flex min-w-[48px] items-center justify-center rounded-full border bg-neutral-100 px-2 py-1 text-sm ring-1 ring-transparent transition duration-300 ease-in-out hover:scale-110 hover:ring-pumpkin-600",
+								"hover:ring-pumpkin-600 flex min-w-[48px] items-center justify-center rounded-full border bg-neutral-100 px-2 py-1 text-sm ring-1 ring-transparent transition duration-300 ease-in-out hover:scale-110",
 								{
-									"cursor-default ring-2 ring-pumpkin-600": isActive,
+									"ring-pumpkin-600 cursor-default ring-2": isActive,
 								},
 							)}
 						>

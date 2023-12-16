@@ -2,9 +2,9 @@ import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { getCollectionBySlug, getCollectionsList } from "@/app/api/collections";
-import { ProductList } from "@/components/Products/ProductList";
-import { PRODUCTS_PER_PAGE } from "@/lib/constants";
 import { getProductsCountInCollection } from "@/app/api/products";
+import { ProductList } from "@/components/ProductList";
+import { PRODUCTS_PER_PAGE } from "@/lib/constants";
 
 type Props = {
 	params: { collection: string; pageNumber: string };

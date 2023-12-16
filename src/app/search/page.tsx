@@ -1,7 +1,8 @@
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
+
 import { getProductsBySearch } from "@/app/api/products";
-import { ProductList } from "@/components/Products/ProductList";
+import { ProductList } from "@/components/ProductList";
 
 export const metadata: Metadata = {
 	title: "Search Results",

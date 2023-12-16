@@ -1,26 +1,29 @@
-import { type Route } from "next";
 import { Facebook, Github, Linkedin } from "lucide-react";
+
+import { type Route } from "next";
 
 export const PRODUCTS_PER_PAGE = 4;
 
 export const navLinks: { text: string; href: Route; exact: boolean }[] = [
 	{ text: "Home", href: "/", exact: true },
 	{ text: "All", href: "/products", exact: false },
+	{ text: "Collections", href: "/collections", exact: false },
+	{ text: "Categories", href: "/categories", exact: false },
 ];
 
 export const socials = [
 	{
-		icon: Linkedin,
+		Icon: Linkedin,
 		href: "https://www.linkedin.com/in/jakub-pawlak-frontend-dev",
 		name: "LinkedIn",
 	},
 	{
-		icon: Github,
+		Icon: Github,
 		href: "https://github.com/NacomiTagiera",
 		name: "GitHub",
 	},
 	{
-		icon: Facebook,
+		Icon: Facebook,
 		href: "https://www.facebook.com/kubapawlak123321",
 		name: "Facebook",
 	},

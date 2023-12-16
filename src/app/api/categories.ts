@@ -1,6 +1,7 @@
-import { executeGraphql } from "./graphqlApi";
 import { CategoriesGetListDocument, CategoryGetBySlugDocument } from "@/graphql/generated/graphql";
 import { paginationArgs } from "@/lib/utils";
+
+import { executeGraphql } from "./graphqlApi";
 
 export const getCategoriesList = async () => {
 	const res = await executeGraphql({ query: CategoriesGetListDocument });

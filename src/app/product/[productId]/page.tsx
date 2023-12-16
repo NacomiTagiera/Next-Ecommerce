@@ -2,9 +2,9 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 
 import { getProductById } from "@/app/api/products";
+import { RelatedProducts } from "@/components/ProductDetails/RelatedProducts";
+import { VariantSelector } from "@/components/ProductDetails/VariantSelector";
 import { formatPrice } from "@/lib/utils";
-import { RelatedProducts } from "@/components/Products/ProductDetails/RelatedProducts";
-import { VariantSelector } from "@/components/Products/ProductDetails/VariantSelector";
 
 type Props = {
 	params: { productId: string };

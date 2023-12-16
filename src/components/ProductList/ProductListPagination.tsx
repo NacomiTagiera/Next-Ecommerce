@@ -1,5 +1,6 @@
 import { type Route } from "next";
-import { ActiveLink } from "../../Shared/ActiveLink";
+
+import { ActiveLink } from "../UI/ActiveLink";
 
 type Props<T extends string> = {
 	href: Route<T>;

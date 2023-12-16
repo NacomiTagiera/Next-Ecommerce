@@ -1,8 +1,9 @@
 "use client";
 
 import { type ChangeEvent, useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
 import { Search } from "lucide-react";
+
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { useDebounce } from "@/hooks/useDebounce";
 

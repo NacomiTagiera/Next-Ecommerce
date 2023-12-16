@@ -1,9 +1,10 @@
-import { executeGraphql } from "./graphqlApi";
 import {
 	CollectionGetBySlugDocument,
 	CollectionsGetListDocument,
 } from "@/graphql/generated/graphql";
 import { paginationArgs } from "@/lib/utils";
+
+import { executeGraphql } from "./graphqlApi";
 
 export const getCollectionsList = async () => {
 	const { collections } = await executeGraphql({ query: CollectionsGetListDocument });

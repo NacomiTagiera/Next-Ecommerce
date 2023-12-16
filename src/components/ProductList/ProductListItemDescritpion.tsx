@@ -12,7 +12,7 @@ export const ProductListItemDescription = ({ product: { name, price, categories 
 				<h3 className="text-base">{name}</h3>
 				<p className="text-gray-600">{categories[0]?.name}</p>
 			</div>
-			<span className="text-xl font-bold text-pumpkin">{formatPrice(price / 100)}</span>
+			<span className="text-pumpkin text-xl font-bold">{formatPrice(price / 100)}</span>
 		</div>
 	);
 };

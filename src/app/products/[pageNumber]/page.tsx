@@ -2,7 +2,7 @@ import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { getProductsCount, getProductsList } from "@/app/api/products";
-import { ProductList } from "@/components/Products/ProductList";
+import { ProductList } from "@/components/ProductList";
 import { PRODUCTS_PER_PAGE } from "@/lib/constants";
 
 export const generateStaticParams = async () => {

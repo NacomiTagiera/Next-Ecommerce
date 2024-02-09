@@ -1,42 +1,33 @@
 import Link from "next/link";
 
+import { getCategoriesList } from "@/app/api/categories";
+import { getCollectionsList } from "@/app/api/collections";
 import { Logo } from "@/components/UI/Logo";
-import type {
-	CategoryListItemFragment,
-	CollectionListItemFragment,
-} from "@/graphql/generated/graphql";
-import { restOfFooterLinks, socials } from "@/lib/constants";
+import { footerLinks, socials } from "@/lib/constants";
 
 import { FooterMenu } from "./FooterMenu";
 import { FooterSocialLink } from "./FooterSocialLink";
 
-type Props = {
-	categories: CategoryListItemFragment[];
-	collections: CollectionListItemFragment[];
-};
+export const Footer = async () => {
+	const [categories, collections] = await Promise.all([getCategoriesList(), getCollectionsList()]);
 
-const getFooterLinks = (
-	categories: CategoryListItemFragment[],
-	collections: CollectionListItemFragment[],
-) => {
-	const footerLinks = [
+	const allFooterLinks = [
 		{
 			header: "Categories",
-			items: categories,
+			items: categories.map((category) => ({
+				name: category.name,
+				href: `/categories/${category.slug}`,
+			})),
 		},
 		{
 			header: "Collections",
-			items: collections,
+			items: collections.map((collection) => ({
+				name: collection.name,
+				href: `/collections/${collection.slug}`,
+			})),
 		},
+		...footerLinks,
 	];
-
-	footerLinks.push(...restOfFooterLinks);
-
-	return footerLinks;
-};
-
-export const Footer = ({ categories, collections }: Props) => {
-	const footerLinks = getFooterLinks(categories, collections);
 
 	return (
 		<footer className="bg-wild-blue-yonder-100 text-sm text-gray-500">
@@ -52,8 +43,8 @@ export const Footer = ({ categories, collections }: Props) => {
 						</p>
 					</div>
 					<div className="grid grid-cols-2 gap-8 text-center md:grid-cols-4 lg:col-span-2 lg:text-left">
-						{footerLinks.map((link, index) => (
-							<div key={index}>
+						{allFooterLinks.map((link) => (
+							<div key={link.header}>
 								<FooterMenu {...link} />
 							</div>
 						))}

@@ -5,9 +5,6 @@ import { Footer } from "@/components/Layout/Footer";
 import { Header } from "@/components/Layout/Header";
 import { cn } from "@/lib/utils";
 
-import { getCategoriesList } from "./api/categories";
-import { getCollectionsList } from "./api/collections";
-
 import "./globals.css";
 
 const robotoFlex = Roboto_Flex({ subsets: ["latin"], variable: "--font-roboto-flex" });
@@ -70,9 +67,6 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-	const categories = await getCategoriesList();
-	const collections = await getCollectionsList();
-
 	return (
 		<html lang="en">
 			<body
@@ -83,7 +77,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 			>
 				<Header />
 				<main className="flex-grow">{children}</main>
-				<Footer categories={categories} collections={collections} />
+				<Footer />
 			</body>
 		</html>
 	);

@@ -29,21 +29,21 @@ export const socials = [
 	},
 ];
 
-export const restOfFooterLinks = [
+export const footerLinks = [
 	{
 		header: "Company",
 		items: [
 			{
 				name: "About us",
-				slug: "about-us",
+				href: "/about-us",
 			},
 			{
 				name: "Contact",
-				slug: "contact",
+				href: "/contact",
 			},
 			{
 				name: "FAQs",
-				slug: "faqs",
+				href: "/faqs",
 			},
 		],
 	},
@@ -52,15 +52,15 @@ export const restOfFooterLinks = [
 		items: [
 			{
 				name: "Terms & Conditions",
-				slug: "terms-of-service",
+				href: "/terms-of-service",
 			},
 			{
 				name: "Privacy Policy",
-				slug: "privacy-policy",
+				href: "/privacy-policy",
 			},
 			{
 				name: "Cookies",
-				slug: "cookies",
+				href: "/cookies",
 			},
 		],
 	},

@@ -11,12 +11,6 @@ const nextConfig = {
 			},
 		],
 	},
-	experimental: {
-		mdxRs: true,
-		typedRoutes: true,
-		workerThreads: false,
-		cpus: 1,
-	},
 	redirects: async () => {
 		return [
 			{

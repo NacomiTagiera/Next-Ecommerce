@@ -1,4 +1,4 @@
-import { Facebook, Github, Linkedin } from "lucide-react";
+import { LuFacebook, LuGithub, LuLinkedin } from "react-icons/lu";
 
 import { type Route } from "next";
 
@@ -13,17 +13,17 @@ export const navLinks: { text: string; href: Route; exact: boolean }[] = [
 
 export const socials = [
 	{
-		Icon: Linkedin,
+		Icon: LuLinkedin,
 		href: "https://www.linkedin.com/in/jakub-pawlak-frontend-dev",
 		name: "LinkedIn",
 	},
 	{
-		Icon: Github,
+		Icon: LuGithub,
 		href: "https://github.com/NacomiTagiera",
 		name: "GitHub",
 	},
 	{
-		Icon: Facebook,
+		Icon: LuFacebook,
 		href: "https://www.facebook.com/kubapawlak123321",
 		name: "Facebook",
 	},

@@ -1,7 +1,7 @@
 "use client";
 
 import { type ChangeEvent, useEffect, useState } from "react";
-import { Search } from "lucide-react";
+import { IoMdSearch } from "react-icons/io";
 
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -34,7 +34,7 @@ export const SearchForProducts = () => {
 			</label>
 			<div className="relative">
 				<span className="absolute inset-y-0 left-0 ms-2 flex items-center">
-					<Search className="h-5 w-5 text-gray-400" aria-hidden="true" />
+					<IoMdSearch className="h-5 w-5 text-gray-400" aria-hidden />
 				</span>
 				<input
 					className="w-full rounded-md border-0 bg-slate-50 py-2 pl-11 pr-4 text-sm text-slate-800 ring-1 ring-inset ring-gray-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-blue-400"
@@ -42,9 +42,7 @@ export const SearchForProducts = () => {
 					id="search"
 					placeholder="Search for products..."
 					value={searchValue}
-					aria-label="Search for products"
 					onChange={handleChange}
-					onBlur={() => setSearchValue("")}
 					autoComplete="off"
 					autoCorrect="off"
 					autoCapitalize="off"

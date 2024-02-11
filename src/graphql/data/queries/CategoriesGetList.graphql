@@ -1,5 +1,8 @@
-query CategoriesGetList {
+query CategoriesGetList($includeImg: Boolean = false) {
 	categories {
 		...CategoryListItem
+		image @include(if: $includeImg) {
+			url
+		}
 	}
 }

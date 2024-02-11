@@ -6,8 +6,11 @@ import { paginationArgs } from "@/lib/utils";
 
 import { executeGraphql } from "./graphqlApi";
 
-export const getCollectionsList = async () => {
-	const { collections } = await executeGraphql({ query: CollectionsGetListDocument });
+export const getCollectionsList = async (includeImg?: boolean) => {
+	const { collections } = await executeGraphql({
+		query: CollectionsGetListDocument,
+		variables: { includeImg },
+	});
 
 	return collections;
 };

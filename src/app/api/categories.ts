@@ -3,8 +3,11 @@ import { paginationArgs } from "@/lib/utils";
 
 import { executeGraphql } from "./graphqlApi";
 
-export const getCategoriesList = async () => {
-	const res = await executeGraphql({ query: CategoriesGetListDocument });
+export const getCategoriesList = async (includeImg?: boolean) => {
+	const res = await executeGraphql({
+		query: CategoriesGetListDocument,
+		variables: { includeImg },
+	});
 
 	return res.categories;
 };

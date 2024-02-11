@@ -15,7 +15,7 @@ export const ProductListItemCoverImage = ({ product: { name, images } }: Props) 
 					alt={name}
 					width={320}
 					height={320}
-					className="relative h-full w-full object-contain"
+					className="h-full w-full object-contain"
 				/>
 			)}
 		</div>

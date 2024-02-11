@@ -30,7 +30,7 @@ export const Footer = async () => {
 	];
 
 	return (
-		<footer className="bg-wild-blue-yonder-100 text-sm text-gray-500">
+		<footer className="bg-wild-blue-yonder-100 text-sm text-zinc-700">
 			<div className="mx-auto max-w-screen-xl px-4 pb-6 pt-10 sm:px-6 lg:px-8 lg:pt-10">
 				<div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
 					<div className="flex flex-col items-center space-y-5 lg:items-start">
@@ -50,7 +50,7 @@ export const Footer = async () => {
 						))}
 					</div>
 				</div>
-				<div className="mt-12 border-t border-gray-100 pt-6 text-center sm:flex sm:justify-between sm:text-left">
+				<div className="mt-12 border-t border-white pt-6 text-center sm:flex sm:justify-between sm:text-left">
 					<div className="flex items-center justify-center space-x-4 sm:order-2">
 						{socials.map((social) => (
 							<FooterSocialLink key={social.name} {...social} />

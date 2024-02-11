@@ -4,12 +4,10 @@ import { type Route } from "next";
 
 export const PRODUCTS_PER_PAGE = 4;
 
-export const navLinks: { text: string; href: Route; exact: boolean }[] = [
-	{ text: "Home", href: "/", exact: true },
-	{ text: "All", href: "/products", exact: false },
-	{ text: "Collections", href: "/collections", exact: false },
-	{ text: "Categories", href: "/categories", exact: false },
-];
+export const navLinks: { text: string; href: Route }[] = [
+	{ text: "Home", href: "/" },
+	{ text: "All", href: "/products" },
+] as const;
 
 export const socials = [
 	{
@@ -27,7 +25,7 @@ export const socials = [
 		href: "https://www.facebook.com/kubapawlak123321",
 		name: "Facebook",
 	},
-];
+] as const;
 
 export const footerLinks = [
 	{

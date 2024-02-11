@@ -6,7 +6,7 @@ type Props = {
 	header: string;
 	items: {
 		name: string;
-		href: string;
+		href: Route;
 	}[];
 };
 
@@ -18,7 +18,7 @@ export const FooterMenu = ({ header, items }: Props) => {
 				{items.map((item) => (
 					<li key={item.href}>
 						<ActiveLink
-							href={`${item.href}` as Route}
+							href={`${item.href}`}
 							className="hover:text-black hover:underline hover:underline-offset-4"
 							activeClassName="text-black"
 							exact={false}

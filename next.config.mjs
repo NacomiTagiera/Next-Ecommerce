@@ -1,3 +1,7 @@
+// @ts-check
+import withMDX from "@next/mdx";
+import withPlaiceholder from "@plaiceholder/next";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	pageExtensions: ["ts", "tsx", "mdx"],
@@ -5,8 +9,14 @@ const nextConfig = {
 		remotePatterns: [
 			{
 				protocol: "https",
-				hostname: "media.graphassets.com",
 				port: "",
+				hostname: "media.graphassets.com",
+				pathname: "/**",
+			},
+			{
+				protocol: "https",
+				port: "",
+				hostname: "images.unsplash.com",
 				pathname: "/**",
 			},
 		],
@@ -32,5 +42,4 @@ const nextConfig = {
 	},
 };
 
-const withMDX = require("@next/mdx")();
-module.exports = withMDX(nextConfig);
+export default withPlaiceholder(withMDX()(nextConfig));

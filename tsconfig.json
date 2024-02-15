@@ -27,8 +27,16 @@
 		"paths": {
 			"@/*": ["./src/*"],
 			"/api/*": ["./src/api/*"],
+			"/public/*": ["./public/*"],
 		},
 	},
-	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "tailwind.config.ts"],
+	"include": [
+		"next-env.d.ts",
+		"**/*.ts",
+		"**/*.tsx",
+		".next/types/**/*.ts",
+		"tailwind.config.ts",
+		"next.config.mjs",
+	],
 	"exclude": ["node_modules"],
 }

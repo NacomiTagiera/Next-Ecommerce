@@ -4,10 +4,10 @@ import { Tab } from "@headlessui/react";
 import type { Route } from "next";
 
 import { ActiveLink } from "@/components/UI/ActiveLink";
+import { ImageLink } from "@/components/UI/ImageLink";
 import { type CategoryWithImage } from "@/types";
 
 import { Dialog } from "./Dialog";
-import { NavImage } from "./NavImage";
 import { SearchInput } from "./SearchInput";
 import { TabList } from "./TabList";
 
@@ -38,15 +38,19 @@ export const MobileMenu = ({ open, setOpen, navigation }: Props) => (
 					<Tab.Panel key={grouping.name} className="space-y-12 px-4 py-6">
 						<div className="grid grid-cols-2 gap-x-4 gap-y-10">
 							{grouping.featured.map((item) => (
-								<NavImage
+								<ImageLink
 									key={item.slug}
 									src={item.image?.url}
+									alt={item.name}
 									width={136}
 									height={136}
-									name={item.name}
-									slug={item.slug}
-									grouping={grouping.name}
-								/>
+									href={`/${grouping.name.toLowerCase()}/${item.slug}`}
+								>
+									<h3 className="mt-6 block text-sm font-medium text-zinc-800">{item.name}</h3>
+									<p aria-hidden className="mt-1 text-sm text-zinc-500">
+										Shop now
+									</p>
+								</ImageLink>
 							))}
 						</div>
 					</Tab.Panel>

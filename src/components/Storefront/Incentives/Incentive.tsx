@@ -1,4 +1,4 @@
-import NextImage from "next/image";
+import { BlurredImage } from "@/components/UI/BlurredImage";
 
 type Props = {
 	name: string;
@@ -9,7 +9,7 @@ type Props = {
 export const Incentive = async ({ name, imageSrc, description }: Props) => (
 	<div className="sm:flex lg:block">
 		<div className="sm:flex-shrink-0">
-			<NextImage src={imageSrc} alt={name} width={64} height={64} className="h-16 w-16" />
+			<BlurredImage src={imageSrc} alt={name} width={64} height={64} className="h-16 w-16" />
 		</div>
 		<div className="mt-4 sm:ml-6 sm:mt-0 lg:ml-0 lg:mt-6">
 			<h3 className="text-sm font-medium text-gray-900">{name}</h3>

@@ -3,9 +3,9 @@ import { Popover as UiPopover } from "@headlessui/react";
 import { type Route } from "next";
 
 import { ActiveLink } from "@/components/UI/ActiveLink";
+import { ImageLink } from "@/components/UI/ImageLink";
 import { type CategoryWithImage } from "@/types";
 
-import { NavImage } from "./NavImage";
 import { Popover } from "./Popover";
 
 type Props = {
@@ -39,15 +39,19 @@ export const DesktopMenu = ({ navigation }: Props) => (
 			{navigation.groupings.map((grouping) => (
 				<Popover key={grouping.name} name={grouping.name}>
 					{grouping.featured.map((item) => (
-						<NavImage
+						<ImageLink
 							key={item.slug}
 							src={item.image?.url}
+							alt={item.name}
 							width={280}
 							height={280}
-							name={item.name}
-							slug={item.slug}
-							grouping={grouping.name}
-						/>
+							href={`/${grouping.name.toLowerCase()}/${item.slug}`}
+						>
+							<h3 className="mt-6 block text-sm text-zinc-800">{item.name}</h3>
+							<p aria-hidden className="mt-1 text-sm text-zinc-500">
+								Shop now
+							</p>
+						</ImageLink>
 					))}
 				</Popover>
 			))}

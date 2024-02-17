@@ -1,6 +1,7 @@
-query CollectionsGetList($includeImg: Boolean = false) {
+query CollectionsGetList($includeImg: Boolean = false, $includeDescription: Boolean = false) {
 	collections {
 		...CollectionListItem
+		description @include(if: $includeDescription)
 		image @include(if: $includeImg) {
 			url
 		}

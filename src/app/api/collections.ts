@@ -6,10 +6,13 @@ import { paginationArgs } from "@/lib/utils";
 
 import { executeGraphql } from "./graphqlApi";
 
-export const getCollectionsList = async (includeImg?: boolean) => {
+export const getCollectionsList = async (includeImg?: boolean, includeDescription?: boolean) => {
 	const { collections } = await executeGraphql({
 		query: CollectionsGetListDocument,
-		variables: { includeImg },
+		variables: { includeImg, includeDescription },
+		next: {
+			revalidate: 60 * 60 * 24, // 24 hours
+		},
 	});
 
 	return collections;

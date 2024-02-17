@@ -5,6 +5,10 @@ import withPlaiceholder from "@plaiceholder/next";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	pageExtensions: ["ts", "tsx", "mdx"],
+	experimental: {
+		workerThreads: false,
+		cpus: 1,
+	},
 	images: {
 		remotePatterns: [
 			{

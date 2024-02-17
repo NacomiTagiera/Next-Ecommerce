@@ -11,75 +11,84 @@ export const navLinks: { text: string; href: Route }[] = [
 
 export const testimonials = [
 	{
-		body: "This is the most comfortable hoodie I've ever worn. It keeps me warm and cozy on chilly nights.",
+		body: "The attention to detail in both design and functionality is unparalleled. I'm a customer for life!",
+		author: {
+			name: "Mark Wilson",
+			handle: "markwilson",
+			imageUrl:
+				"https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+		},
+	},
+	{
+		body: "From yoga sessions to intense cardio workouts, I rely on Next Sports for all my activewear needs.",
+		author: {
+			name: "Abigail Walker",
+			handle: "abigailwalker",
+			imageUrl:
+				"https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+		},
+	},
+	{
+		body: "Whether I'm running errands or sweating it out at the gym, I always feel confident and stylish.",
+		author: {
+			name: "Steven Lewis",
+			handle: "stevenlewis",
+			imageUrl:
+				"https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+		},
+	},
+	{
+		body: "The most comfortable hoodies I've ever worn. They keep me warm and cozy on chilly nights.",
 		author: {
 			name: "Marie Edwards",
 			handle: "marieedwards",
-			imageUrl: "/images/testimonials/marie-edwards.jpg",
+			imageUrl:
+				"https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+		},
+	},
+	{
+		body: "The fabrics are durable, the designs are on point, and the comfort level is unmatched.",
+		author: {
+			name: "Brandon Jones",
+			handle: "brandonjones",
+			imageUrl:
+				"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
 		},
 	},
 	{
 		body: "I love the quality of the fabrics and the design. It's so stylish and comfortable to wear.",
 		author: {
-			name: "Brandon Jones",
-			handle: "brandonjones",
-			imageUrl: "/images/testimonials/brandon-jones.jpg",
+			name: "Anne Alexander",
+			handle: "annealexander",
+			imageUrl:
+				"https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+		},
+	},
+	{
+		body: "The quality of the materials—it's clear that this brand is committed to excellence.",
+		author: {
+			name: "Tom Stevens",
+			handle: "tomstevens",
+			imageUrl:
+				"https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
 		},
 	},
 	{
 		body: "I just love the new summer collection. The colors are so vibrant and the fabrics are so light.",
 		author: {
-			name: "Leslie Alexander",
-			handle: "lesliealexander",
-			imageUrl: "/images/testimonials/leslie-alexander.jpg",
+			name: "Lily Campbell",
+			handle: "lilycampbell",
+			imageUrl:
+				"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
 		},
 	},
 	{
-		body: "This is the most comfortable hoodie I've ever worn. It keeps me warm and cozy on chilly nights.",
+		body: "Not only do I feel comfortable during my workouts, but I also feel stylish and put together.",
 		author: {
-			name: "Marie Edwards",
-			handle: "marieedwards",
-			imageUrl: "/images/testimonials/marie-edwards.jpg",
-		},
-	},
-	{
-		body: "I love the quality of the fabrics and the design. It's so stylish and comfortable to wear.",
-		author: {
-			name: "Brandon Jones",
-			handle: "brandonjones",
-			imageUrl: "/images/testimonials/brandon-jones.jpg",
-		},
-	},
-	{
-		body: "I just love the new summer collection. The colors are so vibrant and the fabrics are so light.",
-		author: {
-			name: "Leslie Alexander",
-			handle: "lesliealexander",
-			imageUrl: "/images/testimonials/leslie-alexander.jpg",
-		},
-	},
-	{
-		body: "This is the most comfortable hoodie I've ever worn. It keeps me warm and cozy on chilly nights.",
-		author: {
-			name: "Marie Edwards",
-			handle: "marieedwards",
-			imageUrl: "/images/testimonials/marie-edwards.jpg",
-		},
-	},
-	{
-		body: "I love the quality of the fabrics and the design. It's so stylish and comfortable to wear.",
-		author: {
-			name: "Brandon Jones",
-			handle: "brandonjones",
-			imageUrl: "/images/testimonials/brandon-jones.jpg",
-		},
-	},
-	{
-		body: "I just love the new summer collection. The colors are so vibrant and the fabrics are so light.",
-		author: {
-			name: "Leslie Alexander",
-			handle: "lesliealexander",
-			imageUrl: "/images/testimonials/leslie-alexander.jpg",
+			name: "David Robinson",
+			handle: "davidrobinson",
+			imageUrl:
+				"https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
 		},
 	},
 ] as const;

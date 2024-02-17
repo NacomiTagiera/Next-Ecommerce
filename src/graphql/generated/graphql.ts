@@ -765,7 +765,7 @@ export type Category = Entity &
 		history: Array<Version>;
 		/** The unique identifier */
 		id: Scalars["ID"]["output"];
-		image?: Maybe<Asset>;
+		image: Asset;
 		/** System Locale field */
 		locale: Locale;
 		/** Get the other localizations for this document */
@@ -890,7 +890,7 @@ export type CategoryCreateInput = {
 	createdAt?: InputMaybe<Scalars["DateTime"]["input"]>;
 	/** description input for default locale (en) */
 	description?: InputMaybe<Scalars["String"]["input"]>;
-	image?: InputMaybe<AssetCreateOneInlineInput>;
+	image: AssetCreateOneInlineInput;
 	/** Inline mutations for managing document localizations excluding the default locale */
 	localizations?: InputMaybe<CategoryCreateLocalizationsInput>;
 	/** name input for default locale (en) */
@@ -5942,7 +5942,7 @@ export type ProductCreateInput = {
 	createdAt?: InputMaybe<Scalars["DateTime"]["input"]>;
 	/** description input for default locale (en) */
 	description: Scalars["String"]["input"];
-	images?: InputMaybe<AssetCreateManyInlineInput>;
+	images: AssetCreateManyInlineInput;
 	/** Inline mutations for managing document localizations excluding the default locale */
 	localizations?: InputMaybe<ProductCreateLocalizationsInput>;
 	/** name input for default locale (en) */
@@ -9806,6 +9806,14 @@ export type CartUpsertProductMutationVariables = Exact<{
 
 export type CartUpsertProductMutation = { upsertOrderItem?: { id: string } | null };
 
+export type AssetsGetQueryVariables = Exact<{
+	fileName: Scalars["String"]["input"];
+	width: Scalars["Int"]["input"];
+	height: Scalars["Int"]["input"];
+}>;
+
+export type AssetsGetQuery = { assets: Array<{ url: string }> };
+
 export type CartGetByIdQueryVariables = Exact<{
 	id: Scalars["ID"]["input"];
 }>;
@@ -9826,7 +9834,7 @@ export type CategoriesGetListQueryVariables = Exact<{
 }>;
 
 export type CategoriesGetListQuery = {
-	categories: Array<{ slug: string; name: string; image?: { url: string } | null }>;
+	categories: Array<{ slug: string; name: string; image?: { url: string } }>;
 };
 
 export type CategoryGetBySlugQueryVariables = Exact<{
@@ -9876,10 +9884,16 @@ export type CollectionGetBySlugQuery = {
 
 export type CollectionsGetListQueryVariables = Exact<{
 	includeImg?: InputMaybe<Scalars["Boolean"]["input"]>;
+	includeDescription?: InputMaybe<Scalars["Boolean"]["input"]>;
 }>;
 
 export type CollectionsGetListQuery = {
-	collections: Array<{ slug: string; name: string; image?: { url: string } }>;
+	collections: Array<{
+		description?: string | null;
+		slug: string;
+		name: string;
+		image?: { url: string };
+	}>;
 };
 
 export type ProductGetByIdQueryVariables = Exact<{
@@ -10116,6 +10130,15 @@ export const CartUpsertProductDocument = new TypedDocumentString(`
 	CartUpsertProductMutation,
 	CartUpsertProductMutationVariables
 >;
+export const AssetsGetDocument = new TypedDocumentString(`
+    query AssetsGet($fileName: String!, $width: Int!, $height: Int!) {
+  assets(where: {fileName_starts_with: $fileName}) {
+    url(
+      transformation: {image: {resize: {width: $width, height: $height, fit: clip}}}
+    )
+  }
+}
+    `) as unknown as TypedDocumentString<AssetsGetQuery, AssetsGetQueryVariables>;
 export const CartGetByIdDocument = new TypedDocumentString(`
     query CartGetById($id: ID!) {
   order(where: {id: $id}, stage: DRAFT) {
@@ -10203,9 +10226,10 @@ fragment ProductListItem on Product {
   }
 }`) as unknown as TypedDocumentString<CollectionGetBySlugQuery, CollectionGetBySlugQueryVariables>;
 export const CollectionsGetListDocument = new TypedDocumentString(`
-    query CollectionsGetList($includeImg: Boolean = false) {
+    query CollectionsGetList($includeImg: Boolean = false, $includeDescription: Boolean = false) {
   collections {
     ...CollectionListItem
+    description @include(if: $includeDescription)
     image @include(if: $includeImg) {
       url
     }

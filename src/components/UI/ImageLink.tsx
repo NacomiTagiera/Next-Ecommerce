@@ -3,6 +3,7 @@ import NextImage from "next/image";
 import Link from "next/link";
 
 import { type BlurredImage } from "./BlurredImage";
+
 type Props = {
 	src: string | undefined;
 	alt: string;

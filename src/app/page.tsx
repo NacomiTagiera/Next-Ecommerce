@@ -1,12 +1,17 @@
+import { CollectionsList } from "@/components/Storefront/CollectionsList";
+import { Hero } from "@/components/Storefront/Hero";
+import { Incentives } from "@/components/Storefront/Incentives";
+import { Testimonials } from "@/components/Storefront/Testimonials";
+import { TrendingProducts } from "@/components/Storefront/TrendingProducts";
+
 export default function Home() {
 	return (
 		<>
-			<h1 className="text-2xl text-gray-800">Next Sports</h1>
-			<p className="text-gray-800">
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima iste nihil incidunt maxime
-				sed, at enim eligendi magni tempora, ipsum doloremque fuga voluptates pariatur! Itaque
-				aspernatur aperiam quis. Itaque, recusandae.
-			</p>
+			<Hero />
+			<CollectionsList />
+			<Testimonials />
+			<TrendingProducts />
+			<Incentives />
 		</>
 	);
 }

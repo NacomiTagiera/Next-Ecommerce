@@ -23,6 +23,7 @@ export const ActiveLink = <T extends string>({
 	exact = true,
 	className,
 	activeClassName,
+	...rest
 }: Props<T>) => {
 	const pathname = usePathname();
 
@@ -38,6 +39,7 @@ export const ActiveLink = <T extends string>({
 			}}
 			aria-current={isActive ? "page" : undefined}
 			className={cn(className, isActive && activeClassName)}
+			{...rest}
 		>
 			{children}
 		</Link>

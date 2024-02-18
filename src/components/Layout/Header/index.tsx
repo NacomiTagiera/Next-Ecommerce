@@ -1,9 +1,32 @@
+import { getCategoriesList } from "@/app/api/categories";
+import { getCollectionsList } from "@/app/api/collections";
+import { navLinks } from "@/lib/constants";
+
 import { Navbar } from "./Navbar";
 
-export const Header = () => {
+export const Header = async () => {
+	const [categories, collections] = await Promise.all([
+		getCategoriesList(true),
+		getCollectionsList(true),
+	]);
+
+	const navigation = {
+		groupings: [
+			{
+				name: "Categories",
+				featured: categories,
+			},
+			{
+				name: "Collections",
+				featured: collections,
+			},
+		],
+		pages: navLinks,
+	};
+
 	return (
-		<header className="sticky top-0 z-20 border-b bg-white bg-opacity-60 backdrop-blur-lg">
-			<Navbar />
-		</header>
+		<div className="sticky top-0 z-10 w-full border-b border-gray-200 bg-wild-blue-yonder-100 py-2 shadow-md">
+			<Navbar navigation={navigation} />
+		</div>
 	);
 };

@@ -1,7 +1,7 @@
 import NextImage from "next/image";
 
-import logo from "../../../public/images/logo.png";
-import logoNoText from "../../../public/images/logo-no-text.png";
+import logo from "/public/images/logo.png";
+import logoNoText from "/public/images/logo-no-text.png";
 
 type Props = {
 	includeText?: boolean;

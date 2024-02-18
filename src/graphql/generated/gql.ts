@@ -33,15 +33,17 @@ const documents = {
 		types.CartUpdateProductQuantityDocument,
 	"mutation CartUpsertProduct($orderItemId: ID, $cartId: ID!, $productId: ID!, $total: Int!, $quantity: Int!) {\n  upsertOrderItem(\n    upsert: {create: {quantity: 1, total: $total, order: {connect: {id: $cartId}}, product: {connect: {id: $productId}}}, update: {quantity: $quantity, total: $total}}\n    where: {id: $orderItemId}\n  ) {\n    id\n  }\n}":
 		types.CartUpsertProductDocument,
+	"query AssetsGet($fileName: String!, $width: Int!, $height: Int!) {\n  assets(where: {fileName_starts_with: $fileName}) {\n    url(\n      transformation: {image: {resize: {width: $width, height: $height, fit: clip}}}\n    )\n  }\n}":
+		types.AssetsGetDocument,
 	"query CartGetById($id: ID!) {\n  order(where: {id: $id}, stage: DRAFT) {\n    ...Cart\n  }\n}":
 		types.CartGetByIdDocument,
-	"query CategoriesGetList {\n  categories {\n    ...CategoryListItem\n  }\n}":
+	"query CategoriesGetList($includeImg: Boolean = false) {\n  categories {\n    ...CategoryListItem\n    image @include(if: $includeImg) {\n      url\n    }\n  }\n}":
 		types.CategoriesGetListDocument,
 	"query CategoryGetBySlug($slug: String!, $limit: Int!, $offset: Int!) {\n  category(where: {slug: $slug}) {\n    ...CategoryListItem\n    description\n    products(first: $limit, skip: $offset) {\n      ...ProductListItem\n    }\n  }\n}":
 		types.CategoryGetBySlugDocument,
 	"query CollectionGetBySlug($slug: String!, $limit: Int!, $offset: Int!) {\n  collection(where: {slug: $slug}) {\n    ...CollectionListItem\n    description\n    image {\n      url\n    }\n    products(first: $limit, skip: $offset) {\n      ...ProductListItem\n    }\n  }\n}":
 		types.CollectionGetBySlugDocument,
-	"query CollectionsGetList {\n  collections {\n    ...CollectionListItem\n  }\n}":
+	"query CollectionsGetList($includeImg: Boolean = false, $includeDescription: Boolean = false) {\n  collections {\n    ...CollectionListItem\n    description @include(if: $includeDescription)\n    image @include(if: $includeImg) {\n      url\n    }\n  }\n}":
 		types.CollectionsGetListDocument,
 	"query ProductGetById($id: ID!) {\n  product(where: {id: $id}) {\n    id\n    slug\n    name\n    description\n    price\n    categories {\n      slug\n      name\n    }\n    images {\n      url\n    }\n    variants {\n      ... on ProductColorVariant {\n        ...SingleProductColorVariant\n      }\n      ... on ProductSizeVariant {\n        ...SingleProductSizeVariant\n      }\n    }\n  }\n}":
 		types.ProductGetByIdDocument,
@@ -129,13 +131,19 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
+	source: "query AssetsGet($fileName: String!, $width: Int!, $height: Int!) {\n  assets(where: {fileName_starts_with: $fileName}) {\n    url(\n      transformation: {image: {resize: {width: $width, height: $height, fit: clip}}}\n    )\n  }\n}",
+): typeof import("./graphql").AssetsGetDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
 	source: "query CartGetById($id: ID!) {\n  order(where: {id: $id}, stage: DRAFT) {\n    ...Cart\n  }\n}",
 ): typeof import("./graphql").CartGetByIdDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-	source: "query CategoriesGetList {\n  categories {\n    ...CategoryListItem\n  }\n}",
+	source: "query CategoriesGetList($includeImg: Boolean = false) {\n  categories {\n    ...CategoryListItem\n    image @include(if: $includeImg) {\n      url\n    }\n  }\n}",
 ): typeof import("./graphql").CategoriesGetListDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -153,7 +161,7 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-	source: "query CollectionsGetList {\n  collections {\n    ...CollectionListItem\n  }\n}",
+	source: "query CollectionsGetList($includeImg: Boolean = false, $includeDescription: Boolean = false) {\n  collections {\n    ...CollectionListItem\n    description @include(if: $includeDescription)\n    image @include(if: $includeImg) {\n      url\n    }\n  }\n}",
 ): typeof import("./graphql").CollectionsGetListDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.

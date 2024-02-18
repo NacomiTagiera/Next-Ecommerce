@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss";
+import aspectRatioPlugin from "@tailwindcss/aspect-ratio";
 import formsPlugin from "@tailwindcss/forms";
 import typographyPlugin from "@tailwindcss/typography";
-
 import headlessuiPlugin from "@headlessui/tailwindcss";
 
 export default {
@@ -111,5 +111,5 @@ export default {
 	future: {
 		hoverOnlyWhenSupported: true,
 	},
-	plugins: [formsPlugin, typographyPlugin, headlessuiPlugin],
+	plugins: [aspectRatioPlugin, formsPlugin, typographyPlugin, headlessuiPlugin],
 } satisfies Config;

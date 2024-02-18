@@ -1,10 +1,9 @@
-import React from "react";
-import type { LucideIcon } from "lucide-react";
+import type { IconType } from "react-icons";
 
 type Props = {
 	href: string;
 	name: string;
-	Icon: LucideIcon;
+	Icon: IconType;
 };
 
 export const FooterSocialLink = ({ href, name, Icon }: Props) => {

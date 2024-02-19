@@ -58,13 +58,13 @@ export const MobileMenu = ({ open, setOpen, navigation }: Props) => (
 			</Tab.Panels>
 		</Tab.Group>
 
-		<div className="space-y-6 border-t border-wild-blue-yonder-200 px-4 py-6">
+		<div className="space-y-6 border-t border-twilight-200 px-4 py-6">
 			{navigation.pages.map((page) => (
 				<div key={page.text} className="flow-root">
 					<ActiveLink
 						href={page.href}
-						className="-m-2 block p-2 font-medium text-zinc-700 transition-colors duration-150 ease-in-out hover:text-wild-blue-yonder-600"
-						activeClassName="text-wild-blue-yonder-600"
+						className="-m-2 block p-2 font-medium text-zinc-700 transition-colors duration-150 ease-in-out hover:text-skyfall-500"
+						activeClassName="text-skyfall-500"
 						exact={page.text === "Home"}
 					>
 						{page.text}

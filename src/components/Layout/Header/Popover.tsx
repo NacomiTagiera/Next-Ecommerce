@@ -15,15 +15,15 @@ export const Popover = ({ children, name }: Props) => (
 				<div className="relative flex">
 					<UiPopover.Button
 						className={cn(
-							"relative z-10 flex items-center justify-center font-medium text-zinc-700 transition-colors duration-150 ease-in-out hover:text-wild-blue-yonder-600",
-							open && "text-wild-blue-yonder-600",
+							"relative z-10 flex items-center justify-center font-medium text-zinc-700 transition-colors duration-150 ease-in-out hover:text-skyfall-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-skyfall-500",
+							open && "text-skyfall-500",
 						)}
 					>
 						{name}
 						<span
 							className={cn(
 								"absolute inset-x-0 -bottom-px h-0.5 transition duration-200 ease-out",
-								open && "bg-wild-blue-yonder-600",
+								open && "bg-skyfall-500",
 							)}
 							aria-hidden
 						/>
@@ -44,7 +44,7 @@ export const Popover = ({ children, name }: Props) => (
 						onMouseLeave={close}
 					>
 						<div className="absolute inset-0 top-1/2 shadow" aria-hidden />
-						<div className="relative bg-wild-blue-yonder-50">
+						<div className="relative bg-twilight-50">
 							<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 								<div className="grid grid-cols-4 gap-x-8 gap-y-10 py-16" onClick={close}>
 									{children}

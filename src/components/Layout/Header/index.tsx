@@ -25,7 +25,7 @@ export const Header = async () => {
 	};
 
 	return (
-		<div className="sticky top-0 z-10 w-full border-b border-gray-200 bg-wild-blue-yonder-100 py-2 shadow-md">
+		<div className="sticky top-0 z-10 w-full border-b border-gray-300 bg-white py-1 shadow-md shadow-gray-200">
 			<Navbar navigation={navigation} />
 		</div>
 	);

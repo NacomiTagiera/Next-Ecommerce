@@ -13,7 +13,7 @@ type Props = {
 export const FooterMenu = ({ header, items }: Props) => {
 	return (
 		<>
-			<h5 className="font-semibold leading-6 text-black">{header}</h5>
+			<h4 className="font-semibold leading-6 text-black">{header}</h4>
 			<ul className="mt-5 space-y-4">
 				{items.map((item) => (
 					<li key={item.href}>

@@ -1,7 +1,5 @@
 import type { IconType } from "react-icons";
 
-import { cn } from "@/lib/utils";
-
 type Props = {
 	Icon: IconType;
 	label: string;
@@ -10,12 +8,8 @@ type Props = {
 };
 
 export const MobileMenuButton = ({ Icon, label, onClick, className }: Props) => (
-	<button
-		type="button"
-		className={cn("-ml-2 p-2 text-zinc-700 hover:text-wild-blue-yonder-600", className)}
-		onClick={onClick}
-	>
+	<button type="button" className={className} onClick={onClick}>
 		<span className="sr-only">{label}</span>
-		<Icon className="h-6 w-6" aria-hidden />
+		<Icon className="h-5 w-5 text-zinc-700 transition-colors hover:text-skyfall-500" aria-hidden />
 	</button>
 );

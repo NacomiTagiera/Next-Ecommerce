@@ -11,7 +11,7 @@ type Props = {
 
 export const Testimonial = ({ author, body }: Props) => (
 	<div className="pt-8 sm:inline-block sm:w-full sm:px-4">
-		<figure className="rounded-2xl bg-wild-blue-yonder-100 p-8 text-sm leading-6">
+		<figure className="rounded-2xl bg-white p-8 text-sm leading-6">
 			<blockquote className="text-gray-900">
 				<p>{`“${body}”`}</p>
 			</blockquote>

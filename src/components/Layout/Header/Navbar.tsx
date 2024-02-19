@@ -2,7 +2,7 @@
 
 import { Suspense } from "react";
 import { FaBars } from "react-icons/fa6";
-import { IoMdSearch } from "react-icons/io";
+import { FiSearch } from "react-icons/fi";
 
 import Link from "next/link";
 
@@ -10,12 +10,12 @@ import { Logo } from "@/components/UI/Logo";
 import { useMobileMenu } from "@/hooks/useMobileMenu";
 import type { CategoryWithImage } from "@/types";
 
-import { CartIcon } from "./CartIcon";
 import { DesktopMenu } from "./DesktopMenu";
 import { MobileMenu } from "./MobileMenu";
 import { MobileMenuButton } from "./MobileMenuButton";
 import { SearchInput } from "./SearchInput";
-import { SignInButton } from "./SignInButton";
+import { ShoppingBagIcon } from "./ShoppingBagIcon";
+import { SignInIcon } from "./SignInIcon";
 
 type Props = {
 	navigation: {
@@ -42,7 +42,7 @@ export const Navbar = ({ navigation }: Props) => {
 						<div className="flex h-16 items-center justify-between">
 							<div className="hidden lg:flex lg:flex-1">
 								<Link href="/">
-									<Logo priority includeText className="h-10 w-auto" />
+									<Logo priority includeText className="h-9 w-auto" />
 								</Link>
 							</div>
 							<div className="hidden h-full lg:flex">
@@ -55,22 +55,22 @@ export const Navbar = ({ navigation }: Props) => {
 									onClick={() => setMobileMenuOpen(true)}
 								/>
 								<MobileMenuButton
-									Icon={IoMdSearch}
+									Icon={FiSearch}
 									label="Search"
 									onClick={() => setMobileMenuOpen(true)}
 									className="ml-2"
 								/>
 							</div>
 							<Link href="/" className="lg:hidden">
-								<Logo priority includeText className="h-10 w-auto" />
+								<Logo priority includeText className="h-9 w-auto" />
 							</Link>
 							<div className="flex flex-1 items-center justify-end">
 								<Suspense>
 									<SearchInput id="desktop-search" className="mx-auto hidden lg:block" />
 								</Suspense>
-								<div className="ml-2 flex items-center">
-									<SignInButton />
-									<CartIcon />
+								<div className="ml-1 flex items-center">
+									<SignInIcon />
+									<ShoppingBagIcon />
 								</div>
 							</div>
 						</div>

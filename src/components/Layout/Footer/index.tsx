@@ -30,7 +30,7 @@ export const Footer = async () => {
 	];
 
 	return (
-		<footer className="bg-wild-blue-yonder-100 text-sm text-zinc-700">
+		<footer className="bg-white text-sm text-zinc-700">
 			<div className="mx-auto max-w-screen-xl px-4 pb-6 pt-10 sm:px-6 lg:px-8 lg:pt-10">
 				<div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
 					<div className="flex flex-col items-center space-y-5 lg:items-start">

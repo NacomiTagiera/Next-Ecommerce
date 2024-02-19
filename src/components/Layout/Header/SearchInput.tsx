@@ -43,7 +43,7 @@ export const SearchInput = ({ id, className }: Props) => {
 					<IoMdSearch className="h-5 w-5 text-gray-400" aria-hidden />
 				</span>
 				<input
-					className="w-full rounded-md border-0 bg-wild-blue-yonder-50 py-2 pl-11 pr-4 text-sm text-slate-800 ring-1 ring-inset ring-gray-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-azure-radiance-500"
+					className="w-full rounded-md border-0 bg-twilight-50 py-2 pl-11 pr-4 text-sm text-slate-800 ring-1 ring-inset ring-gray-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-skyfall-500"
 					type="search"
 					id={id}
 					name="search-for-products"

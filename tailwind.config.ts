@@ -36,7 +36,7 @@ export default {
 				sans: ["var(--font-roboto-flex)"],
 			},
 			colors: {
-				"azure-radiance": {
+				skyfall: {
 					default: "#3b82f6",
 					"50": "#eff5ff",
 					"100": "#dbe8fe",
@@ -62,7 +62,7 @@ export default {
 					"800": "#1e268a",
 					"900": "#171a54",
 				},
-				"wild-blue-yonder": {
+				twilight: {
 					default: "#858fbb",
 					"50": "#f4f6f9",
 					"100": "#eaeff5",
@@ -75,7 +75,7 @@ export default {
 					"800": "#494d66",
 					"900": "#2b2d3b",
 				},
-				"aqua-squeeze": {
+				evergreen: {
 					default: "#e6f4f1",
 					"50": "#d8efea",
 					"100": "#b0dfd7",

@@ -9,7 +9,7 @@ export const CollectionsList = async () => {
 	const collections = await getCollectionsList(true, true);
 
 	return (
-		<section aria-labelledby="collections-heading" className="bg-wild-blue-yonder-100">
+		<section aria-labelledby="collections-heading" className="bg-white">
 			<div className="mx-auto max-w-xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
 				<SectionHeader
 					id="collections-heading"

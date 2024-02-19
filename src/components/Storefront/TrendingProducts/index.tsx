@@ -9,7 +9,7 @@ export const TrendingProducts = async () => {
 	const products = await getProductsList(1);
 
 	return (
-		<section aria-labelledby="trending-heading" className="bg-wild-blue-yonder-100">
+		<section aria-labelledby="trending-heading" className="bg-white">
 			<div className="mx-auto max-w-xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
 				<div className="md:flex md:items-center md:justify-between">
 					<SectionHeader

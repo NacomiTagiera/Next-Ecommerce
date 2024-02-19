@@ -15,7 +15,7 @@ export const HeroHeader = ({ title, description }: Props) => (
 		</hgroup>
 		<Link
 			href="/products"
-			className="mt-16 inline-block rounded-md border border-transparent bg-azure-radiance-500 px-8 py-3 text-center font-medium text-white hover:bg-azure-radiance-600"
+			className="mt-16 inline-block rounded-md border border-transparent bg-skyfall-500 px-8 py-3 text-center font-medium text-white hover:bg-skyfall-600 hover:shadow-md"
 		>
 			Browse Products
 		</Link>

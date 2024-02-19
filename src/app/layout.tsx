@@ -71,7 +71,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 		<html lang="en">
 			<body
 				className={cn(
-					"flex min-h-screen flex-col overflow-x-hidden bg-white text-black",
+					"flex min-h-screen flex-col overflow-x-hidden bg-twilight-100 text-black",
 					robotoFlex.className,
 				)}
 			>

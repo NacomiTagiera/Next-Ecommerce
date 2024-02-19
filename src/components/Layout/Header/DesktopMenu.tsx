@@ -28,8 +28,8 @@ export const DesktopMenu = ({ navigation }: Props) => (
 				<ActiveLink
 					key={page.text}
 					href={page.href}
-					className="flex items-center font-medium text-zinc-700 transition-colors duration-150 ease-in-out hover:text-wild-blue-yonder-600"
-					activeClassName="text-black underline hover:text-black underline-offset-4"
+					className="flex items-center font-medium text-zinc-700 transition-colors duration-150 ease-in-out hover:text-skyfall-500"
+					activeClassName="text-skyfall-500"
 					exact={page.text === "Home"}
 				>
 					{page.text}

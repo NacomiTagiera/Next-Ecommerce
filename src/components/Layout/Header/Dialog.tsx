@@ -33,7 +33,7 @@ export const Dialog = ({ children, open, onClose }: Props) => (
 					leaveFrom="translate-x-0"
 					leaveTo="-translate-x-full"
 				>
-					<UiDialog.Panel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-wild-blue-yonder-50 pb-12 shadow-xl">
+					<UiDialog.Panel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-twilight-50 pb-12 shadow-xl">
 						<div className="flex px-4 pb-2 pt-5">
 							<button
 								type="button"

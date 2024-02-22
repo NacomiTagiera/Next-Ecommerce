@@ -1,7 +1,7 @@
 query ProductsGetRelated($slug: String!, $categoriesSlugs: [String!]) {
 	products(
 		where: { slug_not: $slug, AND: { categories_some: { slug_in: $categoriesSlugs } } }
-		first: 6
+		first: 4
 	) {
 		...ProductListItem
 	}

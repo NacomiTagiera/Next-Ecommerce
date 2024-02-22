@@ -1,0 +1,15 @@
+fragment ProductDetails on Product {
+	...ProductListItem
+	description
+	variants {
+		... on ProductColorVariant {
+			...ProductColorVariant
+		}
+		... on ProductSizeVariant {
+			...ProductSizeVariant
+		}
+	}
+	reviews {
+		...Review
+	}
+}

@@ -9789,12 +9789,14 @@ export type CollectionListItemFragment = { slug: string; name: string };
 export type ProductColorVariantFragment = { __typename: "ProductColorVariant"; name: string };
 
 export type ProductDetailsFragment = {
-	description: string;
 	id: string;
 	slug: string;
 	name: string;
+	description: string;
 	price: number;
 	rating?: number | null;
+	categories: Array<{ slug: string; name: string }>;
+	images: Array<{ url: string }>;
 	variants: Array<
 		| { __typename: "ProductColorVariant"; name: string }
 		| { __typename: "ProductSizeVariant"; name: string }
@@ -9807,8 +9809,6 @@ export type ProductDetailsFragment = {
 		headline: string;
 		content: string;
 	}>;
-	categories: Array<{ name: string }>;
-	images: Array<{ url: string }>;
 };
 
 export type ProductListItemFragment = {
@@ -9966,12 +9966,14 @@ export type ProductGetByIdQueryVariables = Exact<{
 
 export type ProductGetByIdQuery = {
 	product?: {
-		description: string;
 		id: string;
 		slug: string;
 		name: string;
+		description: string;
 		price: number;
 		rating?: number | null;
+		categories: Array<{ slug: string; name: string }>;
+		images: Array<{ url: string }>;
 		variants: Array<
 			| { __typename: "ProductColorVariant"; name: string }
 			| { __typename: "ProductSizeVariant"; name: string }
@@ -9984,8 +9986,35 @@ export type ProductGetByIdQuery = {
 			headline: string;
 			content: string;
 		}>;
-		categories: Array<{ name: string }>;
+	} | null;
+};
+
+export type ProductGetBySlugQueryVariables = Exact<{
+	slug: Scalars["String"]["input"];
+}>;
+
+export type ProductGetBySlugQuery = {
+	product?: {
+		id: string;
+		slug: string;
+		name: string;
+		description: string;
+		price: number;
+		rating?: number | null;
+		categories: Array<{ slug: string; name: string }>;
 		images: Array<{ url: string }>;
+		variants: Array<
+			| { __typename: "ProductColorVariant"; name: string }
+			| { __typename: "ProductSizeVariant"; name: string }
+		>;
+		reviews: Array<{
+			id: string;
+			name: string;
+			email: string;
+			rating: number;
+			headline: string;
+			content: string;
+		}>;
 	} | null;
 };
 
@@ -10093,15 +10122,6 @@ export const CartFragmentDoc = new TypedDocumentString(
     `,
 	{ fragmentName: "Cart" },
 ) as unknown as TypedDocumentString<CartFragment, unknown>;
-export const CategoryListItemFragmentDoc = new TypedDocumentString(
-	`
-    fragment CategoryListItem on Category {
-  slug
-  name
-}
-    `,
-	{ fragmentName: "CategoryListItem" },
-) as unknown as TypedDocumentString<CategoryListItemFragment, unknown>;
 export const CollectionListItemFragmentDoc = new TypedDocumentString(
 	`
     fragment CollectionListItem on Collection {
@@ -10111,24 +10131,15 @@ export const CollectionListItemFragmentDoc = new TypedDocumentString(
     `,
 	{ fragmentName: "CollectionListItem" },
 ) as unknown as TypedDocumentString<CollectionListItemFragment, unknown>;
-export const ProductListItemFragmentDoc = new TypedDocumentString(
+export const CategoryListItemFragmentDoc = new TypedDocumentString(
 	`
-    fragment ProductListItem on Product {
-  id
+    fragment CategoryListItem on Category {
   slug
   name
-  price
-  rating
-  categories(first: 1) {
-    name
-  }
-  images(first: 1) {
-    url
-  }
 }
     `,
-	{ fragmentName: "ProductListItem" },
-) as unknown as TypedDocumentString<ProductListItemFragment, unknown>;
+	{ fragmentName: "CategoryListItem" },
+) as unknown as TypedDocumentString<CategoryListItemFragment, unknown>;
 export const ProductColorVariantFragmentDoc = new TypedDocumentString(
 	`
     fragment ProductColorVariant on ProductColorVariant {
@@ -10163,8 +10174,18 @@ export const ReviewFragmentDoc = new TypedDocumentString(
 export const ProductDetailsFragmentDoc = new TypedDocumentString(
 	`
     fragment ProductDetails on Product {
-  ...ProductListItem
+  id
+  slug
+  name
   description
+  price
+  rating
+  categories {
+    ...CategoryListItem
+  }
+  images {
+    url
+  }
   variants {
     ... on ProductColorVariant {
       ...ProductColorVariant
@@ -10177,22 +10198,13 @@ export const ProductDetailsFragmentDoc = new TypedDocumentString(
     ...Review
   }
 }
-    fragment ProductColorVariant on ProductColorVariant {
-  __typename
-  name
-}
-fragment ProductListItem on Product {
-  id
+    fragment CategoryListItem on Category {
   slug
   name
-  price
-  rating
-  categories(first: 1) {
-    name
-  }
-  images(first: 1) {
-    url
-  }
+}
+fragment ProductColorVariant on ProductColorVariant {
+  __typename
+  name
 }
 fragment ProductSizeVariant on ProductSizeVariant {
   __typename
@@ -10208,6 +10220,24 @@ fragment Review on Review {
 }`,
 	{ fragmentName: "ProductDetails" },
 ) as unknown as TypedDocumentString<ProductDetailsFragment, unknown>;
+export const ProductListItemFragmentDoc = new TypedDocumentString(
+	`
+    fragment ProductListItem on Product {
+  id
+  slug
+  name
+  price
+  rating
+  categories(first: 1) {
+    name
+  }
+  images(first: 1) {
+    url
+  }
+}
+    `,
+	{ fragmentName: "ProductListItem" },
+) as unknown as TypedDocumentString<ProductListItemFragment, unknown>;
 export const CartAddProductDocument = new TypedDocumentString(`
     mutation CartAddProduct($cartId: ID!, $productId: ID!, $total: Int!) {
   createOrderItem(
@@ -10376,13 +10406,27 @@ export const ProductGetByIdDocument = new TypedDocumentString(`
     ...ProductDetails
   }
 }
-    fragment ProductColorVariant on ProductColorVariant {
+    fragment CategoryListItem on Category {
+  slug
+  name
+}
+fragment ProductColorVariant on ProductColorVariant {
   __typename
   name
 }
 fragment ProductDetails on Product {
-  ...ProductListItem
+  id
+  slug
+  name
   description
+  price
+  rating
+  categories {
+    ...CategoryListItem
+  }
+  images {
+    url
+  }
   variants {
     ... on ProductColorVariant {
       ...ProductColorVariant
@@ -10393,19 +10437,6 @@ fragment ProductDetails on Product {
   }
   reviews {
     ...Review
-  }
-}
-fragment ProductListItem on Product {
-  id
-  slug
-  name
-  price
-  rating
-  categories(first: 1) {
-    name
-  }
-  images(first: 1) {
-    url
   }
 }
 fragment ProductSizeVariant on ProductSizeVariant {
@@ -10420,6 +10451,57 @@ fragment Review on Review {
   headline
   content
 }`) as unknown as TypedDocumentString<ProductGetByIdQuery, ProductGetByIdQueryVariables>;
+export const ProductGetBySlugDocument = new TypedDocumentString(`
+    query ProductGetBySlug($slug: String!) {
+  product(where: {slug: $slug}) {
+    ...ProductDetails
+  }
+}
+    fragment CategoryListItem on Category {
+  slug
+  name
+}
+fragment ProductColorVariant on ProductColorVariant {
+  __typename
+  name
+}
+fragment ProductDetails on Product {
+  id
+  slug
+  name
+  description
+  price
+  rating
+  categories {
+    ...CategoryListItem
+  }
+  images {
+    url
+  }
+  variants {
+    ... on ProductColorVariant {
+      ...ProductColorVariant
+    }
+    ... on ProductSizeVariant {
+      ...ProductSizeVariant
+    }
+  }
+  reviews {
+    ...Review
+  }
+}
+fragment ProductSizeVariant on ProductSizeVariant {
+  __typename
+  name
+}
+fragment Review on Review {
+  id
+  name
+  email
+  rating
+  headline
+  content
+}`) as unknown as TypedDocumentString<ProductGetBySlugQuery, ProductGetBySlugQueryVariables>;
 export const ProductsGetBySearchDocument = new TypedDocumentString(`
     query ProductsGetBySearch($search: String!) {
   products(where: {_search: $search}) {

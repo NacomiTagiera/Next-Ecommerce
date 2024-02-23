@@ -3,10 +3,7 @@ import { twMerge } from "tailwind-merge";
 
 import { type ReadonlyURLSearchParams } from "next/navigation";
 
-import {
-	type SingleProductColorVariantFragment,
-	type SingleProductSizeVariantFragment,
-} from "@/graphql/generated/graphql";
+import { type VariantsType } from "@/types";
 
 import { PRODUCTS_PER_PAGE } from "./constants";
 
@@ -23,27 +20,26 @@ export const formatPrice = (price: number) =>
 	new Intl.NumberFormat("en-US", {
 		style: "currency",
 		currency: "USD",
+		minimumFractionDigits: 0,
 	}).format(price);
 
-export const getConvertedVariants = (
-	variants: SingleProductColorVariantFragment[] | SingleProductSizeVariantFragment[] | {}[],
-) => {
-	if (variants.length <= 1) {
-		return null;
+export const getConvertedVariants = (variants: VariantsType) => {
+	if (!variants.length) {
+		return [];
 	}
 
-	const getFilteredVariants = (typeName: string) =>
-		variants
-			.filter((variant) => "__typename" in variant && variant.__typename !== typeName)
-			.map((variant) => (variant as { name: string }).name);
+	const extractVariantNamesByType = (typeName: RegExp) =>
+		variants.reduce((names: string[], variant) => {
+			if (typeName.test(variant?.__typename)) {
+				names.push(variant.name);
+			}
+			return names;
+		}, []);
 
-	const result = [];
+	const colors = extractVariantNamesByType(/color/i);
+	const sizes = extractVariantNamesByType(/size/i);
 
-	const colors = getFilteredVariants("ProductSizeVariant");
-	if (colors.length > 1) result.push({ name: "color", values: colors });
-
-	const sizes = getFilteredVariants("ProductColorVariant");
-	if (sizes.length > 1) result.push({ name: "size", values: sizes });
+	const result = [...[{ name: "color", values: colors }], ...[{ name: "size", values: sizes }]];
 
 	return result;
 };

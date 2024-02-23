@@ -1,6 +1,16 @@
 fragment ProductDetails on Product {
-	...ProductListItem
+	id
+	slug
+	name
 	description
+	price
+	rating
+	categories {
+		...CategoryListItem
+	}
+	images {
+		url
+	}
 	variants {
 		... on ProductColorVariant {
 			...ProductColorVariant

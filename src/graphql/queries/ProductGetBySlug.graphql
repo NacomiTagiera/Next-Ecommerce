@@ -1,0 +1,5 @@
+query ProductGetBySlug($slug: String!) {
+	product(where: { slug: $slug }) {
+		...ProductDetails
+	}
+}

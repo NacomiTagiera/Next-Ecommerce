@@ -9,7 +9,7 @@ export const AddToCartButton = () => {
 		<button
 			type="submit"
 			disabled={pending}
-			className="inline-block rounded border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition-colors hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500 disabled:cursor-wait disabled:bg-blue-400"
+			className="mt-8 flex items-center justify-center rounded-md border border-transparent bg-skyfall-600 px-8 py-3 text-base font-medium text-white hover:bg-skyfall-700 focus:outline-none focus:ring-2 focus:ring-skyfall-500 focus:ring-offset-2"
 		>
 			Add to cart
 		</button>

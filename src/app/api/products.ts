@@ -1,6 +1,9 @@
+import { notFound } from "next/navigation";
+
 import { executeGraphql } from "@/app/api/graphqlApi";
 import {
 	ProductGetByIdDocument,
+	ProductGetBySlugDocument,
 	ProductGetListDocument,
 	ProductsGetBySearchDocument,
 	ProductsGetCountDocument,
@@ -19,11 +22,32 @@ export const getProductsList = async (page: number) => {
 	return products;
 };
 
-export const getProductById = async (id: string) => {
-	const { product } = await executeGraphql({
-		query: ProductGetByIdDocument,
-		variables: { id },
-	});
+export const getProductByIdOrSlug = async (params: { id?: string; slug?: string } = {}) => {
+	let product;
+
+	if (params.id) {
+		const res = await executeGraphql({
+			query: ProductGetByIdDocument,
+			variables: { id: params.id },
+			next: {
+				revalidate: 60 * 10, // 10 mins
+			},
+		});
+		product = res.product;
+	} else if (params.slug) {
+		const res = await executeGraphql({
+			query: ProductGetBySlugDocument,
+			variables: { slug: params.slug },
+			next: {
+				revalidate: 60 * 10,
+			},
+		});
+		product = res.product;
+	}
+
+	if (!product) {
+		notFound();
+	}
 
 	return product;
 };

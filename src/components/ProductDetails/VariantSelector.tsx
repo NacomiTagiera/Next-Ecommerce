@@ -1,16 +1,15 @@
 "use client";
 
-import { type Route } from "next";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-import {
-	type SingleProductColorVariantFragment,
-	type SingleProductSizeVariantFragment,
-} from "@/graphql/generated/graphql";
-import { cn, createUrl, getConvertedVariants } from "@/lib/utils";
+import { createUrl, getConvertedVariants } from "@/lib/utils";
+import { type VariantsType } from "@/types";
+
+import { ColorPicker } from "./ColorPicker";
+import { SizeSelector } from "./SizeSelector";
 
 type Props = {
-	variants: SingleProductColorVariantFragment[] | SingleProductSizeVariantFragment[] | {}[];
+	variants: VariantsType;
 };
 
 export const VariantSelector = ({ variants }: Props) => {
@@ -19,43 +18,38 @@ export const VariantSelector = ({ variants }: Props) => {
 	const searchParams = useSearchParams();
 	const convertedVariants = getConvertedVariants(variants);
 
-	if (!convertedVariants) {
+	if (!convertedVariants.length) {
 		return null;
 	}
 
-	return convertedVariants.map((variant) => (
-		<dl className="mb-8" key={variant.name}>
-			<dt className="mb-4 text-sm uppercase tracking-wide">{variant.name}</dt>
-			<dd className="flex flex-wrap gap-3">
-				{variant.values.map((value) => {
-					const variantSearchParams = new URLSearchParams(searchParams.toString());
+	const handleVariantChange = (variantName: string, value: string) => {
+		const variantSearchParams = new URLSearchParams(searchParams.toString());
 
-					variantSearchParams.set(variant.name, value);
-					const variantUrl = createUrl(pathname, variantSearchParams);
+		variantSearchParams.set(variantName, value);
+		const variantUrl = createUrl(pathname, variantSearchParams);
 
-					const isActive = searchParams.get(variant.name) === value;
+		router.replace(variantUrl, {
+			scroll: false,
+		});
+	};
 
-					return (
-						<button
-							key={value}
-							onClick={() => {
-								router.replace(variantUrl as Route, {
-									scroll: false,
-								});
-							}}
-							title={`${variant.name} ${value}`}
-							className={cn(
-								"hover:ring-pumpkin-600 flex min-w-[48px] items-center justify-center rounded-full border bg-neutral-100 px-2 py-1 text-sm ring-1 ring-transparent transition duration-300 ease-in-out hover:scale-110",
-								{
-									"ring-pumpkin-600 cursor-default ring-2": isActive,
-								},
-							)}
-						>
-							{value}
-						</button>
-					);
-				})}
-			</dd>
-		</dl>
-	));
+	return convertedVariants.map(({ name, values }) => {
+		const activeValue = searchParams.get(name);
+
+		return name.toLowerCase() === "color" ? (
+			<ColorPicker
+				key={name}
+				colors={values}
+				activeColor={activeValue || ""}
+				onColorChange={(color) => handleVariantChange(name, color)}
+			/>
+		) : (
+			<SizeSelector
+				key={name}
+				sizes={values}
+				activeSize={activeValue || ""}
+				onSizeChange={(size) => handleVariantChange(name, size)}
+			/>
+		);
+	});
 };

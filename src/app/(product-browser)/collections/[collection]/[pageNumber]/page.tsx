@@ -4,10 +4,12 @@ import { notFound } from "next/navigation";
 import { getCollectionBySlug } from "@/app/api/collections";
 import { getProductsCountInCollection } from "@/app/api/products";
 import { ProductList } from "@/components/ProductList";
+import { Pagination } from "@/components/ProductList/Pagination";
 import { PRODUCTS_PER_PAGE } from "@/lib/constants";
 
 type Props = {
 	params: { collection: string; pageNumber: string };
+	searchParams: { [key: string]: string | string[] | undefined };
 };
 
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
@@ -19,7 +21,7 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
 	};
 };
 
-export default async function CollectionPage({ params }: Props) {
+export default async function CollectionPage({ params, searchParams }: Props) {
 	const collection = await getCollectionBySlug(params.collection, +params.pageNumber);
 	const productsCount = await getProductsCountInCollection(params.collection);
 
@@ -31,13 +33,25 @@ export default async function CollectionPage({ params }: Props) {
 
 	return (
 		<>
-			<h1>{collection.name}</h1>
-			<p>{collection.description}</p>
-			<ProductList
-				products={collection.products}
-				href={`/collections/${params.collection}`}
-				numberOfPages={numberOfPages}
-			/>
+			<hgroup className="border-b border-zinc-300 pb-10 pt-24">
+				<h1
+					id="products-heading"
+					className="text-4xl font-bold capitalize tracking-tight text-zinc-900"
+				>
+					{collection.name}
+				</h1>
+				<p className="mt-4 text-base text-zinc-600">
+					Check out the {collection.name} collection. Get what you need to stay active and stylish!
+				</p>
+			</hgroup>
+			<div className="pb-24 pt-10">
+				<ProductList products={collection.products} />
+				<Pagination
+					numberOfPages={numberOfPages}
+					baseUrl={`/collections/${collection.slug}`}
+					searchParams={searchParams}
+				/>
+			</div>
 		</>
 	);
 }

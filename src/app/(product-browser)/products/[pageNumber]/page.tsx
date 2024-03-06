@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getProductsCount, getProductsList } from "@/app/api/products";
 import { ProductList } from "@/components/ProductList";
 import { Pagination } from "@/components/ProductList/Pagination";
+import { SectionHeader } from "@/components/Storefront/SectionHeader";
 import { PRODUCTS_PER_PAGE } from "@/lib/constants";
 
 export const generateStaticParams = async () => {
@@ -37,15 +38,17 @@ export default async function ProductsPage({
 
 	return (
 		<>
-			<hgroup className="border-b border-zinc-300 pb-10 pt-24">
-				<h1 id="products-heading" className="text-4xl font-bold tracking-tight text-zinc-900">
-					All Products
-				</h1>
-				<p className="mt-4 text-base text-zinc-600">
-					Explore our wide range of high-quality products. From sports accessories to apparel, we
-					have everything you need!
-				</p>
-			</hgroup>
+			<div className="border-b border-zinc-300 pb-10 pt-24">
+				<SectionHeader
+					title="All Products"
+					description="Explore our wide range of high-quality products. From sports accessories to apparel, we
+					have everything you need!"
+					id="products-heading"
+					className="mb-0"
+					headerClassName="text-4xl"
+					Tag="h1"
+				/>
+			</div>
 			<div className="pb-24 pt-10">
 				<ProductList products={products} />
 				<Pagination numberOfPages={numberOfPages} baseUrl="/products" searchParams={searchParams} />

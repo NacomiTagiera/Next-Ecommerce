@@ -5,6 +5,7 @@ import { getCollectionBySlug } from "@/app/api/collections";
 import { getProductsCountInCollection } from "@/app/api/products";
 import { ProductList } from "@/components/ProductList";
 import { Pagination } from "@/components/ProductList/Pagination";
+import { SectionHeader } from "@/components/Storefront/SectionHeader";
 import { PRODUCTS_PER_PAGE } from "@/lib/constants";
 
 type Props = {
@@ -33,17 +34,16 @@ export default async function CollectionPage({ params, searchParams }: Props) {
 
 	return (
 		<>
-			<hgroup className="border-b border-zinc-300 pb-10 pt-24">
-				<h1
+			<div className="border-b border-zinc-300 pb-10 pt-24">
+				<SectionHeader
+					title={collection.name}
+					description={`Check out the ${collection.name} collection. Get what you need to stay active and stylish!`}
 					id="products-heading"
-					className="text-4xl font-bold capitalize tracking-tight text-zinc-900"
-				>
-					{collection.name}
-				</h1>
-				<p className="mt-4 text-base text-zinc-600">
-					Check out the {collection.name} collection. Get what you need to stay active and stylish!
-				</p>
-			</hgroup>
+					className="mb-0"
+					headerClassName="text-4xl capitalize"
+					Tag="h1"
+				/>
+			</div>
 			<div className="pb-24 pt-10">
 				<ProductList products={collection.products} />
 				<Pagination

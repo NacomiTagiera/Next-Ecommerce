@@ -24,7 +24,7 @@ export const ImageLink = ({
 	Component = NextImage,
 }: Props) => (
 	<Link href={href} className="group block">
-		<div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75">
+		<div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-twilight-100 group-hover:opacity-75">
 			{src ? (
 				<Component
 					src={src}

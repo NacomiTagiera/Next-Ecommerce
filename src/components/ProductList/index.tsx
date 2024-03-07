@@ -1,29 +1,33 @@
-import { type Route } from "next";
-
 import type { ProductListItemFragment } from "@/graphql/generated/graphql";
+import { cn } from "@/lib/utils";
 
-import { ProductListItem } from "./ProductListItem";
-import { ProductListPagination } from "./ProductListPagination";
+import { BlurredImage } from "../UI/BlurredImage";
+import { ImageLink } from "../UI/ImageLink";
 
-type Props<T extends string> = {
+import { ProductListItemDescription } from "./ProductListItemDescritpion";
+
+type Props = {
 	products: ProductListItemFragment[];
-	href?: Route<T>;
-	numberOfPages?: number;
+	className?: string;
 };
 
-export const ProductList = <T extends string>({
-	products,
-	href = "/products",
-	numberOfPages,
-}: Props<T>) => {
+export const ProductList = ({ products, className }: Props) => {
 	return (
-		<section className="sm:py-18 mx-auto flex w-full max-w-2xl flex-grow flex-col px-8 py-12 sm:px-6 lg:max-w-7xl">
-			<ul className="mb-15 grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-				{products.map((product) => (
-					<ProductListItem key={product.slug} product={product} />
-				))}
-			</ul>
-			{numberOfPages && <ProductListPagination href={href} numberOfPages={numberOfPages} />}
-		</section>
+		<ul className={cn("mb-8 mt-4 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4", className)}>
+			{products.map((product) => (
+				<li key={product.slug} className="rounded-xl bg-white p-2">
+					<ImageLink
+						src={product.images[0]?.url}
+						alt={product.name}
+						width={256}
+						height={256}
+						href={`/product/${product.slug}`}
+						Component={BlurredImage}
+					>
+						<ProductListItemDescription product={product} />
+					</ImageLink>
+				</li>
+			))}
+		</ul>
 	);
 };

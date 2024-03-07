@@ -1,18 +1,23 @@
 import { type ProductListItemFragment } from "@/graphql/generated/graphql";
 import { formatPrice } from "@/lib/utils";
 
+import { ProductRating } from "../UI/ProductRating";
+
 type Props = {
 	product: ProductListItemFragment;
 };
 
 export const ProductListItemDescription = ({ product: { name, price, categories } }: Props) => {
 	return (
-		<div className="flex items-center justify-between pt-6">
+		<div className="mt-2 space-y-2 px-1 text-zinc-800">
 			<div>
-				<h3 className="text-base">{name}</h3>
-				<p className="text-gray-600">{categories[0]?.name}</p>
+				<h3 className="text-base font-medium">{name}</h3>
+				<p className="text-sm capitalize text-zinc-500">{categories[0]?.name}</p>
 			</div>
-			<span className="text-pumpkin text-xl font-bold">{formatPrice(price / 100)}</span>
+			<div className="flex items-center justify-between">
+				<p className="text-lg font-semibold">{formatPrice(price / 100)}</p>
+				<ProductRating rating={4.5} />
+			</div>
 		</div>
 	);
 };

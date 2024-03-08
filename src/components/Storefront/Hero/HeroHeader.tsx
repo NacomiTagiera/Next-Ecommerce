@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Button } from "@/components/UI/Button";
 
 import { SectionHeader } from "../SectionHeader";
 
@@ -17,11 +17,12 @@ export const HeroHeader = ({ title, description }: Props) => (
 			descriptionClassName="relative mt-6 text-lg leading-8 sm:max-w-md lg:max-w-none"
 			Tag="h1"
 		/>
-		<Link
+		<Button
 			href="/products"
-			className="mt-16 inline-block rounded-md border border-transparent bg-skyfall-500 px-8 py-3 text-center font-medium text-white hover:bg-skyfall-600 hover:shadow-md"
+			size="lg"
+			className="mt-16 inline-block px-8 transition-shadow hover:shadow-md"
 		>
 			Browse Products
-		</Link>
+		</Button>
 	</div>
 );

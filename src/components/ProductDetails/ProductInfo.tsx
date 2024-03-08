@@ -38,10 +38,10 @@ export const ProductInfo = ({
 				<p className="sr-only">{rating} out of 5 stars</p>
 			</div>
 		</div>
-		<div className="mt-6">{children}</div>
 		<div className="mt-10">
-			<h3 className="text-sm font-medium text-zinc-900">Description</h3>
-			<Prose content={description} className="prose-sm mt-4 text-zinc-700" />
+			<h3 className="sr-only">Description</h3>
+			<Prose content={description} className="prose-base mt-4 text-zinc-700" />
 		</div>
+		<div className="mt-6">{children}</div>
 	</>
 );

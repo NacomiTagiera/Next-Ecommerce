@@ -11,7 +11,7 @@ export const RatingStar = ({ active, size = "md", onClick }: Props) => (
 		className={cn(
 			"flex-shrink-0",
 			size === "md" ? "size-4" : "size-5",
-			active ? "text-yellow-400" : "text-zinc-200",
+			active ? "text-yellow-400" : "text-zinc-300",
 		)}
 		onClick={onClick}
 		aria-hidden

@@ -20,7 +20,9 @@ export const RelatedProducts = async ({
 			<SectionHeader
 				id="related-products-heading"
 				title="You may also like"
-				headerClassName="text-xl"
+				className="mb-6"
+				headerClassName="text-2xl"
+				Tag="h3"
 			/>
 			<ProductList products={products} />
 		</section>

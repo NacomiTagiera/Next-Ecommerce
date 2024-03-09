@@ -6,7 +6,7 @@ import { LuLoader } from "react-icons/lu";
 
 import { Button } from "../UI/Button";
 
-export const AddToCartButton = () => {
+export const AddToBagButton = () => {
 	const { pending } = useFormStatus();
 
 	return (
@@ -14,7 +14,7 @@ export const AddToCartButton = () => {
 			type="submit"
 			size="fullWidth"
 			leadingIcon={!pending ? FiShoppingBag : undefined}
-			className="mt-10 max-w-xs px-8"
+			className="mt-10 w-full px-8 sm:max-w-xs"
 			aria-disabled={pending}
 		>
 			{pending ? (
@@ -22,7 +22,7 @@ export const AddToCartButton = () => {
 					<LuLoader className="me-2 size-5 animate-spin" aria-hidden /> Processing...
 				</>
 			) : (
-				"Add to Cart"
+				"Add to Bag"
 			)}
 		</Button>
 	);

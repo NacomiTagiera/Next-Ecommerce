@@ -16,7 +16,7 @@ export const SizeSelector = ({ sizes, activeSize, onSizeChange }: Props) => {
 			<h3 className="text-sm font-medium text-zinc-900">Size</h3>
 			<fieldset className="mt-2">
 				<legend className="sr-only">Choose a size</legend>
-				<div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
+				<div className="grid grid-cols-4 gap-3 sm:grid-cols-8">
 					{sizes.map((size, index) => (
 						<label
 							key={size}

@@ -7,7 +7,9 @@ type Props = {
 	product: ProductListItemFragment;
 };
 
-export const ProductListItemDescription = ({ product: { name, price, categories } }: Props) => {
+export const ProductListItemDescription = ({
+	product: { name, price, categories, rating },
+}: Props) => {
 	return (
 		<div className="mt-2 space-y-2 px-1 text-zinc-800">
 			<div>
@@ -16,7 +18,7 @@ export const ProductListItemDescription = ({ product: { name, price, categories 
 			</div>
 			<div className="flex items-center justify-between">
 				<p className="text-lg font-semibold">{formatPrice(price / 100)}</p>
-				<ProductRating rating={4.5} />
+				<ProductRating rating={rating} />
 			</div>
 		</div>
 	);

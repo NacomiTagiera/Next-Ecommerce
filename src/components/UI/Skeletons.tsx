@@ -40,7 +40,7 @@ const ProductListItemSkeleton = () => (
 			</div>
 			<div className="flex items-center justify-between">
 				<div className="h-4 w-1/4 rounded bg-gray-200"></div>
-				<div className="h-4 w-1/4 rounded bg-gray-200"></div>
+				<div className="h-4 w-2/5 rounded bg-gray-200"></div>
 			</div>
 		</div>
 	</div>

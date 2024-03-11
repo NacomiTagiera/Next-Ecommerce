@@ -2,6 +2,8 @@ import { Fragment } from "react";
 import { IoMdClose } from "react-icons/io";
 import { Dialog as UiDialog, Transition } from "@headlessui/react";
 
+import { IconButton } from "@/components/UI/IconButton";
+
 type Props = {
 	children: React.ReactNode;
 	open: boolean;
@@ -35,14 +37,12 @@ export const Dialog = ({ children, open, onClose }: Props) => (
 				>
 					<UiDialog.Panel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-twilight-50 pb-12 shadow-xl">
 						<div className="flex px-4 pb-2 pt-5">
-							<button
-								type="button"
-								className="-m-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400"
+							<IconButton
+								icon={IoMdClose}
+								hiddenLabel="Close dialog"
 								onClick={onClose}
-							>
-								<span className="sr-only">Close menu</span>
-								<IoMdClose className="h-6 w-6" aria-hidden />
-							</button>
+								className="-m-2 !p-2"
+							/>
 						</div>
 
 						{children}

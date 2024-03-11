@@ -6,13 +6,13 @@ import { FiSearch } from "react-icons/fi";
 
 import Link from "next/link";
 
+import { IconButton } from "@/components/UI/IconButton";
 import { Logo } from "@/components/UI/Logo";
 import { useMobileMenu } from "@/hooks/useMobileMenu";
 import type { CategoryWithImage } from "@/types";
 
 import { DesktopMenu } from "./DesktopMenu";
 import { MobileMenu } from "./MobileMenu";
-import { MobileMenuButton } from "./MobileMenuButton";
 import { SearchInput } from "./SearchInput";
 import { ShoppingBagIcon } from "./ShoppingBagIcon";
 import { SignInIcon } from "./SignInIcon";
@@ -49,16 +49,17 @@ export const Navbar = ({ navigation }: Props) => {
 								<DesktopMenu navigation={navigation} />
 							</div>
 							<div className="flex flex-1 items-center lg:hidden">
-								<MobileMenuButton
-									Icon={FaBars}
-									label="Open menu"
+								<IconButton
+									icon={FaBars}
+									hiddenLabel="Open menu"
 									onClick={() => setMobileMenuOpen(true)}
+									className="md:size-5"
 								/>
-								<MobileMenuButton
-									Icon={FiSearch}
-									label="Search"
+								<IconButton
+									icon={FiSearch}
+									hiddenLabel="Search"
 									onClick={() => setMobileMenuOpen(true)}
-									className="ml-2"
+									className="ml-4 md:size-5"
 								/>
 							</div>
 							<Link href="/" className="lg:hidden">

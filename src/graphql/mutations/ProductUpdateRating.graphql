@@ -1,0 +1,8 @@
+mutation ProductUpdateRating($productId: ID!, $rating: Float!) {
+	updateProduct(where: { id: $productId }, data: { rating: $rating }) {
+		id
+	}
+	publishProduct(where: { id: $productId }) {
+		id
+	}
+}

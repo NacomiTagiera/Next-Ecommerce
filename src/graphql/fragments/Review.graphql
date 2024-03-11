@@ -1,0 +1,8 @@
+fragment Review on Review {
+	id
+	name
+	email
+	rating
+	headline
+	content
+}

@@ -1,4 +1,0 @@
-fragment SingleProductColorVariant on ProductColorVariant {
-	__typename
-	name
-}

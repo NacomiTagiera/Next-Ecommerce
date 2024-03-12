@@ -9801,14 +9801,6 @@ export type ProductDetailsFragment = {
 		| { __typename: "ProductColorVariant"; name: string }
 		| { __typename: "ProductSizeVariant"; name: string }
 	>;
-	reviews: Array<{
-		id: string;
-		name: string;
-		email: string;
-		rating: number;
-		headline: string;
-		content: string;
-	}>;
 };
 
 export type ProductListItemFragment = {
@@ -9830,6 +9822,7 @@ export type ReviewFragment = {
 	rating: number;
 	headline: string;
 	content: string;
+	createdAt: unknown;
 };
 
 export type CartAddProductMutationVariables = Exact<{
@@ -9978,14 +9971,6 @@ export type ProductGetByIdQuery = {
 			| { __typename: "ProductColorVariant"; name: string }
 			| { __typename: "ProductSizeVariant"; name: string }
 		>;
-		reviews: Array<{
-			id: string;
-			name: string;
-			email: string;
-			rating: number;
-			headline: string;
-			content: string;
-		}>;
 	} | null;
 };
 
@@ -10007,14 +9992,6 @@ export type ProductGetBySlugQuery = {
 			| { __typename: "ProductColorVariant"; name: string }
 			| { __typename: "ProductSizeVariant"; name: string }
 		>;
-		reviews: Array<{
-			id: string;
-			name: string;
-			email: string;
-			rating: number;
-			headline: string;
-			content: string;
-		}>;
 	} | null;
 };
 
@@ -10088,6 +10065,22 @@ export type ProductsGetRelatedQuery = {
 	}>;
 };
 
+export type ReviewsGetByProductIdQueryVariables = Exact<{
+	productId: Scalars["ID"]["input"];
+}>;
+
+export type ReviewsGetByProductIdQuery = {
+	reviews: Array<{
+		id: string;
+		name: string;
+		email: string;
+		rating: number;
+		headline: string;
+		content: string;
+		createdAt: unknown;
+	}>;
+};
+
 export class TypedDocumentString<TResult, TVariables>
 	extends String
 	implements DocumentTypeDecoration<TResult, TVariables>
@@ -10158,19 +10151,6 @@ export const ProductSizeVariantFragmentDoc = new TypedDocumentString(
     `,
 	{ fragmentName: "ProductSizeVariant" },
 ) as unknown as TypedDocumentString<ProductSizeVariantFragment, unknown>;
-export const ReviewFragmentDoc = new TypedDocumentString(
-	`
-    fragment Review on Review {
-  id
-  name
-  email
-  rating
-  headline
-  content
-}
-    `,
-	{ fragmentName: "Review" },
-) as unknown as TypedDocumentString<ReviewFragment, unknown>;
 export const ProductDetailsFragmentDoc = new TypedDocumentString(
 	`
     fragment ProductDetails on Product {
@@ -10194,9 +10174,6 @@ export const ProductDetailsFragmentDoc = new TypedDocumentString(
       ...ProductSizeVariant
     }
   }
-  reviews {
-    ...Review
-  }
 }
     fragment CategoryListItem on Category {
   slug
@@ -10209,14 +10186,6 @@ fragment ProductColorVariant on ProductColorVariant {
 fragment ProductSizeVariant on ProductSizeVariant {
   __typename
   name
-}
-fragment Review on Review {
-  id
-  name
-  email
-  rating
-  headline
-  content
 }`,
 	{ fragmentName: "ProductDetails" },
 ) as unknown as TypedDocumentString<ProductDetailsFragment, unknown>;
@@ -10238,6 +10207,20 @@ export const ProductListItemFragmentDoc = new TypedDocumentString(
     `,
 	{ fragmentName: "ProductListItem" },
 ) as unknown as TypedDocumentString<ProductListItemFragment, unknown>;
+export const ReviewFragmentDoc = new TypedDocumentString(
+	`
+    fragment Review on Review {
+  id
+  name
+  email
+  rating
+  headline
+  content
+  createdAt
+}
+    `,
+	{ fragmentName: "Review" },
+) as unknown as TypedDocumentString<ReviewFragment, unknown>;
 export const CartAddProductDocument = new TypedDocumentString(`
     mutation CartAddProduct($cartId: ID!, $productId: ID!, $total: Int!) {
   createOrderItem(
@@ -10435,21 +10418,10 @@ fragment ProductDetails on Product {
       ...ProductSizeVariant
     }
   }
-  reviews {
-    ...Review
-  }
 }
 fragment ProductSizeVariant on ProductSizeVariant {
   __typename
   name
-}
-fragment Review on Review {
-  id
-  name
-  email
-  rating
-  headline
-  content
 }`) as unknown as TypedDocumentString<ProductGetByIdQuery, ProductGetByIdQueryVariables>;
 export const ProductGetBySlugDocument = new TypedDocumentString(`
     query ProductGetBySlug($slug: String!) {
@@ -10486,21 +10458,10 @@ fragment ProductDetails on Product {
       ...ProductSizeVariant
     }
   }
-  reviews {
-    ...Review
-  }
 }
 fragment ProductSizeVariant on ProductSizeVariant {
   __typename
   name
-}
-fragment Review on Review {
-  id
-  name
-  email
-  rating
-  headline
-  content
 }`) as unknown as TypedDocumentString<ProductGetBySlugQuery, ProductGetBySlugQueryVariables>;
 export const ProductsGetBySearchDocument = new TypedDocumentString(`
     query ProductsGetBySearch($search: String!) {
@@ -10595,3 +10556,21 @@ export const ProductsGetRelatedDocument = new TypedDocumentString(`
     url
   }
 }`) as unknown as TypedDocumentString<ProductsGetRelatedQuery, ProductsGetRelatedQueryVariables>;
+export const ReviewsGetByProductIdDocument = new TypedDocumentString(`
+    query ReviewsGetByProductId($productId: ID!) {
+  reviews(where: {product: {id: $productId}}, orderBy: createdAt_DESC) {
+    ...Review
+  }
+}
+    fragment Review on Review {
+  id
+  name
+  email
+  rating
+  headline
+  content
+  createdAt
+}`) as unknown as TypedDocumentString<
+	ReviewsGetByProductIdQuery,
+	ReviewsGetByProductIdQueryVariables
+>;

@@ -5,4 +5,5 @@ fragment Review on Review {
 	rating
 	headline
 	content
+	createdAt
 }

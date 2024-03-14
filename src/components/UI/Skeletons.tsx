@@ -63,3 +63,30 @@ export const TrendingProductsSkeleton = () => (
 		<span className="sr-only">Loading...</span>
 	</div>
 );
+
+const ReviewsListItemSkeleton = () => (
+	<div className="rounded-lg bg-white p-4 shadow-md">
+		<div className="flex items-start justify-between">
+			<div className="w-full">
+				<div className="h-4 w-1/4 rounded bg-gray-200"></div>
+				<div className="mt-2 h-3 w-1/6 rounded bg-gray-200"></div>
+			</div>
+			<div className="h-4 w-1/6 rounded bg-gray-200"></div>
+		</div>
+		<div className="mt-8 h-4 w-1/4 rounded bg-gray-200"></div>
+		<div className="mt-6 h-3 rounded bg-gray-200"></div>
+		<div className="mt-4 h-3 rounded bg-gray-200"></div>
+	</div>
+);
+
+export const ReviewsListSkeleton = () => (
+	<div role="status" className="mt-16 animate-pulse lg:col-span-7 lg:col-start-6 lg:mt-0">
+		<div className="mb-10 h-7 w-1/2 animate-pulse rounded bg-gray-200"></div>
+		<ul className="space-y-10">
+			<ReviewsListItemSkeleton />
+			<ReviewsListItemSkeleton />
+			<ReviewsListItemSkeleton />
+		</ul>
+		<span className="sr-only">Loading...</span>
+	</div>
+);

@@ -23,6 +23,13 @@ export const formatPrice = (price: number) =>
 		minimumFractionDigits: 0,
 	}).format(price);
 
+export const formatDate = (date: unknown) =>
+	new Date(String(date)).toLocaleDateString("en-US", {
+		year: "numeric",
+		month: "short",
+		day: "numeric",
+	});
+
 export const getConvertedVariants = (variants: VariantsType) => {
 	if (!variants.length) {
 		return [];

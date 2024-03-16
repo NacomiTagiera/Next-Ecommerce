@@ -6,7 +6,9 @@ import { IoMdSearch } from "react-icons/io";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { Input } from "@/components/UI/Input";
+import { Label } from "@/components/UI/Label";
 import { useDebounce } from "@/hooks/useDebounce";
+import { cn } from "@/lib/utils";
 
 type Props = {
 	id: string;
@@ -30,19 +32,24 @@ export const SearchInput = ({ id, className }: Props) => {
 	}, [debouncedValue, router]);
 
 	return (
-		<Input
-			type="search"
-			id={id}
-			name="search-for-products"
-			value={searchValue}
-			onChange={handleChange}
-			onBlur={() => setSearchValue(searchParams.get("query") || "")}
-			placeholder="Search"
-			className={className}
-			Icon={IoMdSearch}
-			label="Search for Products"
-			autoCorrect="off"
-			spellCheck="false"
-		/>
+		<div className="w-full max-w-xs">
+			<Label htmlFor={id} visiblity="hidden" />
+			<div className="relative">
+				<span className="absolute inset-y-0 left-0 flex items-center pl-2">
+					<IoMdSearch className="size-5 text-gray-400" aria-hidden />
+				</span>
+				<Input
+					type="search"
+					id={id}
+					name="search-for-products"
+					value={searchValue}
+					onChange={handleChange}
+					placeholder="Search"
+					className={cn("pl-9", className)}
+					autoCorrect="off"
+					spellCheck="false"
+				/>
+			</div>
+		</div>
 	);
 };

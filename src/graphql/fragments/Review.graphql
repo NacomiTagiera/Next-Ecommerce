@@ -3,6 +3,7 @@ fragment Review on Review {
 	name
 	email
 	rating
+	headline
 	content
 	createdAt
 }

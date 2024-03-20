@@ -1,10 +1,10 @@
-import type { ComponentPropsWithRef } from "react";
+import { type ComponentPropsWithoutRef } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 
 const inputVariants = cva(
-	"w-full py-1.5 rounded-lg border-solid border-transparent bg-twilight-100 px-2 outline-none transition-colors",
+	"w-full rounded-lg border-solid border-transparent bg-twilight-100 px-2 py-1.5 outline-none transition-colors focus:ring-0",
 	{
 		variants: {
 			color: {
@@ -18,8 +18,8 @@ const inputVariants = cva(
 	},
 );
 
-type InputProps = ComponentPropsWithRef<"input"> & VariantProps<typeof inputVariants>;
+export type InputProps = ComponentPropsWithoutRef<"input"> & VariantProps<typeof inputVariants>;
 
-export const Input = ({ color, className, ...rest }: InputProps) => {
-	return <input className={cn(inputVariants({ color, className }))} {...rest} />;
-};
+export const Input = ({ color, className, ...rest }: InputProps) => (
+	<input className={cn(inputVariants({ color, className }))} {...rest} />
+);

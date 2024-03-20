@@ -8,11 +8,12 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 export const buttonVariants = cva(
-	"inline-flex items-center justify-center font-medium shadow-sm focus:ring-4 focus:outline-none rounded-md text-center transition-colors disabled:cursor-wait disabled:shadow-none",
+	"inline-flex items-center justify-center font-medium shadow-sm focus:ring-4 focus:outline-none rounded-md text-center transition-colors aria-disabled:cursor-not-allowed aria-disabled:shadow-none aria-disabled:pointer-events-none",
 	{
 		variants: {
 			variant: {
-				filled: "text-white bg-skyfall-500 hover:bg-skyfall-600 focus:ring-skyfall-300",
+				filled:
+					"text-white bg-skyfall-500 hover:bg-skyfall-600 focus:ring-skyfall-300 aria-disabled:bg-zinc-500",
 				outlined: "bg-transparent border border-slate-200 hover:bg-slate-100",
 				pill: "rounded-full text-white bg-skyfall-500 hover:bg-skyfall-600 focus:ring-skyfall-300",
 				text: "bg-transparent text-slate-900 hover:bg-slate-100 focus:ring-2",
@@ -31,7 +32,7 @@ export const buttonVariants = cva(
 	},
 );
 
-type Props = ComponentPropsWithRef<"button"> &
+export type ButtonProps = ComponentPropsWithRef<"button"> &
 	VariantProps<typeof buttonVariants> & {
 		href?: Route;
 		leadingIcon?: IconType;
@@ -47,7 +48,7 @@ export const Button = ({
 	leadingIcon: LeadingIcon,
 	trailingIcon: TrailingIcon,
 	...rest
-}: Props) => {
+}: ButtonProps) => {
 	if (href)
 		return (
 			<Link href={href} className={cn(buttonVariants({ variant, size, className }))}>

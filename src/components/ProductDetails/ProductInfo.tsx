@@ -11,7 +11,7 @@ type Props = {
 };
 
 export const ProductInfo = ({ product: { name, description, price, rating }, children }: Props) => (
-	<div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
+	<section className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
 		<SectionHeader
 			title={name}
 			description={formatPrice(price / 100)}
@@ -29,5 +29,5 @@ export const ProductInfo = ({ product: { name, description, price, rating }, chi
 			<Prose content={description} className="prose-base prose-zinc mt-4" />
 		</div>
 		<div className="mt-6">{children}</div>
-	</div>
+	</section>
 );

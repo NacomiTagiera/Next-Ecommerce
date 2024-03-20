@@ -32,8 +32,10 @@ export const SearchInput = ({ id, className }: Props) => {
 	}, [debouncedValue, router]);
 
 	return (
-		<div className="w-full max-w-xs">
-			<Label htmlFor={id} visiblity="hidden" />
+		<div className={cn("w-full max-w-xs", className)}>
+			<Label htmlFor={id} visibility="hidden">
+				Search For Products
+			</Label>
 			<div className="relative">
 				<span className="absolute inset-y-0 left-0 flex items-center pl-2">
 					<IoMdSearch className="size-5 text-gray-400" aria-hidden />
@@ -45,8 +47,7 @@ export const SearchInput = ({ id, className }: Props) => {
 					value={searchValue}
 					onChange={handleChange}
 					placeholder="Search"
-					className={cn("pl-9", className)}
-					autoCorrect="off"
+					className="pl-9"
 					spellCheck="false"
 				/>
 			</div>

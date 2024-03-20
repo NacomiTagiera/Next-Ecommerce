@@ -1,5 +1,10 @@
 import { executeGraphql } from "@/app/api/graphqlApi";
-import { ReviewsGetByProductIdDocument } from "@/graphql/generated/graphql";
+import {
+	ReviewCreateDocument,
+	type ReviewFragment,
+	ReviewPublishDocument,
+	ReviewsGetByProductIdDocument,
+} from "@/graphql/generated/graphql";
 
 export const getReviewsByProductId = async (productId: string) => {
 	const { reviews } = await executeGraphql({
@@ -11,4 +16,25 @@ export const getReviewsByProductId = async (productId: string) => {
 	});
 
 	return reviews;
+};
+
+export const createReview = async (
+	productId: string,
+	review: Omit<ReviewFragment, "id" | "createdAt">,
+) => {
+	const { createReview } = await executeGraphql({
+		query: ReviewCreateDocument,
+		variables: { productId, ...review },
+	});
+
+	return createReview?.id;
+};
+
+export const publishReview = async (reviewId?: string) => {
+	if (!reviewId) return;
+
+	await executeGraphql({
+		query: ReviewPublishDocument,
+		variables: { id: reviewId },
+	});
 };

@@ -13,14 +13,14 @@ export const ReviewsListItem = ({
 	<li className="rounded-lg bg-white p-4 shadow-md">
 		<div className="flex items-start justify-between">
 			<div>
-				<h3 className="font-semibold text-zinc-900">{name}</h3>
+				<strong className="block font-medium text-zinc-900">{name}</strong>
 				<time dateTime={String(createdAt)} className="text-sm text-zinc-500">
 					{formatDate(createdAt)}
 				</time>
 			</div>
 			<ProductRating rating={rating} hideRating />
 		</div>
-		<h4 className="mb-1 mt-4 font-medium text-zinc-700">{headline}</h4>
+		<h4 className="mb-1 mt-4 font-semibold text-zinc-700 lg:text-lg">{headline}</h4>
 		<p className="text-sm leading-loose text-zinc-500">{content}</p>
 	</li>
 );

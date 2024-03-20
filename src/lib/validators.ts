@@ -17,19 +17,19 @@ export const reviewSchema = z.object({
 		.string()
 		.trim()
 		.min(1, {
-			message: "Review headline is required",
+			message: "Headline is required",
 		})
 		.max(50, {
-			message: "Review headline cannot exceed 50 characters",
+			message: "Headline cannot exceed 50 characters",
 		}),
 	content: z
 		.string()
 		.trim()
 		.min(1, {
-			message: "Review content is required",
+			message: "Content is required",
 		})
 		.max(250, {
-			message: "Review content cannot exceed 250 characters",
+			message: "Content cannot exceed 250 characters",
 		}),
 	rating: z.number().int().min(1).max(5),
 });

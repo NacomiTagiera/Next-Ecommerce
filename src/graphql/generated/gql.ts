@@ -37,6 +37,10 @@ const documents = {
 		types.CartUpdateProductQuantityDocument,
 	"mutation ProductUpdateRating($productId: ID!, $rating: Float!) {\n  updateProduct(where: {id: $productId}, data: {rating: $rating}) {\n    id\n  }\n  publishProduct(where: {id: $productId}) {\n    id\n  }\n}":
 		types.ProductUpdateRatingDocument,
+	"mutation ReviewCreate($productId: ID!, $headline: String!, $content: String!, $rating: Int!, $name: String!, $email: String!) {\n  createReview(\n    data: {product: {connect: {id: $productId}}, headline: $headline, content: $content, rating: $rating, name: $name, email: $email}\n  ) {\n    id\n  }\n}":
+		types.ReviewCreateDocument,
+	"mutation ReviewPublish($id: ID!) {\n  publishReview(where: {id: $id}, to: PUBLISHED) {\n    id\n  }\n}":
+		types.ReviewPublishDocument,
 	"query CartGetById($id: ID!) {\n  order(where: {id: $id}, stage: DRAFT) {\n    ...Cart\n  }\n}":
 		types.CartGetByIdDocument,
 	"query CategoriesGetList($includeImg: Boolean = false) {\n  categories {\n    ...CategoryListItem\n    image @include(if: $includeImg) {\n      url\n    }\n  }\n}":
@@ -145,6 +149,18 @@ export function graphql(
 export function graphql(
 	source: "mutation ProductUpdateRating($productId: ID!, $rating: Float!) {\n  updateProduct(where: {id: $productId}, data: {rating: $rating}) {\n    id\n  }\n  publishProduct(where: {id: $productId}) {\n    id\n  }\n}",
 ): typeof import("./graphql").ProductUpdateRatingDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+	source: "mutation ReviewCreate($productId: ID!, $headline: String!, $content: String!, $rating: Int!, $name: String!, $email: String!) {\n  createReview(\n    data: {product: {connect: {id: $productId}}, headline: $headline, content: $content, rating: $rating, name: $name, email: $email}\n  ) {\n    id\n  }\n}",
+): typeof import("./graphql").ReviewCreateDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+	source: "mutation ReviewPublish($id: ID!) {\n  publishReview(where: {id: $id}, to: PUBLISHED) {\n    id\n  }\n}",
+): typeof import("./graphql").ReviewPublishDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

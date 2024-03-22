@@ -19,13 +19,13 @@ const documents = {
 		types.CollectionListItemFragmentDoc,
 	"fragment ProductColorVariant on ProductColorVariant {\n  __typename\n  name\n}":
 		types.ProductColorVariantFragmentDoc,
-	"fragment ProductDetails on Product {\n  id\n  slug\n  name\n  description\n  price\n  rating\n  categories {\n    ...CategoryListItem\n  }\n  images {\n    url\n  }\n  variants {\n    ... on ProductColorVariant {\n      ...ProductColorVariant\n    }\n    ... on ProductSizeVariant {\n      ...ProductSizeVariant\n    }\n  }\n  reviews {\n    ...Review\n  }\n}":
+	"fragment ProductDetails on Product {\n  id\n  slug\n  name\n  description\n  price\n  rating\n  categories {\n    ...CategoryListItem\n  }\n  images {\n    url\n  }\n  variants {\n    ... on ProductColorVariant {\n      ...ProductColorVariant\n    }\n    ... on ProductSizeVariant {\n      ...ProductSizeVariant\n    }\n  }\n}":
 		types.ProductDetailsFragmentDoc,
 	"fragment ProductListItem on Product {\n  id\n  slug\n  name\n  price\n  rating\n  categories(first: 1) {\n    name\n  }\n  images(first: 1) {\n    url\n  }\n}":
 		types.ProductListItemFragmentDoc,
 	"fragment ProductSizeVariant on ProductSizeVariant {\n  __typename\n  name\n}":
 		types.ProductSizeVariantFragmentDoc,
-	"fragment Review on Review {\n  id\n  name\n  email\n  rating\n  headline\n  content\n}":
+	"fragment Review on Review {\n  id\n  name\n  email\n  rating\n  headline\n  content\n  createdAt\n}":
 		types.ReviewFragmentDoc,
 	"mutation CartAddProduct($cartId: ID!, $productId: ID!, $total: Int!) {\n  createOrderItem(\n    data: {quantity: 1, total: $total, order: {connect: {id: $cartId}}, product: {connect: {id: $productId}}}\n  ) {\n    id\n  }\n}":
 		types.CartAddProductDocument,
@@ -37,6 +37,10 @@ const documents = {
 		types.CartUpdateProductQuantityDocument,
 	"mutation ProductUpdateRating($productId: ID!, $rating: Float!) {\n  updateProduct(where: {id: $productId}, data: {rating: $rating}) {\n    id\n  }\n  publishProduct(where: {id: $productId}) {\n    id\n  }\n}":
 		types.ProductUpdateRatingDocument,
+	"mutation ReviewCreate($productId: ID!, $headline: String!, $content: String!, $rating: Int!, $name: String!, $email: String!) {\n  createReview(\n    data: {product: {connect: {id: $productId}}, headline: $headline, content: $content, rating: $rating, name: $name, email: $email}\n  ) {\n    id\n  }\n}":
+		types.ReviewCreateDocument,
+	"mutation ReviewPublish($id: ID!) {\n  publishReview(where: {id: $id}, to: PUBLISHED) {\n    id\n  }\n}":
+		types.ReviewPublishDocument,
 	"query CartGetById($id: ID!) {\n  order(where: {id: $id}, stage: DRAFT) {\n    ...Cart\n  }\n}":
 		types.CartGetByIdDocument,
 	"query CategoriesGetList($includeImg: Boolean = false) {\n  categories {\n    ...CategoryListItem\n    image @include(if: $includeImg) {\n      url\n    }\n  }\n}":
@@ -63,6 +67,8 @@ const documents = {
 		types.ProductGetListDocument,
 	"query ProductsGetRelated($slug: String!, $categoriesSlugs: [String!]) {\n  products(\n    where: {slug_not: $slug, AND: {categories_some: {slug_in: $categoriesSlugs}}}\n    first: 4\n  ) {\n    ...ProductListItem\n  }\n}":
 		types.ProductsGetRelatedDocument,
+	"query ReviewsGetByProductId($productId: ID!) {\n  reviews(where: {product: {id: $productId}}, orderBy: createdAt_DESC) {\n    ...Review\n  }\n}":
+		types.ReviewsGetByProductIdDocument,
 };
 
 /**
@@ -93,7 +99,7 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-	source: "fragment ProductDetails on Product {\n  id\n  slug\n  name\n  description\n  price\n  rating\n  categories {\n    ...CategoryListItem\n  }\n  images {\n    url\n  }\n  variants {\n    ... on ProductColorVariant {\n      ...ProductColorVariant\n    }\n    ... on ProductSizeVariant {\n      ...ProductSizeVariant\n    }\n  }\n  reviews {\n    ...Review\n  }\n}",
+	source: "fragment ProductDetails on Product {\n  id\n  slug\n  name\n  description\n  price\n  rating\n  categories {\n    ...CategoryListItem\n  }\n  images {\n    url\n  }\n  variants {\n    ... on ProductColorVariant {\n      ...ProductColorVariant\n    }\n    ... on ProductSizeVariant {\n      ...ProductSizeVariant\n    }\n  }\n}",
 ): typeof import("./graphql").ProductDetailsFragmentDoc;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -111,7 +117,7 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-	source: "fragment Review on Review {\n  id\n  name\n  email\n  rating\n  headline\n  content\n}",
+	source: "fragment Review on Review {\n  id\n  name\n  email\n  rating\n  headline\n  content\n  createdAt\n}",
 ): typeof import("./graphql").ReviewFragmentDoc;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -143,6 +149,18 @@ export function graphql(
 export function graphql(
 	source: "mutation ProductUpdateRating($productId: ID!, $rating: Float!) {\n  updateProduct(where: {id: $productId}, data: {rating: $rating}) {\n    id\n  }\n  publishProduct(where: {id: $productId}) {\n    id\n  }\n}",
 ): typeof import("./graphql").ProductUpdateRatingDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+	source: "mutation ReviewCreate($productId: ID!, $headline: String!, $content: String!, $rating: Int!, $name: String!, $email: String!) {\n  createReview(\n    data: {product: {connect: {id: $productId}}, headline: $headline, content: $content, rating: $rating, name: $name, email: $email}\n  ) {\n    id\n  }\n}",
+): typeof import("./graphql").ReviewCreateDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+	source: "mutation ReviewPublish($id: ID!) {\n  publishReview(where: {id: $id}, to: PUBLISHED) {\n    id\n  }\n}",
+): typeof import("./graphql").ReviewPublishDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -221,6 +239,12 @@ export function graphql(
 export function graphql(
 	source: "query ProductsGetRelated($slug: String!, $categoriesSlugs: [String!]) {\n  products(\n    where: {slug_not: $slug, AND: {categories_some: {slug_in: $categoriesSlugs}}}\n    first: 4\n  ) {\n    ...ProductListItem\n  }\n}",
 ): typeof import("./graphql").ProductsGetRelatedDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+	source: "query ReviewsGetByProductId($productId: ID!) {\n  reviews(where: {product: {id: $productId}}, orderBy: createdAt_DESC) {\n    ...Review\n  }\n}",
+): typeof import("./graphql").ReviewsGetByProductIdDocument;
 
 export function graphql(source: string) {
 	return (documents as any)[source] ?? {};

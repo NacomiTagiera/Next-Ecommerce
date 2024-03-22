@@ -19,7 +19,4 @@ fragment ProductDetails on Product {
 			...ProductSizeVariant
 		}
 	}
-	reviews {
-		...Review
-	}
 }

@@ -3,17 +3,15 @@ import { cn } from "@/lib/utils";
 type Props = {
 	active: boolean;
 	size?: "md" | "lg";
-	onClick?: () => void;
 };
 
-export const RatingStar = ({ active, size = "md", onClick }: Props) => (
+export const RatingStar = ({ active, size = "md" }: Props) => (
 	<svg
 		className={cn(
 			"flex-shrink-0",
 			size === "md" ? "size-4" : "size-5",
 			active ? "text-yellow-400" : "text-zinc-300",
 		)}
-		onClick={onClick}
 		aria-hidden
 		xmlns="http://www.w3.org/2000/svg"
 		fill="currentColor"

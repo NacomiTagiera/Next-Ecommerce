@@ -13,18 +13,14 @@ export const RelatedProducts = async ({
 	const products = await getRelatedProducts(productSlug, categoriesSlugs);
 
 	return (
-		<section
-			aria-labelledby="related-products-heading"
-			className="mx-auto max-w-2xl px-4 py-24 sm:px-6 lg:max-w-7xl lg:px-8"
-		>
+		<aside className="mx-auto max-w-2xl px-4 py-24 sm:px-6 lg:max-w-7xl lg:px-8">
 			<SectionHeader
-				id="related-products-heading"
 				title="You may also like"
 				className="mb-6"
 				headerClassName="text-2xl"
 				Tag="h3"
 			/>
 			<ProductList products={products} />
-		</section>
+		</aside>
 	);
 };

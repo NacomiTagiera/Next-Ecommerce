@@ -1,4 +1,4 @@
-mutation CartUpdateProductQuantity($itemId: ID!, $quantity: Int!) {
+mutation CartChangeItemQuantity($itemId: ID!, $quantity: Int!) {
 	updateOrderItem(where: { id: $itemId }, data: { quantity: $quantity }) {
 		id
 	}

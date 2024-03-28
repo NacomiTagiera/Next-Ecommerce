@@ -3,12 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import { useFormState } from "react-dom";
 
-import { createReviewAction } from "@/lib/actions";
+import { createReviewAction } from "@/actions/reviews";
 
+import { ActionButton } from "../UI/ActionButton";
 import { Notification } from "../UI/Notification";
 
 import { ReviewFormField } from "./ReviewFormField";
-import { ReviewFormSubmitButton } from "./ReviewFormSubmitButton";
 import { StarRatingInput } from "./StarRatingInput";
 
 type Props = {
@@ -82,7 +82,7 @@ export const ReviewForm = ({ productId }: Props) => {
 					required
 					issues={state.issues?.email}
 				/>
-				<ReviewFormSubmitButton />
+				<ActionButton>Submit Review</ActionButton>
 			</form>
 		</>
 	);

@@ -1,5 +1,3 @@
-import { notFound } from "next/navigation";
-
 import { executeGraphql } from "@/app/api/graphqlApi";
 import {
 	ProductGetByIdDocument,
@@ -46,7 +44,7 @@ export const getProductByIdOrSlug = async (params: { id?: string; slug?: string 
 	}
 
 	if (!product) {
-		notFound();
+		throw new Error("Product not found");
 	}
 
 	return product;

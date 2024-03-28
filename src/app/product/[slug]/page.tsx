@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 
+import { addProductToBagAction } from "@/actions/cart";
 import { getProductByIdOrSlug } from "@/app/api/products";
-import { AddToBagButton } from "@/components/ProductDetails/AddToBagButton";
 import { ProductImage } from "@/components/ProductDetails/ProductImage";
 import { ProductInfo } from "@/components/ProductDetails/ProductInfo";
 import { RelatedProducts } from "@/components/ProductDetails/RelatedProducts";
@@ -9,6 +9,7 @@ import { VariantSelector } from "@/components/ProductDetails/VariantSelector";
 import { ReviewForm } from "@/components/ReviewForm";
 import { ReviewFormWrapper } from "@/components/ReviewForm/ReviewFormWrapper";
 import { ReviewsList } from "@/components/ReviewsList";
+import { ActionButton } from "@/components/UI/ActionButton";
 import { ReviewsListSkeleton, TrendingProductsSkeleton } from "@/components/UI/Skeletons";
 import { type VariantsType } from "@/types";
 
@@ -25,9 +26,10 @@ export default async function ProductPage({ params }: Props) {
 			<article className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">
 				<ProductImage product={product} />
 				<ProductInfo product={product}>
-					<form action="">
-						<VariantSelector variants={product.variants as VariantsType} />
-						<AddToBagButton />
+					<VariantSelector variants={product.variants as VariantsType} />
+					<form action={addProductToBagAction}>
+						<input type="text" name="productId" value={product.id} hidden readOnly />
+						<ActionButton className="mt-10 sm:max-w-xs">Add to Bag</ActionButton>
 					</form>
 				</ProductInfo>
 			</article>

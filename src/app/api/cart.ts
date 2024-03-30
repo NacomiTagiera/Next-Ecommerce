@@ -95,8 +95,8 @@ export const getOrCreateCart = async () => {
 
 	const newCart = await createCart();
 	cookies().set("cartId", newCart.id, {
-		maxAge: 60 * 60 * 24 * 365,
-		expires: new Date(Date.now() + 60 * 60 * 24 * 365 * 1000),
+		maxAge: 60 * 60 * 24 * 30,
+		expires: new Date(Date.now() + 60 * 60 * 24 * 30 * 1000),
 		httpOnly: true,
 		sameSite: "lax",
 	});

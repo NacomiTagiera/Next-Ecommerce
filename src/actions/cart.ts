@@ -1,10 +1,11 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
+import { redirect } from "next/navigation";
 
 import { addItemToCart } from "@/app/api/cart";
 
-export const addProductToBagAction = async (formData: FormData) => {
+export const addProductToCartAction = async (formData: FormData) => {
 	const productId = formData.get("productId")?.toString();
 
 	if (!productId) {
@@ -13,4 +14,5 @@ export const addProductToBagAction = async (formData: FormData) => {
 
 	await addItemToCart(productId);
 	revalidateTag("cart");
+	redirect("/cart");
 };

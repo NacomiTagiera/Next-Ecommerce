@@ -7,7 +7,7 @@ import { Prose } from "../UI/Prose";
 
 type Props = {
 	product: ProductDetailsFragment;
-	children?: JSX.Element | JSX.Element[];
+	children?: React.JSX.Element | React.JSX.Element[];
 };
 
 export const ProductInfo = ({ product: { name, description, price, rating }, children }: Props) => (

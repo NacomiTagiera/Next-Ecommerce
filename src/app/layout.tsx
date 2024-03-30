@@ -3,6 +3,7 @@ import { Roboto_Flex } from "next/font/google";
 
 import { Footer } from "@/components/Layout/Footer";
 import { Header } from "@/components/Layout/Header";
+import { CartCountProvider } from "@/components/Layout/Header/CartCountContext";
 import { cn } from "@/lib/utils";
 
 import "./globals.css";
@@ -75,8 +76,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 					robotoFlex.className,
 				)}
 			>
-				<Header />
-				<main className="flex-grow">{children}</main>
+				<CartCountProvider>
+					<Header />
+					<main className="flex-grow">{children}</main>
+				</CartCountProvider>
 				<Footer />
 			</body>
 		</html>

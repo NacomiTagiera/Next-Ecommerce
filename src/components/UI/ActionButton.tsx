@@ -1,5 +1,3 @@
-"use client";
-
 import { useFormStatus } from "react-dom";
 import { LuLoader } from "react-icons/lu";
 

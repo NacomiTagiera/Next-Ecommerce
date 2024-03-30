@@ -1,6 +1,5 @@
 import type {
 	CategoryListItemFragment,
-	CollectionListItemFragment,
 	ProductColorVariantFragment,
 	ProductDetailsFragment,
 	ProductSizeVariantFragment,
@@ -19,13 +18,17 @@ export type CategoryWithImage = CategoryListItemFragment & {
 		| undefined;
 };
 
-export type CollectionWithImage = CollectionListItemFragment & {
-	image?:
-		| {
-				url: string;
-		  }
-		| null
-		| undefined;
-};
-
 export type VariantsType = ProductColorVariantFragment[] | ProductSizeVariantFragment[];
+
+export type NavigationStructure = {
+	navigation: {
+		groupings: {
+			name: string;
+			featured: CategoryWithImage[];
+		}[];
+		pages: {
+			text: string;
+			href: string;
+		}[];
+	};
+};

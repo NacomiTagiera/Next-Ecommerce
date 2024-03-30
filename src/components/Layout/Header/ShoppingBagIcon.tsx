@@ -1,8 +1,9 @@
+import React from "react";
 import { FiShoppingBag } from "react-icons/fi";
 
 import Link from "next/link";
 
-export const ShoppingBagIcon = () => (
+export const ShoppingBagIcon = ({ children }: { children: React.JSX.Element }) => (
 	<div className="ml-3 flow-root">
 		<Link
 			href="/cart"
@@ -12,7 +13,7 @@ export const ShoppingBagIcon = () => (
 				className="h-5 w-5 text-zinc-700 transition-colors group-hover:text-skyfall-500 md:h-6 md:w-6"
 				aria-hidden
 			/>
-			<span className="ml-1 font-semibold group-hover:text-skyfall-500">0</span>
+			{children}
 			<span className="sr-only">items in cart</span>
 		</Link>
 	</div>

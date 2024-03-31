@@ -6,6 +6,9 @@ import { Header } from "@/components/Layout/Header";
 import { CartCountProvider } from "@/components/Layout/Header/CartCountContext";
 import { cn } from "@/lib/utils";
 
+import { getCategoriesList } from "./api/categories";
+import { getCollectionsList } from "./api/collections";
+
 import "./globals.css";
 
 const robotoFlex = Roboto_Flex({ subsets: ["latin"], variable: "--font-roboto-flex" });
@@ -68,6 +71,11 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
+	const results = await Promise.allSettled([getCategoriesList(true), getCollectionsList(true)]);
+
+	const categories = results[0].status === "fulfilled" ? results[0].value : [];
+	const collections = results[1].status === "fulfilled" ? results[1].value : [];
+
 	return (
 		<html lang="en">
 			<body
@@ -77,10 +85,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 				)}
 			>
 				<CartCountProvider>
-					<Header />
+					<Header categories={categories} collections={collections} />
 					<main className="flex-grow">{children}</main>
 				</CartCountProvider>
-				<Footer />
+				<Footer categories={categories} collections={collections} />
 			</body>
 		</html>
 	);

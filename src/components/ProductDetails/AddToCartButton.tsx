@@ -2,6 +2,7 @@
 
 import { useTransition } from "react";
 import { FiShoppingBag } from "react-icons/fi";
+import { LuLoader } from "react-icons/lu";
 
 import { useRouter } from "next/navigation";
 
@@ -18,7 +19,7 @@ export const AddToCartButton = ({ initialCartCount }: { initialCartCount: number
 	const addToCart = () => {
 		setOptimisticCartCount(initialCartCount + 1);
 
-		document.cookie = `cartCount=${initialCartCount + 1}; path=/; max-age=${60 * 60 * 24 * 30}};`;
+		document.cookie = `cartCount=${initialCartCount + 1}; expires=${new Date(Date.now() + 60 * 60 * 24 * 30 * 1000).toISOString()}; max-age=${60 * 60 * 24 * 30}; SameSite=Lax;`;
 
 		startTransition(() => {
 			setOptimisticCartCount(null);
@@ -35,9 +36,15 @@ export const AddToCartButton = ({ initialCartCount }: { initialCartCount: number
 			})}
 			aria-disabled={isPending}
 			onClick={addToCart}
-			leadingIcon={FiShoppingBag}
+			leadingIcon={!isPending ? FiShoppingBag : undefined}
 		>
-			Add to Cart
+			{isPending ? (
+				<>
+					<LuLoader className="me-2 size-5 animate-spin" aria-hidden /> Processing...
+				</>
+			) : (
+				"Add to Cart"
+			)}
 		</Button>
 	);
 };

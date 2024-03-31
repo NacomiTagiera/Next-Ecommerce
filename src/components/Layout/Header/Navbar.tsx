@@ -4,10 +4,7 @@ import React from "react";
 import { FaBars } from "react-icons/fa6";
 import { FiSearch } from "react-icons/fi";
 
-import Link from "next/link";
-
 import { IconButton } from "@/components/UI/IconButton";
-import { Logo } from "@/components/UI/Logo";
 import { useMobileMenu } from "@/hooks/useMobileMenu";
 import type { NavigationStructure } from "@/types";
 
@@ -28,11 +25,6 @@ export const Navbar = ({ children, navigation }: Props) => {
 				<nav aria-label="Top navigation">
 					<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 						<div className="flex h-16 items-center justify-between">
-							<div className="hidden lg:flex lg:flex-1">
-								<Link href="/">
-									<Logo priority includeText className="h-9 w-auto" />
-								</Link>
-							</div>
 							<div className="hidden h-full lg:flex">
 								<DesktopMenu navigation={navigation} />
 							</div>

@@ -1,16 +1,18 @@
 import Link from "next/link";
 
-import { getCategoriesList } from "@/app/api/categories";
-import { getCollectionsList } from "@/app/api/collections";
 import { Logo } from "@/components/UI/Logo";
 import { footerLinks, socials } from "@/lib/constants";
+import { type CategoryWithImage } from "@/types";
 
 import { FooterMenu } from "./FooterMenu";
 import { FooterSocialLink } from "./FooterSocialLink";
 
-export const Footer = async () => {
-	const [categories, collections] = await Promise.all([getCategoriesList(), getCollectionsList()]);
+type Props = {
+	categories: CategoryWithImage[];
+	collections: CategoryWithImage[];
+};
 
+export const Footer = async ({ categories, collections }: Props) => {
 	const allFooterLinks = [
 		{
 			header: "Categories",

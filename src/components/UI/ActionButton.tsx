@@ -15,7 +15,7 @@ export const ActionButton = ({ children, className, leadingIcon, ...rest }: Prop
 			type="submit"
 			size="fullWidth"
 			aria-disabled={pending}
-			leadingIcon={pending ? leadingIcon : undefined}
+			leadingIcon={!pending ? leadingIcon : undefined}
 			className={cn("px-8", className, {
 				"cursor-wait": pending,
 			})}

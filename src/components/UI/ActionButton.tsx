@@ -1,3 +1,5 @@
+"use client";
+
 import { useFormStatus } from "react-dom";
 import { LuLoader } from "react-icons/lu";
 
@@ -7,7 +9,13 @@ import { Button, type ButtonProps } from "./Button";
 
 type Props = ButtonProps;
 
-export const ActionButton = ({ children, className, leadingIcon, ...rest }: Props) => {
+export const ActionButton = ({
+	children,
+	className,
+	leadingIcon,
+	trailingIcon,
+	...rest
+}: Props) => {
 	const { pending } = useFormStatus();
 
 	return (
@@ -16,6 +24,7 @@ export const ActionButton = ({ children, className, leadingIcon, ...rest }: Prop
 			size="fullWidth"
 			aria-disabled={pending}
 			leadingIcon={!pending ? leadingIcon : undefined}
+			trailingIcon={!pending ? trailingIcon : undefined}
 			className={cn("px-8", className, {
 				"cursor-wait": pending,
 			})}

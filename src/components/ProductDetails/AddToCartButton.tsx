@@ -36,7 +36,7 @@ export const AddToCartButton = ({ initialCartCount }: { initialCartCount: number
 			})}
 			aria-disabled={isPending}
 			onClick={addToCart}
-			leadingIcon={!isPending ? FiShoppingBag : undefined}
+			leadingIcon={!isPending ? <FiShoppingBag className="me-2 size-5" aria-hidden /> : undefined}
 		>
 			{isPending ? (
 				<>

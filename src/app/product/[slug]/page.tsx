@@ -11,6 +11,7 @@ import { ReviewForm } from "@/components/ReviewForm";
 import { ReviewFormWrapper } from "@/components/ReviewForm/ReviewFormWrapper";
 import { ReviewsList } from "@/components/ReviewsList";
 import { ReviewsListSkeleton, TrendingProductsSkeleton } from "@/components/UI/Skeletons";
+import { getCookie } from "@/lib/cookies";
 import { type VariantsType } from "@/types";
 
 type Props = {
@@ -29,7 +30,7 @@ export default async function ProductPage({ params }: Props) {
 					<VariantSelector variants={product.variants as VariantsType} />
 					<form action={addProductToCartAction}>
 						<input type="text" name="productId" value={product.id} hidden readOnly />
-						<AddToCartButton initialCartCount={0} />
+						<AddToCartButton initialCartCount={Number(getCookie("cartCount"))} />
 					</form>
 				</ProductInfo>
 			</article>

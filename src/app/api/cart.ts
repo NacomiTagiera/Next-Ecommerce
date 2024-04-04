@@ -1,5 +1,3 @@
-import { cookies } from "next/headers";
-
 import {
 	CartAddItemDocument,
 	CartChangeItemQuantityDocument,
@@ -7,6 +5,7 @@ import {
 	CartGetByIdDocument,
 	CartRemoveItemDocument,
 } from "@/graphql/generated/graphql";
+import { getCookie, setCookie } from "@/lib/cookies";
 
 import { executeGraphql } from "./graphqlApi";
 import { getProductByIdOrSlug } from "./products";
@@ -82,7 +81,7 @@ export const changeItemQuantity = async (itemId: string, quantity: number) => {
 };
 
 export const getCartFromCookies = async () => {
-	const cartId = cookies().get("cartId")?.value;
+	const cartId = getCookie("cartId");
 	if (!cartId) return;
 
 	const cart = await getCartById(cartId);
@@ -94,12 +93,7 @@ export const getOrCreateCart = async () => {
 	if (cart) return cart;
 
 	const newCart = await createCart();
-	cookies().set("cartId", newCart.id, {
-		maxAge: 60 * 60 * 24 * 30,
-		expires: new Date(Date.now() + 60 * 60 * 24 * 30 * 1000),
-		httpOnly: true,
-		sameSite: "lax",
-	});
+	setCookie("cartId", newCart.id);
 
 	return newCart;
 };

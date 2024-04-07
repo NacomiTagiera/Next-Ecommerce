@@ -1,8 +1,7 @@
 import { Suspense } from "react";
 
-import { addProductToCartAction } from "@/actions/cart";
 import { getProductByIdOrSlug } from "@/app/api/products";
-import { AddToCartButton } from "@/components/ProductDetails/AddToCartButton";
+import { AddToCartButton } from "@/components/Cart/AddToCartButton";
 import { ProductImage } from "@/components/ProductDetails/ProductImage";
 import { ProductInfo } from "@/components/ProductDetails/ProductInfo";
 import { RelatedProducts } from "@/components/ProductDetails/RelatedProducts";
@@ -11,7 +10,6 @@ import { ReviewForm } from "@/components/ReviewForm";
 import { ReviewFormWrapper } from "@/components/ReviewForm/ReviewFormWrapper";
 import { ReviewsList } from "@/components/ReviewsList";
 import { ReviewsListSkeleton, TrendingProductsSkeleton } from "@/components/UI/Skeletons";
-import { getCookie } from "@/lib/cookies";
 import { type VariantsType } from "@/types";
 
 type Props = {
@@ -28,10 +26,7 @@ export default async function ProductPage({ params }: Props) {
 				<ProductImage product={product} />
 				<ProductInfo product={product}>
 					<VariantSelector variants={product.variants as VariantsType} />
-					<form action={addProductToCartAction}>
-						<input type="text" name="productId" value={product.id} hidden readOnly />
-						<AddToCartButton initialCartCount={Number(getCookie("cartCount"))} />
-					</form>
+					<AddToCartButton itemId={product.id} />
 				</ProductInfo>
 			</article>
 			<Suspense fallback={<TrendingProductsSkeleton />}>

@@ -3,7 +3,6 @@ import { Roboto_Flex } from "next/font/google";
 
 import { Footer } from "@/components/Layout/Footer";
 import { Header } from "@/components/Layout/Header";
-import { CartCountProvider } from "@/components/Layout/Header/CartCountContext";
 import { cn } from "@/lib/utils";
 
 import { getCategoriesList } from "./api/categories";
@@ -70,7 +69,13 @@ export const metadata: Metadata = {
 	manifest: "/icons/manifest.json",
 };
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({
+	children,
+	modal,
+}: {
+	children: React.ReactNode;
+	modal: React.ReactNode;
+}) {
 	const results = await Promise.allSettled([getCategoriesList(true), getCollectionsList(true)]);
 
 	const categories = results[0].status === "fulfilled" ? results[0].value : [];
@@ -80,15 +85,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 		<html lang="en">
 			<body
 				className={cn(
-					"flex min-h-screen flex-col overflow-x-hidden bg-twilight-100 text-black",
+					"flex min-h-screen flex-col overflow-x-hidden bg-twilight-100 text-zinc-900",
 					robotoFlex.className,
 				)}
 			>
-				<CartCountProvider>
-					<Header categories={categories} collections={collections} />
-					<main className="flex-grow">{children}</main>
-				</CartCountProvider>
+				<Header categories={categories} collections={collections} />
+				<main className="flex-grow">{children}</main>
 				<Footer categories={categories} collections={collections} />
+				{modal}
 			</body>
 		</html>
 	);

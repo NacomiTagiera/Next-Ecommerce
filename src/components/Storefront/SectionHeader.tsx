@@ -26,7 +26,7 @@ export const SectionHeader = ({
 			"mx-auto text-center": center,
 		})}
 	>
-		<Tag id={id} className={cn("text-3xl font-bold tracking-tight text-zinc-900", headerClassName)}>
+		<Tag id={id} className={cn("text-3xl font-bold tracking-tight", headerClassName)}>
 			{title}
 		</Tag>
 		{description && (

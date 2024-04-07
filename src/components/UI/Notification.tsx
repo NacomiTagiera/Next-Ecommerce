@@ -52,7 +52,7 @@ export const Notification = ({ show, message, onClose, status = "success" }: Pro
 									)}
 								</div>
 								<div className="ml-3 w-0 flex-1">
-									<p className="font-medium text-zinc-900">
+									<p className="font-medium">
 										{status === "success" ? "Success!" : "Ups! An error occurred"}
 									</p>
 									<p className="mt-1 text-sm text-zinc-500">{message}</p>

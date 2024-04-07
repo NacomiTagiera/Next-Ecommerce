@@ -13,7 +13,7 @@ export const SizeSelector = ({ sizes, activeSize, onSizeChange }: Props) => {
 
 	return (
 		<div className="mt-8">
-			<h3 className="text-sm font-medium text-zinc-900">Size</h3>
+			<h3 className="text-sm font-medium">Size</h3>
 			<fieldset className="mt-2">
 				<legend className="sr-only">Choose a size</legend>
 				<div className="grid grid-cols-4 gap-3 sm:grid-cols-8">
@@ -21,7 +21,7 @@ export const SizeSelector = ({ sizes, activeSize, onSizeChange }: Props) => {
 						<label
 							key={size}
 							className={cn(
-								"flex cursor-pointer items-center justify-center rounded-md border border-zinc-200 bg-white px-3 py-3 text-sm font-medium uppercase text-zinc-900 hover:bg-zinc-50 focus:outline-none sm:flex-1",
+								"flex cursor-pointer items-center justify-center rounded-md border border-zinc-200 bg-white px-3 py-3 text-sm font-medium uppercase hover:bg-zinc-50 focus:outline-none sm:flex-1",
 								{
 									"border-transparent bg-skyfall-500 text-white hover:bg-skyfall-400":
 										size === validActiveSize,

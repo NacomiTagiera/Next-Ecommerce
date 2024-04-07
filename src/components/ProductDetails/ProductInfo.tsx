@@ -17,7 +17,7 @@ export const ProductInfo = ({ product: { name, description, price, rating }, chi
 			description={formatPrice(price / 100)}
 			className="mb-0 max-w-none text-3xl sm:flex sm:items-center sm:justify-between"
 			headerClassName="leading-tight"
-			descriptionClassName="mt-3 !text-3xl tracking-tight text-zinc-900 sm:mt-0"
+			descriptionClassName="mt-3 !text-3xl tracking-tight sm:mt-0"
 			Tag="h1"
 		/>
 		<div className="mt-3">

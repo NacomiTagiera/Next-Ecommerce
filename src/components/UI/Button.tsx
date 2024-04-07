@@ -15,7 +15,7 @@ export const buttonVariants = cva(
 					"text-white bg-skyfall-500 hover:bg-skyfall-600 focus:ring-skyfall-300 aria-disabled:bg-zinc-500",
 				outlined: "bg-transparent border border-slate-200 hover:bg-slate-100",
 				pill: "rounded-full text-white bg-skyfall-500 hover:bg-skyfall-600 focus:ring-skyfall-300",
-				text: "bg-transparent text-slate-900 hover:bg-slate-100 focus:ring-2",
+				text: "bg-transparent text-skyfall-500 hover:text-skyfall-600 focus:ring-2 focus:ring-skyfall-300",
 			},
 			size: {
 				sm: "text-sm px-3 py-2",

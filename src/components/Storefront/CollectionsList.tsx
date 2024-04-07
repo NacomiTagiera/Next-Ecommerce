@@ -27,7 +27,7 @@ export const CollectionsList = async () => {
 								href={`/collections/${collection.slug}`}
 								Component={BlurredImage}
 							>
-								<h3 className="mt-4 text-base font-semibold text-zinc-900">{collection.name}</h3>
+								<h3 className="mt-4 text-base font-semibold">{collection.name}</h3>
 								<p className="mt-2 text-sm text-zinc-700">{collection.description}</p>
 							</ImageLink>
 						</li>

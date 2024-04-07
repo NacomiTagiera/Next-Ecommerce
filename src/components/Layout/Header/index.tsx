@@ -1,16 +1,16 @@
 import { Suspense } from "react";
+import { FiUser } from "react-icons/fi";
 
 import Link from "next/link";
 
+import { IconButton } from "@/components/UI/IconButton";
 import { Logo } from "@/components/UI/Logo";
 import { navLinks } from "@/lib/constants";
 import { type CategoryWithImage } from "@/types";
 
-import { CartCountFromCookies } from "./CartCountFromCookies";
 import { Navbar } from "./Navbar";
 import { SearchInput } from "./SearchInput";
 import { ShoppingBagIcon } from "./ShoppingBagIcon";
-import { SignInIcon } from "./SignInIcon";
 
 type Props = {
 	categories: CategoryWithImage[];
@@ -48,10 +48,8 @@ export const Header = async ({ categories, collections }: Props) => {
 						<SearchInput id="desktop-search" className="mx-auto hidden lg:block" />
 					</Suspense>
 					<div className="ml-1 flex items-center">
-						<SignInIcon />
-						<ShoppingBagIcon>
-							<CartCountFromCookies />
-						</ShoppingBagIcon>
+						<IconButton href="/sign-in" icon={FiUser} hiddenLabel="Sign in" />
+						<ShoppingBagIcon />
 					</div>
 				</div>
 			</Navbar>

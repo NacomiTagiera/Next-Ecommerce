@@ -25,7 +25,7 @@ export default {
 		extend: {
 			animation: {
 				blink: "blink 1.4s both infinite",
-				"fade-in": "fade-in 0.3s ease-in-out",
+				"fade-in": "fade-in 0.5s ease-in-out",
 				jelly: "jelly 0.5s",
 				"slide-in-fade": "slide-in-fade 0.5s ease-in-out",
 			},

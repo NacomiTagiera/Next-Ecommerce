@@ -11,9 +11,9 @@ export const CartModalHeader = () => {
 
 	return (
 		<div className="flex items-start justify-between">
-			<h2 className="text-lg font-medium" id="cart-modal-title">
+			<h1 className="text-lg font-medium" id="cart-modal-title">
 				Shopping Cart
-			</h2>
+			</h1>
 			<IconButton icon={IoMdClose} hiddenLabel="Close cart modal" onClick={() => router.back()} />
 		</div>
 	);

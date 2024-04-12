@@ -1,7 +1,9 @@
+import { FiFacebook, FiGithub, FiLinkedin } from "react-icons/fi";
+
 import Link from "next/link";
 
 import { Logo } from "@/components/UI/Logo";
-import { footerLinks, socials } from "@/lib/constants";
+import { footerLinks } from "@/lib/constants";
 import { type CategoryWithImage } from "@/types";
 
 import { FooterMenu } from "./FooterMenu";
@@ -11,6 +13,24 @@ type Props = {
 	categories: CategoryWithImage[];
 	collections: CategoryWithImage[];
 };
+
+export const socials = [
+	{
+		Icon: FiLinkedin,
+		href: "https://www.linkedin.com/in/jakub-pawlak-frontend-dev",
+		name: "LinkedIn",
+	},
+	{
+		Icon: FiGithub,
+		href: "https://github.com/NacomiTagiera",
+		name: "GitHub",
+	},
+	{
+		Icon: FiFacebook,
+		href: "https://www.facebook.com/kubapawlak123321",
+		name: "Facebook",
+	},
+] as const;
 
 export const Footer = async ({ categories, collections }: Props) => {
 	const allFooterLinks = [

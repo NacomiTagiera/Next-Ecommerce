@@ -44,34 +44,23 @@ export const addItemToCart = async (_prev: unknown, formData: FormData) => {
 };
 
 export const removeItemFromCart = async (itemId: string) => {
-	if (!itemId) {
-		throw new Error("Item ID was not provided");
-	}
-
-	const { deleteOrderItem } = await executeGraphql({
+	await executeGraphql({
 		query: CartRemoveItemDocument,
 		variables: { itemId },
 		cache: "no-store",
 	});
 
 	revalidateTag("cart");
-	return deleteOrderItem;
 };
 
 export const changeItemQuantity = async (itemId: string, quantity: number) => {
-	if (!itemId) {
-		throw new Error("Item ID was not provided");
+	if (quantity < 1) {
+		throw new Error("Quantity must be greater than 0");
 	}
 
-	try {
-		await executeGraphql({
-			query: CartChangeItemQuantityDocument,
-			variables: { itemId, quantity },
-			cache: "no-store",
-		});
-
-		revalidateTag("cart");
-	} catch (error) {
-		throw new Error("Error changing item quantity");
-	}
+	await executeGraphql({
+		query: CartChangeItemQuantityDocument,
+		variables: { itemId, quantity },
+		cache: "no-store",
+	});
 };

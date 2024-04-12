@@ -1,5 +1,3 @@
-import { LuFacebook, LuGithub, LuLinkedin } from "react-icons/lu";
-
 import { type Route } from "next";
 
 export const PRODUCTS_PER_PAGE = 4;
@@ -110,24 +108,6 @@ export const incentives = [
 		name: "Free returns",
 		imageSrc: "https://tailwindui.com/img/ecommerce/icons/icon-exchange-simple.svg",
 		description: "Return it within 30 days for any reason. We'll even pay for the return shipping.",
-	},
-] as const;
-
-export const socials = [
-	{
-		Icon: LuLinkedin,
-		href: "https://www.linkedin.com/in/jakub-pawlak-frontend-dev",
-		name: "LinkedIn",
-	},
-	{
-		Icon: LuGithub,
-		href: "https://github.com/NacomiTagiera",
-		name: "GitHub",
-	},
-	{
-		Icon: LuFacebook,
-		href: "https://www.facebook.com/kubapawlak123321",
-		name: "Facebook",
 	},
 ] as const;
 

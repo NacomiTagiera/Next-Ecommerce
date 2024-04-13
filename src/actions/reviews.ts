@@ -3,10 +3,9 @@
 import { revalidateTag } from "next/cache";
 
 import { createReview, publishReview } from "@/app/api/reviews";
+import { reviewSchema } from "@/lib/validators";
 
-import { reviewSchema } from "./validators";
-
-export type FormState = {
+type FormState = {
 	message: string;
 	issues?: Record<string, string[]>;
 };

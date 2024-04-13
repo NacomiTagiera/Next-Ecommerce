@@ -12,7 +12,7 @@ type Props = {
 
 export const Dialog = ({ children, open, onClose }: Props) => (
 	<Transition.Root show={open} as={Fragment}>
-		<UiDialog as="div" className="relative z-40 lg:hidden" onClose={onClose}>
+		<UiDialog as="aside" className="relative z-40 lg:hidden" onClose={onClose}>
 			<Transition.Child
 				as={Fragment}
 				enter="transition-opacity ease-linear duration-300"
@@ -22,10 +22,10 @@ export const Dialog = ({ children, open, onClose }: Props) => (
 				leaveFrom="opacity-100"
 				leaveTo="opacity-0"
 			>
-				<div className="fixed inset-0 bg-black bg-opacity-25" />
+				<div className="fixed inset-0 bg-black/50" />
 			</Transition.Child>
 
-			<div className="fixed inset-0 z-40 flex">
+			<div className="fixed inset-0 z-40 flex backdrop-blur-sm">
 				<Transition.Child
 					as={Fragment}
 					enter="transition ease-in-out duration-300 transform"
@@ -35,11 +35,11 @@ export const Dialog = ({ children, open, onClose }: Props) => (
 					leaveFrom="translate-x-0"
 					leaveTo="-translate-x-full"
 				>
-					<UiDialog.Panel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-twilight-50 pb-12 shadow-xl">
+					<UiDialog.Panel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-twilight-50 pb-8 shadow-xl">
 						<div className="flex px-4 pb-2 pt-5">
 							<IconButton
 								icon={IoMdClose}
-								hiddenLabel="Close dialog"
+								hiddenLabel="Close menu dialog"
 								onClick={onClose}
 								className="-m-2 !p-2"
 							/>

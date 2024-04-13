@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 
 import { getProductByIdOrSlug } from "@/app/api/products";
-import { AddToBagButton } from "@/components/ProductDetails/AddToBagButton";
+import { AddToCartButton } from "@/components/Cart/AddToCartButton";
 import { ProductImage } from "@/components/ProductDetails/ProductImage";
 import { ProductInfo } from "@/components/ProductDetails/ProductInfo";
 import { RelatedProducts } from "@/components/ProductDetails/RelatedProducts";
@@ -25,10 +25,8 @@ export default async function ProductPage({ params }: Props) {
 			<article className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">
 				<ProductImage product={product} />
 				<ProductInfo product={product}>
-					<form action="">
-						<VariantSelector variants={product.variants as VariantsType} />
-						<AddToBagButton />
-					</form>
+					<VariantSelector variants={product.variants as VariantsType} />
+					<AddToCartButton itemId={product.id} />
 				</ProductInfo>
 			</article>
 			<Suspense fallback={<TrendingProductsSkeleton />}>

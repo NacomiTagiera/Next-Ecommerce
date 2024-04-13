@@ -25,8 +25,9 @@ export default {
 		extend: {
 			animation: {
 				blink: "blink 1.4s both infinite",
-				"fade-in": "fade-in 0.3s ease-in-out",
+				"fade-in": "fade-in 0.5s ease-in-out",
 				jelly: "jelly 0.5s",
+				"slide-in-fade": "slide-in-fade 0.5s ease-in-out",
 			},
 			borderRadius: {
 				"4xl": "2rem",
@@ -104,6 +105,10 @@ export default {
 					"25%": { transform: "scale(0.95, 1.05)" },
 					"50%": { transform: "scale(1.05, 0.95)" },
 					"75%": { transform: "scale(0.95, 1.05)" },
+				},
+				"slide-in-fade": {
+					"0%": { transform: "translateX(100%)", opacity: "0" },
+					"100%": { transform: "translateX(0)", opacity: "1" },
 				},
 			},
 		},

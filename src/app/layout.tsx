@@ -5,6 +5,9 @@ import { Footer } from "@/components/Layout/Footer";
 import { Header } from "@/components/Layout/Header";
 import { cn } from "@/lib/utils";
 
+import { getCategoriesList } from "./api/categories";
+import { getCollectionsList } from "./api/collections";
+
 import "./globals.css";
 
 const robotoFlex = Roboto_Flex({ subsets: ["latin"], variable: "--font-roboto-flex" });
@@ -66,18 +69,30 @@ export const metadata: Metadata = {
 	manifest: "/icons/manifest.json",
 };
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({
+	children,
+	modal,
+}: {
+	children: React.ReactNode;
+	modal: React.ReactNode;
+}) {
+	const results = await Promise.allSettled([getCategoriesList(true), getCollectionsList(true)]);
+
+	const categories = results[0].status === "fulfilled" ? results[0].value : [];
+	const collections = results[1].status === "fulfilled" ? results[1].value : [];
+
 	return (
 		<html lang="en">
 			<body
 				className={cn(
-					"flex min-h-screen flex-col overflow-x-hidden bg-twilight-100 text-black",
+					"flex min-h-screen flex-col overflow-x-hidden bg-twilight-100 text-zinc-900",
 					robotoFlex.className,
 				)}
 			>
-				<Header />
+				<Header categories={categories} collections={collections} />
 				<main className="flex-grow">{children}</main>
-				<Footer />
+				<Footer categories={categories} collections={collections} />
+				{modal}
 			</body>
 		</html>
 	);

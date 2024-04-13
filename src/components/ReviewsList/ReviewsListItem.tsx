@@ -13,7 +13,7 @@ export const ReviewsListItem = ({
 	<li className="rounded-lg bg-white p-4 shadow-md">
 		<div className="flex items-start justify-between">
 			<div>
-				<strong className="block font-medium text-zinc-900">{name}</strong>
+				<strong className="block font-medium">{name}</strong>
 				<time dateTime={String(createdAt)} className="text-sm text-zinc-500">
 					{formatDate(createdAt)}
 				</time>

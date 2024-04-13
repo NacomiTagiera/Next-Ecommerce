@@ -9773,18 +9773,25 @@ export type _RelationKind = "regular" | "union";
 
 export type _SystemDateTimeFieldVariation = "base" | "combined" | "localization";
 
-export type CartFragment = {
+export type CategoryListItemFragment = { slug: string; name: string };
+
+export type CollectionListItemFragment = { slug: string; name: string };
+
+export type OrderFragment = {
 	id: string;
 	orderItems: Array<{
 		id: string;
 		quantity: number;
-		product?: { id: string; name: string; price: number } | null;
+		total: number;
+		product?: {
+			id: string;
+			slug: string;
+			name: string;
+			price: number;
+			images: Array<{ url: string }>;
+		} | null;
 	}>;
 };
-
-export type CategoryListItemFragment = { slug: string; name: string };
-
-export type CollectionListItemFragment = { slug: string; name: string };
 
 export type ProductColorVariantFragment = { __typename: "ProductColorVariant"; name: string };
 
@@ -9825,13 +9832,21 @@ export type ReviewFragment = {
 	createdAt: unknown;
 };
 
-export type CartAddProductMutationVariables = Exact<{
-	cartId: Scalars["ID"]["input"];
-	productId: Scalars["ID"]["input"];
-	total: Scalars["Int"]["input"];
+export type CartAddItemMutationVariables = Exact<{
+	orderId: Scalars["ID"]["input"];
+	itemId: Scalars["ID"]["input"];
+	price: Scalars["Int"]["input"];
+	quantity: Scalars["Int"]["input"];
 }>;
 
-export type CartAddProductMutation = { createOrderItem?: { id: string } | null };
+export type CartAddItemMutation = { upsertOrderItem?: { id: string } | null };
+
+export type CartChangeItemQuantityMutationVariables = Exact<{
+	itemId: Scalars["ID"]["input"];
+	quantity: Scalars["Int"]["input"];
+}>;
+
+export type CartChangeItemQuantityMutation = { updateOrderItem?: { id: string } | null };
 
 export type CartCreateMutationVariables = Exact<{ [key: string]: never }>;
 
@@ -9841,23 +9856,23 @@ export type CartCreateMutation = {
 		orderItems: Array<{
 			id: string;
 			quantity: number;
-			product?: { id: string; name: string; price: number } | null;
+			total: number;
+			product?: {
+				id: string;
+				slug: string;
+				name: string;
+				price: number;
+				images: Array<{ url: string }>;
+			} | null;
 		}>;
 	} | null;
 };
 
-export type CartRemoveProductMutationVariables = Exact<{
+export type CartRemoveItemMutationVariables = Exact<{
 	itemId: Scalars["ID"]["input"];
 }>;
 
-export type CartRemoveProductMutation = { deleteOrderItem?: { id: string } | null };
-
-export type CartUpdateProductQuantityMutationVariables = Exact<{
-	itemId: Scalars["ID"]["input"];
-	quantity: Scalars["Int"]["input"];
-}>;
-
-export type CartUpdateProductQuantityMutation = { updateOrderItem?: { id: string } | null };
+export type CartRemoveItemMutation = { deleteOrderItem?: { id: string } | null };
 
 export type ProductUpdateRatingMutationVariables = Exact<{
 	productId: Scalars["ID"]["input"];
@@ -9896,7 +9911,14 @@ export type CartGetByIdQuery = {
 		orderItems: Array<{
 			id: string;
 			quantity: number;
-			product?: { id: string; name: string; price: number } | null;
+			total: number;
+			product?: {
+				id: string;
+				slug: string;
+				name: string;
+				price: number;
+				images: Array<{ url: string }>;
+			} | null;
 		}>;
 	} | null;
 };
@@ -10115,23 +10137,6 @@ export class TypedDocumentString<TResult, TVariables>
 		return this.value;
 	}
 }
-export const CartFragmentDoc = new TypedDocumentString(
-	`
-    fragment Cart on Order {
-  id
-  orderItems {
-    id
-    quantity
-    product {
-      id
-      name
-      price
-    }
-  }
-}
-    `,
-	{ fragmentName: "Cart" },
-) as unknown as TypedDocumentString<CartFragment, unknown>;
 export const CollectionListItemFragmentDoc = new TypedDocumentString(
 	`
     fragment CollectionListItem on Collection {
@@ -10141,6 +10146,28 @@ export const CollectionListItemFragmentDoc = new TypedDocumentString(
     `,
 	{ fragmentName: "CollectionListItem" },
 ) as unknown as TypedDocumentString<CollectionListItemFragment, unknown>;
+export const OrderFragmentDoc = new TypedDocumentString(
+	`
+    fragment Order on Order {
+  id
+  orderItems {
+    id
+    quantity
+    total
+    product {
+      id
+      slug
+      name
+      price
+      images {
+        url
+      }
+    }
+  }
+}
+    `,
+	{ fragmentName: "Order" },
+) as unknown as TypedDocumentString<OrderFragment, unknown>;
 export const CategoryListItemFragmentDoc = new TypedDocumentString(
 	`
     fragment CategoryListItem on Category {
@@ -10238,53 +10265,56 @@ export const ReviewFragmentDoc = new TypedDocumentString(
     `,
 	{ fragmentName: "Review" },
 ) as unknown as TypedDocumentString<ReviewFragment, unknown>;
-export const CartAddProductDocument = new TypedDocumentString(`
-    mutation CartAddProduct($cartId: ID!, $productId: ID!, $total: Int!) {
-  createOrderItem(
-    data: {quantity: 1, total: $total, order: {connect: {id: $cartId}}, product: {connect: {id: $productId}}}
+export const CartAddItemDocument = new TypedDocumentString(`
+    mutation CartAddItem($orderId: ID!, $itemId: ID!, $price: Int!, $quantity: Int!) {
+  upsertOrderItem(
+    where: {id: $orderId}
+    upsert: {create: {quantity: 1, total: $price, order: {connect: {id: $orderId}}, product: {connect: {id: $itemId}}}, update: {quantity: $quantity, total: $price}}
   ) {
     id
   }
 }
-    `) as unknown as TypedDocumentString<CartAddProductMutation, CartAddProductMutationVariables>;
-export const CartCreateDocument = new TypedDocumentString(`
-    mutation CartCreate {
-  createOrder(data: {total: 0}) {
-    ...Cart
-  }
-}
-    fragment Cart on Order {
-  id
-  orderItems {
-    id
-    quantity
-    product {
-      id
-      name
-      price
-    }
-  }
-}`) as unknown as TypedDocumentString<CartCreateMutation, CartCreateMutationVariables>;
-export const CartRemoveProductDocument = new TypedDocumentString(`
-    mutation CartRemoveProduct($itemId: ID!) {
-  deleteOrderItem(where: {id: $itemId}) {
-    id
-  }
-}
-    `) as unknown as TypedDocumentString<
-	CartRemoveProductMutation,
-	CartRemoveProductMutationVariables
->;
-export const CartUpdateProductQuantityDocument = new TypedDocumentString(`
-    mutation CartUpdateProductQuantity($itemId: ID!, $quantity: Int!) {
+    `) as unknown as TypedDocumentString<CartAddItemMutation, CartAddItemMutationVariables>;
+export const CartChangeItemQuantityDocument = new TypedDocumentString(`
+    mutation CartChangeItemQuantity($itemId: ID!, $quantity: Int!) {
   updateOrderItem(where: {id: $itemId}, data: {quantity: $quantity}) {
     id
   }
 }
     `) as unknown as TypedDocumentString<
-	CartUpdateProductQuantityMutation,
-	CartUpdateProductQuantityMutationVariables
+	CartChangeItemQuantityMutation,
+	CartChangeItemQuantityMutationVariables
 >;
+export const CartCreateDocument = new TypedDocumentString(`
+    mutation CartCreate {
+  createOrder(data: {total: 0}) {
+    ...Order
+  }
+}
+    fragment Order on Order {
+  id
+  orderItems {
+    id
+    quantity
+    total
+    product {
+      id
+      slug
+      name
+      price
+      images {
+        url
+      }
+    }
+  }
+}`) as unknown as TypedDocumentString<CartCreateMutation, CartCreateMutationVariables>;
+export const CartRemoveItemDocument = new TypedDocumentString(`
+    mutation CartRemoveItem($itemId: ID!) {
+  deleteOrderItem(where: {id: $itemId}) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<CartRemoveItemMutation, CartRemoveItemMutationVariables>;
 export const ProductUpdateRatingDocument = new TypedDocumentString(`
     mutation ProductUpdateRating($productId: ID!, $rating: Float!) {
   updateProduct(where: {id: $productId}, data: {rating: $rating}) {
@@ -10317,18 +10347,23 @@ export const ReviewPublishDocument = new TypedDocumentString(`
 export const CartGetByIdDocument = new TypedDocumentString(`
     query CartGetById($id: ID!) {
   order(where: {id: $id}, stage: DRAFT) {
-    ...Cart
+    ...Order
   }
 }
-    fragment Cart on Order {
+    fragment Order on Order {
   id
   orderItems {
     id
     quantity
+    total
     product {
       id
+      slug
       name
       price
+      images {
+        url
+      }
     }
   }
 }`) as unknown as TypedDocumentString<CartGetByIdQuery, CartGetByIdQueryVariables>;

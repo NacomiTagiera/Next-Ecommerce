@@ -13,7 +13,7 @@ export const ColorPicker = ({ colors, activeColor, onColorChange }: Props) => {
 
 	return (
 		<>
-			<h3 className="text-sm font-medium text-zinc-900">Color</h3>
+			<h3 className="text-sm font-medium">Color</h3>
 			<fieldset className="mt-2">
 				<legend className="sr-only">Choose a color</legend>
 				<div className="flex items-center space-x-3">

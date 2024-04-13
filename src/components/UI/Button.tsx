@@ -1,5 +1,4 @@
-import { type ComponentPropsWithRef } from "react";
-import { type IconType } from "react-icons";
+import React, { type ComponentPropsWithRef } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { type Route } from "next";
@@ -16,7 +15,7 @@ export const buttonVariants = cva(
 					"text-white bg-skyfall-500 hover:bg-skyfall-600 focus:ring-skyfall-300 aria-disabled:bg-zinc-500",
 				outlined: "bg-transparent border border-slate-200 hover:bg-slate-100",
 				pill: "rounded-full text-white bg-skyfall-500 hover:bg-skyfall-600 focus:ring-skyfall-300",
-				text: "bg-transparent text-slate-900 hover:bg-slate-100 focus:ring-2",
+				text: "bg-transparent text-skyfall-500 hover:text-skyfall-600 focus:ring-2 focus:ring-skyfall-300",
 			},
 			size: {
 				sm: "text-sm px-3 py-2",
@@ -35,8 +34,8 @@ export const buttonVariants = cva(
 export type ButtonProps = ComponentPropsWithRef<"button"> &
 	VariantProps<typeof buttonVariants> & {
 		href?: Route;
-		leadingIcon?: IconType;
-		trailingIcon?: IconType;
+		leadingIcon?: React.JSX.Element;
+		trailingIcon?: React.JSX.Element;
 	};
 
 export const Button = ({
@@ -45,24 +44,24 @@ export const Button = ({
 	className,
 	children,
 	href,
-	leadingIcon: LeadingIcon,
-	trailingIcon: TrailingIcon,
+	leadingIcon,
+	trailingIcon,
 	...rest
 }: ButtonProps) => {
 	if (href)
 		return (
 			<Link href={href} className={cn(buttonVariants({ variant, size, className }))}>
-				{LeadingIcon && <LeadingIcon className="me-2 size-5" aria-hidden />}
+				{leadingIcon && leadingIcon}
 				{children}
-				{TrailingIcon && <TrailingIcon className="ms-2 size-5" aria-hidden />}
+				{trailingIcon && trailingIcon}
 			</Link>
 		);
 
 	return (
 		<button className={cn(buttonVariants({ variant, size, className }))} {...rest}>
-			{LeadingIcon && <LeadingIcon className="me-2 size-5" aria-hidden />}
+			{leadingIcon && leadingIcon}
 			{children}
-			{TrailingIcon && <TrailingIcon className="ms-2 size-5" aria-hidden />}
+			{trailingIcon && trailingIcon}
 		</button>
 	);
 };

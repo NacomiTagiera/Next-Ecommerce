@@ -1,3 +1,5 @@
+import { ClerkProvider } from "@clerk/nextjs";
+
 import type { Metadata } from "next";
 import { Roboto_Flex } from "next/font/google";
 
@@ -82,18 +84,20 @@ export default async function RootLayout({
 	const collections = results[1].status === "fulfilled" ? results[1].value : [];
 
 	return (
-		<html lang="en">
-			<body
-				className={cn(
-					"flex min-h-screen flex-col overflow-x-hidden bg-twilight-100 text-zinc-900",
-					robotoFlex.className,
-				)}
-			>
-				<Header categories={categories} collections={collections} />
-				<main className="flex-grow">{children}</main>
-				<Footer categories={categories} collections={collections} />
-				{modal}
-			</body>
-		</html>
+		<ClerkProvider>
+			<html lang="en">
+				<body
+					className={cn(
+						"flex min-h-screen flex-col overflow-x-hidden bg-twilight-100 text-zinc-900",
+						robotoFlex.className,
+					)}
+				>
+					<Header categories={categories} collections={collections} />
+					<main className="flex-grow">{children}</main>
+					<Footer categories={categories} collections={collections} />
+					{modal}
+				</body>
+			</html>
+		</ClerkProvider>
 	);
 }

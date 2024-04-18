@@ -23,6 +23,12 @@ const nextConfig = {
 				hostname: "images.unsplash.com",
 				pathname: "/**",
 			},
+			{
+				protocol: "https",
+				port: "",
+				hostname: "img.clerk.com",
+				pathname: "/**",
+			},
 		],
 	},
 	redirects: async () => {

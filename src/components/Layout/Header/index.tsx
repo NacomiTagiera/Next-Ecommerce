@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { FiUser } from "react-icons/fi";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 
 import Link from "next/link";
 
@@ -11,6 +12,7 @@ import { type CategoryWithImage } from "@/types";
 import { Navbar } from "./Navbar";
 import { SearchInput } from "./SearchInput";
 import { ShoppingBagIcon } from "./ShoppingBagIcon";
+import { UserProfileDropdown } from "./UserProfileDropdown";
 
 type Props = {
 	categories: CategoryWithImage[];
@@ -48,7 +50,12 @@ export const Header = async ({ categories, collections }: Props) => {
 						<SearchInput id="desktop-search" className="mx-auto hidden lg:block" />
 					</Suspense>
 					<div className="ml-1 flex items-center">
-						<IconButton href="/sign-in" icon={FiUser} hiddenLabel="Sign in" />
+						<SignedIn>
+							<UserProfileDropdown />
+						</SignedIn>
+						<SignedOut>
+							<IconButton href="/sign-in" icon={FiUser} hiddenLabel="Sign in" />
+						</SignedOut>
 						<ShoppingBagIcon />
 					</div>
 				</div>

@@ -78,13 +78,17 @@ export default async function RootLayout({
 	children: React.ReactNode;
 	modal: React.ReactNode;
 }) {
-	const results = await Promise.allSettled([getCategoriesList(true), getCollectionsList(true)]);
-
-	const categories = results[0].status === "fulfilled" ? results[0].value : [];
-	const collections = results[1].status === "fulfilled" ? results[1].value : [];
+	const [categories, collections] = await Promise.all([
+		getCategoriesList(true),
+		getCollectionsList(true),
+	]);
 
 	return (
-		<ClerkProvider>
+		<ClerkProvider
+			signInFallbackRedirectUrl="/products"
+			signUpFallbackRedirectUrl="/products"
+			afterSignOutUrl="/sign-in"
+		>
 			<html lang="en">
 				<body
 					className={cn(

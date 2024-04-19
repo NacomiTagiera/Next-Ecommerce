@@ -8,7 +8,6 @@ import { useClerk, useUser } from "@clerk/nextjs";
 import { Menu, Transition } from "@headlessui/react";
 
 import NextImage from "next/image";
-import { useRouter } from "next/navigation";
 
 import { UserProfileDropdownItem } from "./UserProfileDropdownItem";
 
@@ -33,7 +32,6 @@ const userLinks = [
 export const UserProfileDropdown = () => {
 	const { signOut } = useClerk();
 	const { user } = useUser();
-	const router = useRouter();
 
 	const username = user?.fullName || user?.emailAddresses[0]?.emailAddress || "";
 	const userImage = user?.imageUrl || "/images/avatar.png";
@@ -83,7 +81,6 @@ export const UserProfileDropdown = () => {
 								item.label === "Sign Out"
 									? async () => {
 											await signOut();
-											router.replace("/sign-in");
 										}
 									: undefined
 							}

@@ -1,4 +1,4 @@
-import { BlurredImage } from "@/components/UI/BlurredImage";
+import NextImage from "next/image";
 
 type Props = {
 	src: string;
@@ -7,14 +7,14 @@ type Props = {
 
 export const ImageCard = async ({ src, alt }: Props) => (
 	<div className="relative">
-		<BlurredImage
+		<NextImage
 			src={src}
 			alt={alt}
 			width={176}
 			height={264}
 			priority
-			className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
+			className="aspect-[2/3] w-full rounded-xl bg-zinc-900/5 object-cover shadow-lg"
 		/>
-		<div className="absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10" />
+		<div className="absolute inset-0 rounded-xl ring-1 ring-inset ring-zinc-900/10" />
 	</div>
 );

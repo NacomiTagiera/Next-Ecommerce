@@ -1,3 +1,5 @@
+import { ClerkProvider } from "@clerk/nextjs";
+
 import type { Metadata } from "next";
 import { Roboto_Flex } from "next/font/google";
 
@@ -76,24 +78,30 @@ export default async function RootLayout({
 	children: React.ReactNode;
 	modal: React.ReactNode;
 }) {
-	const results = await Promise.allSettled([getCategoriesList(true), getCollectionsList(true)]);
-
-	const categories = results[0].status === "fulfilled" ? results[0].value : [];
-	const collections = results[1].status === "fulfilled" ? results[1].value : [];
+	const [categories, collections] = await Promise.all([
+		getCategoriesList(true),
+		getCollectionsList(true),
+	]);
 
 	return (
-		<html lang="en">
-			<body
-				className={cn(
-					"flex min-h-screen flex-col overflow-x-hidden bg-twilight-100 text-zinc-900",
-					robotoFlex.className,
-				)}
-			>
-				<Header categories={categories} collections={collections} />
-				<main className="flex-grow">{children}</main>
-				<Footer categories={categories} collections={collections} />
-				{modal}
-			</body>
-		</html>
+		<ClerkProvider
+			signInFallbackRedirectUrl="/products"
+			signUpFallbackRedirectUrl="/products"
+			afterSignOutUrl="/sign-in"
+		>
+			<html lang="en">
+				<body
+					className={cn(
+						"flex min-h-screen flex-col overflow-x-hidden bg-twilight-100 text-zinc-900",
+						robotoFlex.className,
+					)}
+				>
+					<Header categories={categories} collections={collections} />
+					<main className="flex-grow">{children}</main>
+					<Footer categories={categories} collections={collections} />
+					{modal}
+				</body>
+			</html>
+		</ClerkProvider>
 	);
 }

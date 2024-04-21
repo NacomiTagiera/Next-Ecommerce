@@ -1,7 +1,5 @@
 import { cookies } from "next/headers";
 
-import "server-only"; // Make sure you can't import this on client
-
 export const getCookie = (name: string) => cookies().get(name)?.value;
 
 export const setCookie = (name: string, value: string, maxAge?: number) =>

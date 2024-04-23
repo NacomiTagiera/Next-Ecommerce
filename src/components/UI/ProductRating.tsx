@@ -16,7 +16,7 @@ export const ProductRating = ({ rating, size = "md", hideRating }: Props) => (
 			))}
 		</div>
 		<p className={cn("ms-1 text-sm text-zinc-700", hideRating && "sr-only")}>
-			{Number(rating).toFixed(1)}
+			{Number(rating).toFixed(size === "md" ? 1 : 2)}
 			<span className="sr-only">out of 5 stars</span>
 		</p>
 	</div>

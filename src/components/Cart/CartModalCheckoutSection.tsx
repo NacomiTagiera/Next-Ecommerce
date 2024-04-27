@@ -1,3 +1,5 @@
+import { handlePayment } from "@/actions/cart";
+
 import { ActionButton } from "../UI/ActionButton";
 
 export const CartModalCheckoutSection = ({ totalPrice }: { totalPrice: string }) => {
@@ -14,7 +16,7 @@ export const CartModalCheckoutSection = ({ totalPrice }: { totalPrice: string })
 			>
 				View Shopping Cart
 			</a>
-			<form action="/">
+			<form action={handlePayment}>
 				<ActionButton>Checkout</ActionButton>
 			</form>
 		</div>

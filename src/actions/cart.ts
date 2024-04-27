@@ -1,15 +1,20 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
+import { redirect } from "next/navigation";
 
-import { getOrCreateCart } from "@/app/api/cart";
+import { getCartFromCookies, getOrCreateCart } from "@/app/api/cart";
 import { executeGraphql } from "@/app/api/graphqlApi";
 import { getProductByIdOrSlug } from "@/app/api/products";
 import {
 	CartAddItemDocument,
 	CartChangeItemQuantityDocument,
 	CartRemoveItemDocument,
+	OrderUpdateAfterPaymentDocument,
 } from "@/graphql/generated/graphql";
+import { getUserEmail } from "@/lib/clerkHelpers";
+import { setCookie } from "@/lib/cookies";
+import { stripe } from "@/lib/stripe";
 
 export const addItemToCart = async (_prev: unknown, formData: FormData) => {
 	const itemId = formData.get("itemId")?.toString();
@@ -43,14 +48,20 @@ export const addItemToCart = async (_prev: unknown, formData: FormData) => {
 	}
 };
 
-export const removeItemFromCart = async (itemId: string) => {
-	await executeGraphql({
+export const removeItemFromCart = async (itemId: string, itemsLength: number) => {
+	const { deleteOrderItem } = await executeGraphql({
 		query: CartRemoveItemDocument,
 		variables: { itemId },
 		cache: "no-store",
 	});
 
 	revalidateTag("cart");
+
+	if (itemsLength === 1) {
+		setCookie("cartId", "");
+	}
+
+	return deleteOrderItem;
 };
 
 export const changeItemQuantity = async (itemId: string, quantity: number) => {
@@ -63,4 +74,50 @@ export const changeItemQuantity = async (itemId: string, quantity: number) => {
 		variables: { itemId, quantity },
 		cache: "no-store",
 	});
+
+	revalidateTag("cart");
+};
+
+export const handlePayment = async () => {
+	const cart = await getCartFromCookies();
+	if (!cart || !cart.orderItems.length) {
+		redirect("/cart");
+	}
+
+	const userEmail = await getUserEmail();
+
+	const paymentIntent = await stripe.paymentIntents.create({
+		amount: cart.orderItems.reduce((total, item) => total + item.total * item.quantity, 0),
+		currency: "usd",
+		automatic_payment_methods: {
+			enabled: true,
+		},
+		receipt_email: userEmail,
+		metadata: {
+			orderId: cart.id,
+		},
+	});
+
+	if (!paymentIntent.client_secret) {
+		throw new Error("Payment intent not created");
+	}
+
+	redirect(`/checkout?intent=${paymentIntent.client_secret}&intent_id=${paymentIntent.id}`);
+};
+
+export const updateOrderAfterPayment = async (
+	orderId: string,
+	userEmail: string,
+	stripeCheckoutId: string,
+) => {
+	const { updateOrder } = await executeGraphql({
+		query: OrderUpdateAfterPaymentDocument,
+		variables: { id: orderId, email: userEmail, stripeCheckoutId },
+	});
+
+	if (!updateOrder || !updateOrder.id) {
+		throw new Error("Error updating order after payment");
+	}
+
+	return updateOrder.id;
 };

@@ -1,6 +1,9 @@
-import { ActionButton } from "../UI/ActionButton";
+type Props = {
+	children: React.ReactNode;
+	price: string;
+};
 
-export const CartSummary = ({ price }: { price: string }) => (
+export const CartSummary = ({ children, price }: Props) => (
 	<aside className="mt-16 rounded-lg bg-zinc-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8">
 		<h3 className="text-lg font-medium">Order summary</h3>
 		<dl className="mt-6 space-y-4">
@@ -17,6 +20,6 @@ export const CartSummary = ({ price }: { price: string }) => (
 				<dd className="text-base font-medium">{price}</dd>
 			</div>
 		</dl>
-		<ActionButton className="mt-6">Checkout</ActionButton>
+		{children}
 	</aside>
 );

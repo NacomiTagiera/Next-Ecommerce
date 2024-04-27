@@ -8,11 +8,13 @@ import { ItemRemoveButton } from "./ItemRemoveButton";
 
 type Props = {
 	orderItem: OrderFragment["orderItems"][0];
+	itemsLength: number;
 	view?: "fullView" | "modal";
 };
 
 export const CartListItem = ({
 	orderItem: { id, product, quantity },
+	itemsLength,
 	view = "fullView",
 }: Props) => {
 	return (
@@ -41,7 +43,7 @@ export const CartListItem = ({
 				{view === "fullView" ? (
 					<div className="flex flex-1 items-end justify-between">
 						<ChangeItemQuantity itemId={id} quantity={quantity} />
-						<ItemRemoveButton itemId={id} />
+						<ItemRemoveButton itemId={id} itemsLength={itemsLength} />
 					</div>
 				) : (
 					<p className="text-sm text-zinc-500">Quantity: {quantity}</p>

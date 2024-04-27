@@ -9874,6 +9874,14 @@ export type CartRemoveItemMutationVariables = Exact<{
 
 export type CartRemoveItemMutation = { deleteOrderItem?: { id: string } | null };
 
+export type OrderUpdateAfterPaymentMutationVariables = Exact<{
+	id: Scalars["ID"]["input"];
+	email: Scalars["String"]["input"];
+	stripeCheckoutId: Scalars["String"]["input"];
+}>;
+
+export type OrderUpdateAfterPaymentMutation = { updateOrder?: { id: string } | null };
+
 export type ProductUpdateRatingMutationVariables = Exact<{
 	productId: Scalars["ID"]["input"];
 	rating: Scalars["Float"]["input"];
@@ -10315,6 +10323,19 @@ export const CartRemoveItemDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<CartRemoveItemMutation, CartRemoveItemMutationVariables>;
+export const OrderUpdateAfterPaymentDocument = new TypedDocumentString(`
+    mutation OrderUpdateAfterPayment($id: ID!, $email: String!, $stripeCheckoutId: String!) {
+  updateOrder(
+    data: {email: $email, stripeCheckoutId: $stripeCheckoutId}
+    where: {id: $id}
+  ) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<
+	OrderUpdateAfterPaymentMutation,
+	OrderUpdateAfterPaymentMutationVariables
+>;
 export const ProductUpdateRatingDocument = new TypedDocumentString(`
     mutation ProductUpdateRating($productId: ID!, $rating: Float!) {
   updateProduct(where: {id: $productId}, data: {rating: $rating}) {

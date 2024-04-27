@@ -35,6 +35,8 @@ const documents = {
 		types.CartCreateDocument,
 	"mutation CartRemoveItem($itemId: ID!) {\n  deleteOrderItem(where: {id: $itemId}) {\n    id\n  }\n}":
 		types.CartRemoveItemDocument,
+	"mutation OrderUpdateAfterPayment($id: ID!, $email: String!, $stripeCheckoutId: String!) {\n  updateOrder(\n    data: {email: $email, stripeCheckoutId: $stripeCheckoutId}\n    where: {id: $id}\n  ) {\n    id\n  }\n}":
+		types.OrderUpdateAfterPaymentDocument,
 	"mutation ProductUpdateRating($productId: ID!, $rating: Float!) {\n  updateProduct(where: {id: $productId}, data: {rating: $rating}) {\n    id\n  }\n  publishProduct(where: {id: $productId}) {\n    id\n  }\n}":
 		types.ProductUpdateRatingDocument,
 	"mutation ReviewCreate($productId: ID!, $headline: String!, $content: String!, $rating: Int!, $name: String!, $email: String!) {\n  createReview(\n    data: {product: {connect: {id: $productId}}, headline: $headline, content: $content, rating: $rating, name: $name, email: $email}\n  ) {\n    id\n  }\n}":
@@ -143,6 +145,12 @@ export function graphql(
 export function graphql(
 	source: "mutation CartRemoveItem($itemId: ID!) {\n  deleteOrderItem(where: {id: $itemId}) {\n    id\n  }\n}",
 ): typeof import("./graphql").CartRemoveItemDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+	source: "mutation OrderUpdateAfterPayment($id: ID!, $email: String!, $stripeCheckoutId: String!) {\n  updateOrder(\n    data: {email: $email, stripeCheckoutId: $stripeCheckoutId}\n    where: {id: $id}\n  ) {\n    id\n  }\n}",
+): typeof import("./graphql").OrderUpdateAfterPaymentDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

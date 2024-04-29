@@ -1,15 +1,23 @@
+import { currentUser } from "@clerk/nextjs/server";
+
 import { redirect } from "next/navigation";
 
 import { StripeForm } from "@/components/Checkout/StripeForm";
 
+import { getCartFromCookies } from "../api/cart";
+
 export default async function CheckoutPage({ searchParams }: { searchParams: { intent: string } }) {
-	if (!searchParams.intent) {
+	const cart = await getCartFromCookies();
+	if (!searchParams.intent || !cart || cart.orderItems.length === 0) {
 		redirect("/cart");
 	}
 
-	return (
-		<section className="mx-auto flex max-w-md flex-col gap-4 overflow-x-auto p-4 sm:max-w-2xl sm:p-12 sm:py-8 md:max-w-4xl lg:max-w-7xl lg:flex-row">
-			<StripeForm clientSecret={searchParams.intent} />
-		</section>
-	);
+	const user = await currentUser();
+	if (!user) {
+		redirect("/login");
+	}
+
+	const total = cart?.orderItems.reduce((acc, item) => acc + item.total * item.quantity, 0) || 0;
+
+	return <StripeForm clientSecret={searchParams.intent} total={total} />;
 }

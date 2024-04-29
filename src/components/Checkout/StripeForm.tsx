@@ -12,7 +12,12 @@ if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
-export const StripeForm = ({ clientSecret }: { clientSecret: string }) => {
+type Props = {
+	clientSecret: string;
+	total: number;
+};
+
+export const StripeForm = ({ clientSecret, total }: Props) => {
 	const [shipping, setShipping] = useState<StripeAddressElementChangeEvent["value"]>({
 		name: "",
 		address: {
@@ -31,8 +36,6 @@ export const StripeForm = ({ clientSecret }: { clientSecret: string }) => {
 				clientSecret,
 				locale: "en",
 				appearance: {
-					theme: "flat",
-					labels: "floating",
 					variables: {
 						colorPrimary: "#1d64d8",
 					},
@@ -40,16 +43,18 @@ export const StripeForm = ({ clientSecret }: { clientSecret: string }) => {
 			}}
 			stripe={stripePromise}
 		>
-			<div className="flex w-full justify-center p-4 sm:p-10">
-				<AddressElement
-					options={{ mode: "shipping" }}
-					className="w-2/3"
-					onChange={(event) => {
-						setShipping(event.value);
-					}}
-				/>
-			</div>
-			<CheckoutForm shipping={shipping} />
+			<CheckoutForm
+				shipping={shipping}
+				address={
+					<AddressElement
+						options={{ mode: "shipping" }}
+						onChange={(event) => {
+							setShipping(event.value);
+						}}
+					/>
+				}
+				total={total}
+			/>
 		</Elements>
 	);
 };

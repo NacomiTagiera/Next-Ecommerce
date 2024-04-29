@@ -1,18 +1,22 @@
 import { type FormEvent, useEffect, useState } from "react";
+import { LuLoader } from "react-icons/lu";
 import { PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { type StripeAddressElementChangeEvent } from "@stripe/stripe-js";
 
 import { useSearchParams } from "next/navigation";
 
+import { formatPrice } from "@/lib/utils";
+
+import { CartSummary } from "../Cart/CartSummary";
 import { Button } from "../UI/Button";
 
-import "./stripe.css";
-
 type Props = {
+	address: React.ReactNode;
 	shipping: StripeAddressElementChangeEvent["value"];
+	total: number;
 };
 
-export function CheckoutForm({ shipping }: Props) {
+export function CheckoutForm({ address, total, shipping }: Props) {
 	const stripe = useStripe();
 	const elements = useElements();
 	const searchParams = useSearchParams();
@@ -91,10 +95,6 @@ export function CheckoutForm({ shipping }: Props) {
 		setIsLoading(false);
 	};
 
-	const paymentElementOptions = {
-		layout: "tabs",
-	} as const;
-
 	const requiredShippingFields =
 		shipping?.name &&
 		shipping?.address.line1 &&
@@ -104,20 +104,41 @@ export function CheckoutForm({ shipping }: Props) {
 		shipping?.address.country;
 
 	return (
-		<div className="stripe">
-			<form id="payment-form" onSubmit={handleSubmit}>
-				<PaymentElement id="payment-element" options={paymentElementOptions} />
-				<Button
-					size="fullWidth"
-					disabled={isLoading || !stripe || !elements || !requiredShippingFields}
-					id="submit"
-				>
-					<span id="button-text">
-						{isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
-					</span>
-				</Button>
-				{message && <div id="payment-message">{message}</div>}
+		<section className="mx-auto max-w-2xl px-4 pb-24 pt-16 sm:px-6 lg:max-w-7xl lg:px-8">
+			<h1 className="sr-only">Checkout</h1>
+			<form
+				id="payment-form"
+				className="lg:total-start lg:grid lg:grid-cols-12 lg:gap-x-12 xl:gap-x-16"
+				onSubmit={handleSubmit}
+			>
+				<div className="lg:col-span-7">
+					<div>
+						<h2 className="mb-4 text-xl font-medium">Payment</h2>
+						<PaymentElement id="payment-element" options={{ layout: "tabs" }} />
+					</div>
+					<div className="mt-10 border-t border-zinc-300 pt-10">
+						<h2 className="mb-4 text-xl font-medium">Shipping Information</h2>
+						{address}
+					</div>
+				</div>
+				<CartSummary price={formatPrice(total / 100)} className="mt-10 shadow-sm">
+					<Button
+						type="submit"
+						size="fullWidth"
+						aria-disabled={isLoading || !stripe || !elements || !requiredShippingFields}
+						className="mt-8 aria-disabled:cursor-not-allowed"
+					>
+						<span id="button-text">
+							{isLoading ? (
+								<LuLoader className="me-2 size-5 animate-spin" aria-hidden />
+							) : (
+								"Pay now"
+							)}
+						</span>
+					</Button>
+					{message && <div id="payment-message">{message}</div>}
+				</CartSummary>
 			</form>
-		</div>
+		</section>
 	);
 }

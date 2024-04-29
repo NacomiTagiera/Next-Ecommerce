@@ -55,8 +55,6 @@ export const removeItemFromCart = async (itemId: string, itemsLength: number) =>
 		cache: "no-store",
 	});
 
-	revalidateTag("cart");
-
 	if (itemsLength === 1) {
 		setCookie("cartId", "");
 	}
@@ -69,13 +67,15 @@ export const changeItemQuantity = async (itemId: string, quantity: number) => {
 		throw new Error("Quantity must be greater than 0");
 	}
 
-	await executeGraphql({
+	const { updateOrderItem } = await executeGraphql({
 		query: CartChangeItemQuantityDocument,
 		variables: { itemId, quantity },
 		cache: "no-store",
 	});
 
 	revalidateTag("cart");
+
+	return updateOrderItem;
 };
 
 export const handlePayment = async () => {
@@ -120,4 +120,8 @@ export const updateOrderAfterPayment = async (
 	}
 
 	return updateOrder.id;
+};
+
+export const deleteCartIdCookie = async () => {
+	setCookie("cartId", "");
 };

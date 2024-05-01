@@ -39,7 +39,7 @@ export const UserProfileDropdown = () => {
 	return (
 		<Menu as="div" className="relative">
 			<div>
-				<Menu.Button className="relative flex rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-skyfall-400 focus:ring-offset-2 focus:ring-offset-skyfall-300">
+				<Menu.Button className="relative flex w-8 rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-skyfall-400 focus:ring-offset-2 focus:ring-offset-skyfall-300">
 					<span className="absolute -inset-1.5" />
 					<span className="sr-only">Open user menu</span>
 					<NextImage

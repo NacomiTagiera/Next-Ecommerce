@@ -15,6 +15,9 @@ export const getProductsList = async (page: number) => {
 	const { products } = await executeGraphql({
 		query: ProductGetListDocument,
 		variables: paginationArgs(page),
+		next: {
+			revalidate: 60 * 10, // 10 mins
+		},
 	});
 
 	return products;
@@ -28,7 +31,7 @@ export const getProductByIdOrSlug = async (params: { id?: string; slug?: string 
 			query: ProductGetByIdDocument,
 			variables: { id: params.id },
 			next: {
-				revalidate: 60 * 10, // 10 mins
+				revalidate: 60 * 10,
 			},
 		});
 		product = res.product;

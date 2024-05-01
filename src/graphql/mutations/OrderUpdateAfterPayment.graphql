@@ -1,0 +1,5 @@
+mutation OrderUpdateAfterPayment($id: ID!, $email: String!, $stripeCheckoutId: String!) {
+	updateOrder(data: { email: $email, stripeCheckoutId: $stripeCheckoutId }, where: { id: $id }) {
+		id
+	}
+}

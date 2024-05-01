@@ -5,6 +5,8 @@ import { executeGraphql } from "@/app/api/graphqlApi";
 import { getReviewsByProductId } from "@/app/api/reviews";
 import { ProductUpdateRatingDocument } from "@/graphql/generated/graphql";
 
+import { getProductByIdOrSlug } from "../../products";
+
 export async function POST(request: NextRequest): Promise<Response> {
 	const { data: { product: { id: productId } = {} } = {} } = (await request.json()) as {
 		data: { product: { id: string } };
@@ -14,6 +16,7 @@ export async function POST(request: NextRequest): Promise<Response> {
 	}
 
 	const reviews = await getReviewsByProductId(productId);
+	const { slug } = await getProductByIdOrSlug({ id: productId });
 	let averageRating = 0;
 
 	if (reviews && reviews.length > 0) {
@@ -27,7 +30,8 @@ export async function POST(request: NextRequest): Promise<Response> {
 			variables: { productId, rating: averageRating },
 		});
 
-		revalidatePath(`/product/${productId}`);
+		revalidatePath(`/product/${slug}`);
+		revalidatePath("/");
 		return new Response("Rating updated", { status: 200 });
 	} catch (error) {
 		return new Response("Failed to update rating", { status: 500 });

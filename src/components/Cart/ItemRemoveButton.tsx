@@ -6,7 +6,12 @@ import { removeItemFromCart } from "@/actions/cart";
 
 import { Button } from "../UI/Button";
 
-export const ItemRemoveButton = ({ itemId }: { itemId: string }) => {
+type Props = {
+	itemId: string;
+	itemsLength: number;
+};
+
+export const ItemRemoveButton = ({ itemId, itemsLength }: Props) => {
 	const [isPending, startTransition] = useTransition();
 
 	return (
@@ -19,7 +24,7 @@ export const ItemRemoveButton = ({ itemId }: { itemId: string }) => {
 			aria-disabled={isPending}
 			onClick={() =>
 				startTransition(async () => {
-					await removeItemFromCart(itemId);
+					await removeItemFromCart(itemId, itemsLength);
 				})
 			}
 		>

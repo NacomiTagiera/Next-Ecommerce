@@ -5,7 +5,7 @@ export const getCookie = (name: string) => cookies().get(name)?.value;
 export const setCookie = (name: string, value: string, maxAge?: number) =>
 	cookies().set(name, value, {
 		httpOnly: true,
-		sameSite: "strict",
+		sameSite: "lax",
 		maxAge: maxAge || 60 * 60 * 24 * 30,
 	});
 

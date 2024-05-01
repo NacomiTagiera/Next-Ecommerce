@@ -3,14 +3,17 @@ import { getCookie, setCookie } from "@/lib/cookies";
 
 import { executeGraphql } from "./graphqlApi";
 
-export const getCartById = async (id: string) => {
+export const getCartFromCookies = async () => {
+	const cartId = getCookie("cartId");
+	if (!cartId) return;
+
 	const { order: cart } = await executeGraphql({
 		query: CartGetByIdDocument,
-		variables: { id },
+		variables: { id: cartId },
+		cache: "no-store",
 		next: {
 			tags: ["cart"],
 		},
-		cache: "no-store",
 	});
 
 	if (!cart) {
@@ -20,32 +23,22 @@ export const getCartById = async (id: string) => {
 	return cart;
 };
 
-export const createCart = async () => {
-	const { createOrder } = await executeGraphql({
-		query: CartCreateDocument,
-		cache: "no-store",
-	});
-
-	if (!createOrder) {
-		throw new Error("Failed to create cart.");
-	}
-
-	return createOrder;
-};
-
-export const getCartFromCookies = async () => {
-	const cartId = getCookie("cartId");
-	if (!cartId) return;
-
-	const cart = await getCartById(cartId);
-	return cart;
-};
-
 export const getOrCreateCart = async () => {
 	const cart = await getCartFromCookies();
 	if (cart) return cart;
 
-	const newCart = await createCart();
+	const { createOrder: newCart } = await executeGraphql({
+		query: CartCreateDocument,
+		cache: "no-store",
+		next: {
+			tags: ["cart"],
+		},
+	});
+
+	if (!newCart) {
+		throw new Error("Failed to create cart.");
+	}
+
 	setCookie("cartId", newCart.id);
 
 	return newCart;

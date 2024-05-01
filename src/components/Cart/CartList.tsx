@@ -18,7 +18,12 @@ export const CartList = ({ items, view }: Props) => {
 				})}
 			>
 				{items.map((item) => (
-					<CartListItem key={item.id} orderItem={item} view={view || "fullView"} />
+					<CartListItem
+						key={item.id}
+						orderItem={item}
+						view={view || "fullView"}
+						itemsLength={items.length}
+					/>
 				))}
 			</ul>
 		</section>

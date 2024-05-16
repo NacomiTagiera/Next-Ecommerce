@@ -9,7 +9,7 @@ type Props = {
 export const CartSummary = ({ children, price, className }: Props) => (
 	<aside
 		className={cn(
-			"mt-16 rounded-lg bg-zinc-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8",
+			"mt-16 self-start rounded-lg bg-zinc-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8",
 			className,
 		)}
 	>

@@ -14,7 +14,7 @@ export default async function CheckoutPage({ searchParams }: { searchParams: { i
 
 	const user = await currentUser();
 	if (!user) {
-		redirect("/login");
+		redirect("/sign-in");
 	}
 
 	const total = cart?.orderItems.reduce((acc, item) => acc + item.total * item.quantity, 0) || 0;

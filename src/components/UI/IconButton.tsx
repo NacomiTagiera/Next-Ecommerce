@@ -27,7 +27,11 @@ export const IconButton = ({
 }: IconButtonProps) => {
 	if (href)
 		return (
-			<Link href={href} className={cn(buttonVariants({ variant, size, className }), "p-0")}>
+			<Link
+				href={href}
+				className={cn(buttonVariants({ variant, size, className }), "p-0")}
+				title={hiddenLabel}
+			>
 				<span className="sr-only">{hiddenLabel}</span>
 				<Icon
 					className="size-5 text-zinc-700 transition-colors hover:text-skyfall-500 md:size-6"
@@ -40,6 +44,7 @@ export const IconButton = ({
 		<button
 			type="button"
 			className={cn(buttonVariants({ variant, size, className }), "p-0")}
+			title={hiddenLabel}
 			{...rest}
 		>
 			<span className="sr-only">{hiddenLabel}</span>

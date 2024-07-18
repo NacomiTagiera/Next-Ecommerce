@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 
 import { getCartFromCookies, getOrCreateCart } from "@/app/api/cart";
 import { executeGraphql } from "@/app/api/graphqlApi";
+import { publishOrder, publishOrderItems } from "@/app/api/orders";
 import { getProductByIdOrSlug } from "@/app/api/products";
 import {
 	CartAddItemDocument,
@@ -89,9 +90,6 @@ export const handlePayment = async () => {
 	const paymentIntent = await stripe.paymentIntents.create({
 		amount: cart.orderItems.reduce((total, item) => total + item.total * item.quantity, 0),
 		currency: "usd",
-		automatic_payment_methods: {
-			enabled: true,
-		},
 		receipt_email: userEmail,
 		metadata: {
 			orderId: cart.id,
@@ -105,19 +103,35 @@ export const handlePayment = async () => {
 	redirect(`/checkout?intent=${paymentIntent.client_secret}&intent_id=${paymentIntent.id}`);
 };
 
-export const updateOrderAfterPayment = async (
-	orderId: string,
-	userEmail: string,
-	stripeCheckoutId: string,
-) => {
+type UpdateOrderOptions = {
+	orderId: string;
+	total: number;
+	userEmail: string;
+	stripeCheckoutId: string;
+};
+
+export const updateOrderAfterPayment = async ({
+	orderId,
+	total,
+	userEmail,
+	stripeCheckoutId,
+}: UpdateOrderOptions) => {
 	const { updateOrder } = await executeGraphql({
 		query: OrderUpdateAfterPaymentDocument,
-		variables: { id: orderId, email: userEmail, stripeCheckoutId },
+		variables: {
+			id: orderId,
+			email: userEmail,
+			total,
+			stripeCheckoutId,
+		},
 	});
 
 	if (!updateOrder || !updateOrder.id) {
 		throw new Error("Error updating order after payment");
 	}
+
+	await Promise.all([publishOrder(updateOrder.id), publishOrderItems(updateOrder.id)]);
+	revalidateTag("orders");
 
 	return updateOrder.id;
 };

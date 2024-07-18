@@ -14,7 +14,6 @@ type Props<T extends string> = {
 	exact?: boolean;
 	className?: string;
 	activeClassName?: string;
-	underlineClassName?: string;
 } & LinkProps<T>;
 
 export const ActiveLink = <T extends string>({

@@ -1,20 +1,20 @@
 import NextImage from "next/image";
 
-import { type OrderFragment } from "@/graphql/generated/graphql";
+import { type CartFragment } from "@/graphql/generated/graphql";
 import { cn, formatPrice } from "@/lib/utils";
 
 import { ChangeItemQuantity } from "./ChangeItemQuantity";
 import { ItemRemoveButton } from "./ItemRemoveButton";
 
 type Props = {
-	orderItem: OrderFragment["orderItems"][0];
-	itemsLength: number;
+	orderItem: CartFragment["orderItems"][0];
+	itemsLength?: number;
 	view?: "fullView" | "modal";
 };
 
 export const CartListItem = ({
 	orderItem: { id, product, quantity },
-	itemsLength,
+	itemsLength = 0,
 	view = "fullView",
 }: Props) => {
 	return (

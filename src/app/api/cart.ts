@@ -16,10 +16,6 @@ export const getCartFromCookies = async () => {
 		},
 	});
 
-	if (!cart) {
-		throw new Error("Failed to get cart.");
-	}
-
 	return cart;
 };
 

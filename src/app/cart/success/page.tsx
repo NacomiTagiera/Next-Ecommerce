@@ -34,11 +34,12 @@ export default async function CartSuccessPage({
 		redirect("/cart");
 	}
 
-	await updateOrderAfterPayment(
-		paymentIntent.metadata.orderId,
-		paymentIntent.receipt_email ?? "",
-		paymentIntent.id,
-	);
+	await updateOrderAfterPayment({
+		orderId: paymentIntent.metadata.orderId,
+		userEmail: paymentIntent.receipt_email ?? "",
+		total: paymentIntent.amount,
+		stripeCheckoutId: paymentIntent.id,
+	});
 
 	return <CartSuccessView total={paymentIntent.amount} />;
 }

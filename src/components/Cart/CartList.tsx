@@ -1,10 +1,10 @@
-import { type OrderFragment } from "@/graphql/generated/graphql";
+import { type CartFragment } from "@/graphql/generated/graphql";
 import { cn } from "@/lib/utils";
 
 import { CartListItem } from "./CartListItem";
 
 type Props = {
-	items: OrderFragment["orderItems"];
+	items: CartFragment["orderItems"];
 	view?: "fullView" | "modal";
 };
 

@@ -1,6 +1,6 @@
 import { Fragment, useEffect } from "react";
 import { FaRegCheckCircle } from "react-icons/fa";
-import { MdClose, MdErrorOutline } from "react-icons/md";
+import { MdClose, MdErrorOutline, MdInfoOutline } from "react-icons/md";
 import { Transition } from "@headlessui/react";
 
 import { IconButton } from "./IconButton";
@@ -12,7 +12,7 @@ type Props = {
 	status?: "success" | "error";
 };
 
-export const Notification = ({ show, message, onClose, status = "success" }: Props) => {
+export const Notification = ({ show, message, onClose, status }: Props) => {
 	useEffect(() => {
 		if (show) {
 			const timer = setTimeout(() => {
@@ -47,8 +47,10 @@ export const Notification = ({ show, message, onClose, status = "success" }: Pro
 								<div className="flex-shrink-0 pt-1">
 									{status === "success" ? (
 										<FaRegCheckCircle className="size-5 text-green-500" />
-									) : (
+									) : status === "error" ? (
 										<MdErrorOutline className="size-5 text-red-600" />
+									) : (
+										<MdInfoOutline className="size-5 text-skyfall-500" />
 									)}
 								</div>
 								<div className="ml-3 w-0 flex-1">

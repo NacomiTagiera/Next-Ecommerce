@@ -44,7 +44,7 @@ export const Orders = async () => {
 	return (
 		<>
 			<h2 className="sr-only">Recent orders</h2>
-			{orders.map((order) => {
+			{orders.map((order, index) => {
 				if (!order.orderItems || order.orderItems.length === 0) return null;
 
 				return (
@@ -73,7 +73,7 @@ export const Orders = async () => {
 							</thead>
 							<tbody className="divide-y divide-zinc-200 border-zinc-200 text-sm sm:border-t">
 								{order.orderItems.map((item) => (
-									<OrderItemProduct key={item.id} orderItem={item} />
+									<OrderItemProduct key={item.id} orderItem={item} imgPriority={index === 0} />
 								))}
 							</tbody>
 						</table>

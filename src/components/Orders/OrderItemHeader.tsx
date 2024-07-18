@@ -25,7 +25,7 @@ export const OrderItemHeader = ({ total, orderDate }: Props) => {
 					<dd
 						className={cn(
 							"font-medium sm:mt-1",
-							isDelivered ? "text-green-500" : "text-skyfall-600",
+							isDelivered ? "text-green-700" : "text-skyfall-600",
 						)}
 					>
 						{isDelivered ? "Delivered" : "Shipped"}

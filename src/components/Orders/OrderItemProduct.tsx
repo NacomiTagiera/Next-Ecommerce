@@ -1,14 +1,16 @@
-import NextImage from "next/image";
 import Link from "next/link";
 
 import { type OrderFragment } from "@/graphql/generated/graphql";
 import { formatPrice } from "@/lib/utils";
 
+import { BlurredImage } from "../UI/BlurredImage";
+
 type Props = {
 	orderItem: OrderFragment["orderItems"][0];
+	imgPriority?: boolean;
 };
 
-export const OrderItemProduct = ({ orderItem }: Props) => {
+export const OrderItemProduct = ({ orderItem, imgPriority }: Props) => {
 	if (!orderItem || !orderItem.product) return null;
 	const { quantity, product } = orderItem;
 	const productPrice = formatPrice(product.price / 100);
@@ -17,17 +19,18 @@ export const OrderItemProduct = ({ orderItem }: Props) => {
 		<tr className="hover:bg-zinc-100">
 			<td className="py-6 pl-2 pr-8 sm:pl-4">
 				<div className="flex items-center">
-					<NextImage
+					<BlurredImage
 						src={product.images[0]?.url || ""}
 						alt={product.name}
+						priority={imgPriority}
 						width={64}
 						height={64}
 						className="mr-6 size-16 rounded object-cover object-center"
 					/>
 					<div>
-						<p className="font-medium">{product.name}</p>
+						<h3 className="text-left font-semibold">{product.name}</h3>
 						<div className="mt-1 text-left sm:hidden">
-							{quantity} × {productPrice}
+							{quantity} × <span className="font-medium">{productPrice}</span>
 						</div>
 					</div>
 				</div>

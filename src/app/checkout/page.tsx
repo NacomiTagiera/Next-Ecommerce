@@ -1,23 +1,22 @@
-import { currentUser } from "@clerk/nextjs/server";
-
 import { redirect } from "next/navigation";
 
 import { StripeForm } from "@/components/Checkout/StripeForm";
 
 import { getCartFromCookies } from "../api/cart";
 
-export default async function CheckoutPage({ searchParams }: { searchParams: { intent: string } }) {
-	const cart = await getCartFromCookies();
-	if (!searchParams.intent || !cart || cart.orderItems.length === 0) {
-		redirect("/cart");
-	}
+type Props = {
+	searchParams: {
+		intent: string;
+	};
+};
 
-	const user = await currentUser();
-	if (!user) {
-		redirect("/sign-in");
+export default async function CheckoutPage({ searchParams: { intent } }: Props) {
+	const cart = await getCartFromCookies();
+	if (!intent || !cart || cart.orderItems.length === 0) {
+		redirect("/cart");
 	}
 
 	const total = cart?.orderItems.reduce((acc, item) => acc + item.total * item.quantity, 0) || 0;
 
-	return <StripeForm clientSecret={searchParams.intent} total={total} />;
+	return <StripeForm clientSecret={intent} total={total} />;
 }

@@ -126,7 +126,7 @@ export function CheckoutForm({ address, total, shipping }: Props) {
 						type="submit"
 						size="fullWidth"
 						aria-disabled={isLoading || !stripe || !elements || !requiredShippingFields}
-						className="mt-8 aria-disabled:cursor-not-allowed"
+						className="mt-8 aria-disabled:hover:cursor-not-allowed"
 					>
 						<span id="button-text">
 							{isLoading ? (

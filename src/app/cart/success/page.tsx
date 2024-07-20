@@ -14,23 +14,24 @@ export const metadata: Metadata = {
 	},
 };
 
-export default async function CartSuccessPage({
-	searchParams,
-}: {
-	searchParams: { intent_id: string };
-}) {
+type Props = {
+	searchParams: {
+		intent_id: string;
+	};
+};
+
+export default async function CartSuccessPage({ searchParams: { intent_id } }: Props) {
 	if (!process.env.STRIPE_SECRET_KEY) {
 		throw new Error("Stripe secret key not set");
 	}
 
-	const paymentIntent = await stripe.paymentIntents.retrieve(searchParams.intent_id);
+	if (!intent_id) {
+		redirect("/cart");
+	}
 
-	if (
-		!searchParams.intent_id ||
-		!paymentIntent ||
-		paymentIntent.status !== "succeeded" ||
-		!paymentIntent.metadata.orderId
-	) {
+	const paymentIntent = await stripe.paymentIntents.retrieve(intent_id);
+
+	if (!paymentIntent || paymentIntent.status !== "succeeded" || !paymentIntent.metadata.orderId) {
 		redirect("/cart");
 	}
 

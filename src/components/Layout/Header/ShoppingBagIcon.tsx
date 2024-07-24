@@ -2,7 +2,7 @@ import { FiShoppingBag } from "react-icons/fi";
 
 import Link from "next/link";
 
-import { getCartFromCookies } from "@/app/api/cart";
+import { getCartFromCookies } from "@/features/cart/api/fetchQueries";
 
 export const ShoppingBagIcon = async () => {
 	const cart = await getCartFromCookies();
@@ -13,6 +13,7 @@ export const ShoppingBagIcon = async () => {
 			<Link
 				href="/cart"
 				className="group flex items-center focus:outline-none focus:ring-2 focus:ring-skyfall-300"
+				title="View cart"
 			>
 				<FiShoppingBag
 					className="h-5 w-5 text-zinc-700 transition-colors group-hover:text-skyfall-500 md:h-6 md:w-6"

@@ -1,43 +1,53 @@
 import { Suspense } from "react";
 
-import { getProductByIdOrSlug } from "@/app/api/products";
-import { AddToCartButton } from "@/components/Cart/AddToCartButton";
-import { ProductImage } from "@/components/ProductDetails/ProductImage";
-import { ProductInfo } from "@/components/ProductDetails/ProductInfo";
-import { RelatedProducts } from "@/components/ProductDetails/RelatedProducts";
-import { VariantSelector } from "@/components/ProductDetails/VariantSelector";
-import { ReviewForm } from "@/components/ReviewForm";
-import { ReviewFormWrapper } from "@/components/ReviewForm/ReviewFormWrapper";
-import { ReviewsList } from "@/components/ReviewsList";
-import { ReviewsListSkeleton, TrendingProductsSkeleton } from "@/components/UI/Skeletons";
-import { type VariantsType } from "@/types";
+import { notFound } from "next/navigation";
 
-type Props = {
-	params: { slug: string };
-};
+import { ReviewsListSkeleton, TrendingProductsSkeleton } from "@/components/UI/Skeletons";
+import { AddToCartButton } from "@/features/cart/components/AddToCartButton";
+import { getProductByIdOrSlug } from "@/features/products/productDetails/api/fetchQueries";
+import { ProductImage } from "@/features/products/productDetails/components/ProductImage";
+import { ProductInfo } from "@/features/products/productDetails/components/ProductInfo";
+import { RelatedProducts } from "@/features/products/productDetails/components/RelatedProducts";
+import { VariantSelector } from "@/features/products/productDetails/components/VariantSelector";
+import { type VariantsType } from "@/features/products/productDetails/types";
+import { ReviewForm } from "@/features/reviews/reviewForm/components/ReviewForm";
+import { ReviewFormWrapper } from "@/features/reviews/reviewForm/components/ReviewFormWrapper";
+import { ReviewsList } from "@/features/reviews/reviewsList/components/ReviewsList";
+
+interface Props {
+	params: {
+		slug: string;
+	};
+}
 
 export default async function ProductPage({ params }: Props) {
 	const product = await getProductByIdOrSlug({ slug: params.slug });
-	const categoriesSlugs = product.categories.map((category) => category.slug);
+
+	if (!product) {
+		notFound();
+	}
+
+	const { id, categories, description, images, name, price, slug, variants, rating } = product;
+	const categoriesSlugs = categories.map((category) => category.slug);
 
 	return (
 		<div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
 			<article className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">
-				<ProductImage product={product} />
-				<ProductInfo product={product}>
-					<VariantSelector variants={product.variants as VariantsType} />
-					<AddToCartButton itemId={product.id} />
+				<ProductImage name={name} images={images} />
+				<ProductInfo name={name} description={description} price={price} rating={rating}>
+					<VariantSelector variants={variants as VariantsType} />
+					<AddToCartButton itemId={id} />
 				</ProductInfo>
 			</article>
 			<Suspense fallback={<TrendingProductsSkeleton />}>
-				<RelatedProducts productSlug={product.slug} categoriesSlugs={categoriesSlugs} />
+				<RelatedProducts productSlug={slug} categoriesSlugs={categoriesSlugs} />
 			</Suspense>
 			<div className="mx-auto max-w-2xl lg:grid lg:max-w-7xl lg:grid-cols-12 lg:gap-x-8 lg:py-16">
-				<ReviewFormWrapper productRating={product.rating}>
-					<ReviewForm productId={product.id} />
+				<ReviewFormWrapper productRating={rating}>
+					<ReviewForm productId={id} />
 				</ReviewFormWrapper>
 				<Suspense fallback={<ReviewsListSkeleton />}>
-					<ReviewsList productId={product.id} />
+					<ReviewsList productId={id} />
 				</Suspense>
 			</div>
 		</div>

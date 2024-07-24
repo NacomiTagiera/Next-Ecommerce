@@ -1,10 +1,10 @@
 import { BlurredImage } from "@/components/UI/BlurredImage";
 
-type Props = {
+interface Props {
 	name: string;
 	imageSrc: string;
 	description: string;
-};
+}
 
 export const Incentive = async ({ name, imageSrc, description }: Props) => (
 	<div className="sm:flex lg:block">

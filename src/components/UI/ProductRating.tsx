@@ -2,11 +2,11 @@ import { cn } from "@/lib/utils";
 
 import { RatingStar } from "./RatingStar";
 
-type Props = {
+interface Props {
 	rating?: number | null;
 	size?: "md" | "lg";
 	hideRating?: boolean;
-};
+}
 
 export const ProductRating = ({ rating, size = "md", hideRating }: Props) => (
 	<div className="flex items-center">

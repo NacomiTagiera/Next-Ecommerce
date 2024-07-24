@@ -1,19 +1,21 @@
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getProductsBySearch } from "@/app/api/products";
-import { ProductList } from "@/components/ProductList";
-import { SectionHeader } from "@/components/Storefront/SectionHeader";
+import { SectionHeader } from "@/components/UI/SectionHeader";
+import { getProductsBySearch } from "@/features/products/productsList/api/fetchQueries";
+import { ProductList } from "@/features/products/productsList/components/ProductsList";
 
 export const metadata: Metadata = {
 	title: "Search Results",
 };
 
-export default async function SearchPage({
-	searchParams,
-}: {
-	searchParams: { [key: string]: string | string[] | undefined };
-}) {
+interface Props {
+	searchParams: {
+		[key: string]: string | string[] | undefined;
+	};
+}
+
+export default async function SearchPage({ searchParams }: Props) {
 	if (!searchParams.query) {
 		return notFound();
 	}

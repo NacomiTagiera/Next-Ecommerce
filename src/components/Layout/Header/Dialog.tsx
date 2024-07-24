@@ -1,19 +1,19 @@
 import { Fragment } from "react";
 import { IoMdClose } from "react-icons/io";
-import { Dialog as UiDialog, Transition } from "@headlessui/react";
+import { Dialog as UiDialog, DialogPanel, Transition, TransitionChild } from "@headlessui/react";
 
 import { IconButton } from "@/components/UI/IconButton";
 
-type Props = {
+interface Props {
 	children: React.ReactNode;
 	open: boolean;
 	onClose: () => void;
-};
+}
 
 export const Dialog = ({ children, open, onClose }: Props) => (
-	<Transition.Root show={open} as={Fragment}>
+	<Transition show={open} as={Fragment}>
 		<UiDialog as="aside" className="relative z-40 lg:hidden" onClose={onClose}>
-			<Transition.Child
+			<TransitionChild
 				as={Fragment}
 				enter="transition-opacity ease-linear duration-300"
 				enterFrom="opacity-0"
@@ -23,10 +23,10 @@ export const Dialog = ({ children, open, onClose }: Props) => (
 				leaveTo="opacity-0"
 			>
 				<div className="fixed inset-0 bg-black/50" />
-			</Transition.Child>
+			</TransitionChild>
 
 			<div className="fixed inset-0 z-40 flex backdrop-blur-sm">
-				<Transition.Child
+				<TransitionChild
 					as={Fragment}
 					enter="transition ease-in-out duration-300 transform"
 					enterFrom="-translate-x-full"
@@ -35,7 +35,7 @@ export const Dialog = ({ children, open, onClose }: Props) => (
 					leaveFrom="translate-x-0"
 					leaveTo="-translate-x-full"
 				>
-					<UiDialog.Panel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-twilight-50 pb-8 shadow-xl">
+					<DialogPanel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-twilight-50 pb-8 shadow-xl">
 						<div className="flex px-4 pb-2 pt-5">
 							<IconButton
 								icon={IoMdClose}
@@ -46,9 +46,9 @@ export const Dialog = ({ children, open, onClose }: Props) => (
 						</div>
 
 						{children}
-					</UiDialog.Panel>
-				</Transition.Child>
+					</DialogPanel>
+				</TransitionChild>
 			</div>
 		</UiDialog>
-	</Transition.Root>
+	</Transition>
 );

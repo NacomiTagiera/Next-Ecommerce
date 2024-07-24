@@ -1,14 +1,13 @@
 import { redirect } from "next/navigation";
 
-import { StripeForm } from "@/components/Checkout/StripeForm";
+import { getCartFromCookies } from "@/features/cart/api/fetchQueries";
+import { StripeForm } from "@/features/checkout/components/StripeForm";
 
-import { getCartFromCookies } from "../api/cart";
-
-type Props = {
+interface Props {
 	searchParams: {
 		intent: string;
 	};
-};
+}
 
 export default async function CheckoutPage({ searchParams: { intent } }: Props) {
 	const cart = await getCartFromCookies();

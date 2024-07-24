@@ -1,12 +1,11 @@
-import { getCollectionsList } from "@/app/api/collections";
+import { getCollectionsList } from "@/features/collections/api/fetchQueries";
 
 import { BlurredImage } from "../UI/BlurredImage";
 import { ImageLink } from "../UI/ImageLink";
-
-import { SectionHeader } from "./SectionHeader";
+import { SectionHeader } from "../UI/SectionHeader";
 
 export const CollectionsList = async () => {
-	const collections = await getCollectionsList(true, true);
+	const collections = await getCollectionsList({ includeImg: true, includeDescription: true });
 
 	return (
 		<section aria-labelledby="collections-heading" className="bg-white">

@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { type BlurredImage } from "./BlurredImage";
 
-type Props = {
+interface Props {
 	src: string | undefined;
 	alt: string;
 	width: number;
@@ -12,7 +12,7 @@ type Props = {
 	href: Route;
 	children?: React.ReactNode;
 	Component?: typeof NextImage | typeof BlurredImage;
-};
+}
 
 export const ImageLink = ({
 	src,

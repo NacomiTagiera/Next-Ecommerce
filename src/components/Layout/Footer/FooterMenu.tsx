@@ -2,13 +2,13 @@ import { type Route } from "next";
 
 import { ActiveLink } from "@/components/UI/ActiveLink";
 
-type Props = {
+interface Props {
 	header: string;
 	items: {
 		name: string;
 		href: Route;
 	}[];
-};
+}
 
 export const FooterMenu = ({ header, items }: Props) => {
 	return (

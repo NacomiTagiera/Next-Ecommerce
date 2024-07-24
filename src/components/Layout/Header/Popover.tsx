@@ -1,19 +1,19 @@
 import { Fragment } from "react";
-import { Popover as UiPopover, Transition } from "@headlessui/react";
+import { Popover as UiPopover, PopoverButton, PopoverPanel, Transition } from "@headlessui/react";
 
 import { cn } from "@/lib/utils";
 
-type Props = {
+interface Props {
 	children: React.ReactNode;
 	name: string;
-};
+}
 
 export const Popover = ({ children, name }: Props) => (
 	<UiPopover className="flex">
 		{({ open, close }) => (
 			<>
 				<div className="relative flex">
-					<UiPopover.Button
+					<PopoverButton
 						className={cn(
 							"relative z-10 flex items-center justify-center font-medium text-zinc-700 transition-colors duration-150 ease-in-out hover:text-skyfall-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-skyfall-500",
 							open && "text-skyfall-500",
@@ -27,7 +27,7 @@ export const Popover = ({ children, name }: Props) => (
 							)}
 							aria-hidden
 						/>
-					</UiPopover.Button>
+					</PopoverButton>
 				</div>
 
 				<Transition
@@ -39,7 +39,7 @@ export const Popover = ({ children, name }: Props) => (
 					leaveFrom="opacity-100"
 					leaveTo="opacity-0"
 				>
-					<UiPopover.Panel
+					<PopoverPanel
 						className="absolute inset-x-0 top-full text-sm text-zinc-600"
 						onMouseLeave={close}
 					>
@@ -51,7 +51,7 @@ export const Popover = ({ children, name }: Props) => (
 								</div>
 							</div>
 						</div>
-					</UiPopover.Panel>
+					</PopoverPanel>
 				</Transition>
 			</>
 		)}

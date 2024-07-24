@@ -1,6 +1,5 @@
+import { SectionHeader } from "@/components/UI/SectionHeader";
 import { incentives } from "@/lib/constants";
-
-import { SectionHeader } from "../SectionHeader";
 
 import { Incentive } from "./Incentive";
 

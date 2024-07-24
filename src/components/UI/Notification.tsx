@@ -5,12 +5,12 @@ import { Transition } from "@headlessui/react";
 
 import { IconButton } from "./IconButton";
 
-type Props = {
+interface Props {
 	show: boolean;
 	message: string;
 	onClose: () => void;
 	status?: "success" | "error";
-};
+}
 
 export const Notification = ({ show, message, onClose, status }: Props) => {
 	useEffect(() => {

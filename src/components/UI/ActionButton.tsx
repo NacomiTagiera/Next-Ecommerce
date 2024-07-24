@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 import { Button, type ButtonProps } from "./Button";
 
-type Props = ButtonProps;
+interface Props extends ButtonProps {}
 
 export const ActionButton = ({
 	children,
@@ -23,9 +23,7 @@ export const ActionButton = ({
 			type="submit"
 			size="fullWidth"
 			aria-disabled={pending}
-			leadingIcon={
-				!pending ? leadingIcon : <LuLoader className="me-2 size-5 animate-spin" aria-hidden />
-			}
+			leadingIcon={!pending ? leadingIcon : LuLoader}
 			trailingIcon={!pending ? trailingIcon : undefined}
 			className={cn("px-8", className, {
 				"cursor-wait": pending,

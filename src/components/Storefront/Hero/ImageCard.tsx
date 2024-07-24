@@ -1,9 +1,9 @@
 import NextImage from "next/image";
 
-type Props = {
+interface Props {
 	src: string;
 	alt: string;
-};
+}
 
 export const ImageCard = async ({ src, alt }: Props) => (
 	<div className="relative">

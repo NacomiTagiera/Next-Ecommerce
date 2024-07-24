@@ -1,5 +1,5 @@
 import { Fragment, Suspense } from "react";
-import { Tab } from "@headlessui/react";
+import { TabGroup, TabPanel, TabPanels } from "@headlessui/react";
 
 import type { Route } from "next";
 
@@ -11,7 +11,7 @@ import { Dialog } from "./Dialog";
 import { SearchInput } from "./SearchInput";
 import { TabList } from "./TabList";
 
-type Props = {
+interface Props {
 	open: boolean;
 	setOpen: (open: boolean) => void;
 	navigation: {
@@ -24,18 +24,18 @@ type Props = {
 			href: Route;
 		}[];
 	};
-};
+}
 
 export const MobileMenu = ({ open, setOpen, navigation }: Props) => (
 	<Dialog open={open} onClose={() => setOpen(false)}>
 		<Suspense>
 			<SearchInput id="mobile-search" className="mx-auto block w-72 pt-3 lg:hidden" />
 		</Suspense>
-		<Tab.Group as="div" className="mt-2">
+		<TabGroup as="div" className="mt-2">
 			<TabList items={navigation.groupings} />
-			<Tab.Panels as={Fragment}>
+			<TabPanels as={Fragment}>
 				{navigation.groupings.map((grouping) => (
-					<Tab.Panel key={grouping.name} className="space-y-12 px-4 py-6">
+					<TabPanel key={grouping.name} className="space-y-12 px-4 py-6">
 						<div className="grid grid-cols-2 gap-x-4 gap-y-10">
 							{grouping.featured.map((item) => (
 								<ImageLink
@@ -53,10 +53,10 @@ export const MobileMenu = ({ open, setOpen, navigation }: Props) => (
 								</ImageLink>
 							))}
 						</div>
-					</Tab.Panel>
+					</TabPanel>
 				))}
-			</Tab.Panels>
-		</Tab.Group>
+			</TabPanels>
+		</TabGroup>
 
 		<div className="space-y-6 border-t border-twilight-200 px-4 py-6">
 			{navigation.pages.map((page) => (

@@ -16,7 +16,7 @@ export const Overlay = () => {
 
 	return (
 		<div
-			className="fixed inset-0 flex animate-fade-in bg-black/50 backdrop-blur-sm"
+			className="fixed inset-0 animate-fade-in bg-black/50 backdrop-blur-sm"
 			aria-hidden
 			onClick={() => router.back()}
 		/>

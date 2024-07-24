@@ -14,10 +14,10 @@ import { SearchInput } from "./SearchInput";
 import { ShoppingBagIcon } from "./ShoppingBagIcon";
 import { UserProfileDropdown } from "./UserProfileDropdown";
 
-type Props = {
+interface Props {
 	categories: CategoryWithImage[];
 	collections: CategoryWithImage[];
-};
+}
 
 export const Header = async ({ categories, collections }: Props) => {
 	const navigation = {

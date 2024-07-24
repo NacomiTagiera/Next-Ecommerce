@@ -1,17 +1,19 @@
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getCollectionBySlug } from "@/app/api/collections";
-import { getProductsCountInCollection } from "@/app/api/products";
-import { ProductList } from "@/components/ProductList";
-import { Pagination } from "@/components/ProductList/Pagination";
-import { SectionHeader } from "@/components/Storefront/SectionHeader";
+import { SectionHeader } from "@/components/UI/SectionHeader";
+import {
+	getCollectionBySlug,
+	getProductsCountInCollection,
+} from "@/features/collections/api/fetchQueries";
+import { Pagination } from "@/features/products/productsList/components/Pagination";
+import { ProductList } from "@/features/products/productsList/components/ProductsList";
 import { PRODUCTS_PER_PAGE } from "@/lib/constants";
 
-type Props = {
+interface Props {
 	params: { collection: string; pageNumber: string };
 	searchParams: { [key: string]: string | string[] | undefined };
-};
+}
 
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
 	const collection = await getCollectionBySlug(params.collection, 1);

@@ -5,10 +5,9 @@ import { Roboto_Flex } from "next/font/google";
 
 import { Footer } from "@/components/Layout/Footer";
 import { Header } from "@/components/Layout/Header";
+import { getCategoriesList } from "@/features/categories/api/fetchQueries";
+import { getCollectionsList } from "@/features/collections/api/fetchQueries";
 import { cn } from "@/lib/utils";
-
-import { getCategoriesList } from "./api/categories";
-import { getCollectionsList } from "./api/collections";
 
 import "./globals.css";
 
@@ -79,8 +78,8 @@ export default async function RootLayout({
 	modal: React.ReactNode;
 }) {
 	const [categories, collections] = await Promise.all([
-		getCategoriesList(true),
-		getCollectionsList(true),
+		getCategoriesList({ includeImg: true }),
+		getCollectionsList({ includeImg: true }),
 	]);
 
 	return (

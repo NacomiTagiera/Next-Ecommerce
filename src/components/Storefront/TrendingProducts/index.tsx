@@ -1,7 +1,6 @@
-import { getProductsList } from "@/app/api/products";
-import { ProductList } from "@/components/ProductList";
-
-import { SectionHeader } from "../SectionHeader";
+import { SectionHeader } from "@/components/UI/SectionHeader";
+import { getProductsList } from "@/features/products/productsList/api/fetchQueries";
+import { ProductList } from "@/features/products/productsList/components/ProductsList";
 
 import { AllProductsLink } from "./AllProductsLink";
 

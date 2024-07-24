@@ -1,11 +1,10 @@
 import { Button } from "@/components/UI/Button";
+import { SectionHeader } from "@/components/UI/SectionHeader";
 
-import { SectionHeader } from "../SectionHeader";
-
-type Props = {
+interface Props {
 	title: string;
 	description: string;
-};
+}
 
 export const HeroHeader = ({ title, description }: Props) => (
 	<div className="w-full max-w-xl lg:shrink-0 xl:max-w-2xl">

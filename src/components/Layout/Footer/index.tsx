@@ -9,24 +9,24 @@ import { type CategoryWithImage } from "@/types";
 import { FooterMenu } from "./FooterMenu";
 import { FooterSocialLink } from "./FooterSocialLink";
 
-type Props = {
+interface Props {
 	categories: CategoryWithImage[];
 	collections: CategoryWithImage[];
-};
+}
 
 export const socials = [
 	{
-		Icon: FiLinkedin,
+		icon: FiLinkedin,
 		href: "https://www.linkedin.com/in/jakub-pawlak-frontend-dev",
 		name: "LinkedIn",
 	},
 	{
-		Icon: FiGithub,
+		icon: FiGithub,
 		href: "https://github.com/NacomiTagiera",
 		name: "GitHub",
 	},
 	{
-		Icon: FiFacebook,
+		icon: FiFacebook,
 		href: "https://www.facebook.com/kubapawlak123321",
 		name: "Facebook",
 	},
@@ -64,13 +64,16 @@ export const Footer = async ({ categories, collections }: Props) => {
 							edge with top-quality products and unbeatable deals.
 						</p>
 					</div>
-					<div className="grid grid-cols-2 gap-8 text-center md:grid-cols-4 lg:col-span-2 lg:text-left">
+					<nav
+						aria-label="Footer navigation"
+						className="grid grid-cols-2 gap-8 text-center md:grid-cols-4 lg:col-span-2 lg:text-left"
+					>
 						{allFooterLinks.map((link) => (
 							<div key={link.header}>
 								<FooterMenu {...link} />
 							</div>
 						))}
-					</div>
+					</nav>
 				</div>
 				<div className="mt-12 border-t border-white pt-6 text-center sm:flex sm:justify-between sm:text-left">
 					<div className="flex items-center justify-center space-x-4 sm:order-2">

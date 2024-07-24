@@ -1,13 +1,13 @@
 import { BlurredImage } from "@/components/UI/BlurredImage";
 
-type Props = {
+interface Props {
 	body: string;
 	author: {
 		name: string;
 		handle: string;
 		imageUrl: string;
 	};
-};
+}
 
 export const Testimonial = ({ author, body }: Props) => (
 	<div className="pt-8 sm:inline-block sm:w-full sm:px-4">

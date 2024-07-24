@@ -1,4 +1,4 @@
-import { Popover as UiPopover } from "@headlessui/react";
+import { PopoverGroup } from "@headlessui/react";
 
 import { type Route } from "next";
 
@@ -8,7 +8,7 @@ import { type CategoryWithImage } from "@/types";
 
 import { Popover } from "./Popover";
 
-type Props = {
+interface Props {
 	navigation: {
 		groupings: {
 			name: string;
@@ -19,10 +19,10 @@ type Props = {
 			href: Route;
 		}[];
 	};
-};
+}
 
 export const DesktopMenu = ({ navigation }: Props) => (
-	<UiPopover.Group className="inset-x-0 bottom-0 px-4">
+	<PopoverGroup className="inset-x-0 bottom-0 px-4">
 		<div className="flex h-full justify-center space-x-8">
 			{navigation.pages.map((page) => (
 				<ActiveLink
@@ -56,5 +56,5 @@ export const DesktopMenu = ({ navigation }: Props) => (
 				</Popover>
 			))}
 		</div>
-	</UiPopover.Group>
+	</PopoverGroup>
 );

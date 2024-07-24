@@ -11,9 +11,9 @@ import type { NavigationStructure } from "@/types";
 import { DesktopMenu } from "./DesktopMenu";
 import { MobileMenu } from "./MobileMenu";
 
-type Props = NavigationStructure & {
+interface Props extends NavigationStructure {
 	children?: React.JSX.Element | React.JSX.Element[];
-};
+}
 
 export const Navbar = ({ children, navigation }: Props) => {
 	const { mobileMenuOpen, setMobileMenuOpen } = useMobileMenu();

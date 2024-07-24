@@ -1,9 +1,9 @@
-import { getCartFromCookies } from "@/app/api/cart";
-import { CartList } from "@/components/Cart/CartList";
-import { CartModalCheckoutSection } from "@/components/Cart/CartModalCheckoutSection";
-import { CartModalContainer } from "@/components/Cart/CartModalContainer";
-import { CartModalHeader } from "@/components/Cart/CartModalHeader";
-import { EmptyCart } from "@/components/Cart/EmptyCart";
+import { getCartFromCookies } from "@/features/cart/api/fetchQueries";
+import { CartList } from "@/features/cart/components/CartList";
+import { CartModalCheckoutSection } from "@/features/cart/components/CartModalCheckoutSection";
+import { CartModalContainer } from "@/features/cart/components/CartModalContainer";
+import { CartModalHeader } from "@/features/cart/components/CartModalHeader";
+import { EmptyCart } from "@/features/cart/components/EmptyCart";
 import { formatPrice } from "@/lib/utils";
 
 export default async function CartModal() {

@@ -1,26 +1,16 @@
-import type {
-	CategoryListItemFragment,
-	ProductColorVariantFragment,
-	ProductDetailsFragment,
-	ProductSizeVariantFragment,
-} from "./graphql/generated/graphql";
+import type { CategoryListItemFragment } from "./graphql/generated/graphql";
 
-export type ProductProps = {
-	product: ProductDetailsFragment;
-};
-
-export type CategoryWithImage = CategoryListItemFragment & {
+export interface CategoryWithImage extends CategoryListItemFragment {
+	// Category and Collection list item fragments are the same
 	image?:
 		| {
 				url: string;
 		  }
 		| null
 		| undefined;
-};
+}
 
-export type VariantsType = ProductColorVariantFragment[] | ProductSizeVariantFragment[];
-
-export type NavigationStructure = {
+export interface NavigationStructure {
 	navigation: {
 		groupings: {
 			name: string;
@@ -31,4 +21,4 @@ export type NavigationStructure = {
 			href: string;
 		}[];
 	};
-};
+}

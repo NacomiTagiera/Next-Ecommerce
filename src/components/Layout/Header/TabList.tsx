@@ -2,9 +2,9 @@ import { Tab } from "@headlessui/react";
 
 import { cn } from "@/lib/utils";
 
-type Props = {
+interface Props {
 	items: { name: string }[];
-};
+}
 
 export const TabList = ({ items }: Props) => (
 	<div className="border-b border-twilight-200">

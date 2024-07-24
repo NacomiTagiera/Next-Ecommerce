@@ -1,9 +1,9 @@
 import { cn } from "@/lib/utils";
 
-type Props = {
+interface Props {
 	active: boolean;
 	size?: "md" | "lg";
-};
+}
 
 export const RatingStar = ({ active, size = "md" }: Props) => (
 	<svg

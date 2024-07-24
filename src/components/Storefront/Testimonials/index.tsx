@@ -1,6 +1,5 @@
+import { SectionHeader } from "@/components/UI/SectionHeader";
 import { testimonials } from "@/lib/constants";
-
-import { SectionHeader } from "../SectionHeader";
 
 import { Testimonial } from "./Testimonial";
 

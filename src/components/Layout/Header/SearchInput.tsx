@@ -10,10 +10,10 @@ import { Label } from "@/components/UI/Label";
 import { useDebounce } from "@/hooks/useDebounce";
 import { cn } from "@/lib/utils";
 
-type Props = {
+interface Props {
 	id: string;
 	className?: string;
-};
+}
 
 export const SearchInput = ({ id, className }: Props) => {
 	const router = useRouter();

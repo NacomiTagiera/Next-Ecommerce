@@ -1,10 +1,13 @@
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getProductsCount, getProductsList } from "@/app/api/products";
-import { ProductList } from "@/components/ProductList";
-import { Pagination } from "@/components/ProductList/Pagination";
-import { SectionHeader } from "@/components/Storefront/SectionHeader";
+import { SectionHeader } from "@/components/UI/SectionHeader";
+import {
+	getProductsCount,
+	getProductsList,
+} from "@/features/products/productsList/api/fetchQueries";
+import { Pagination } from "@/features/products/productsList/components/Pagination";
+import { ProductList } from "@/features/products/productsList/components/ProductsList";
 import { PRODUCTS_PER_PAGE } from "@/lib/constants";
 
 export const generateStaticParams = async () => {

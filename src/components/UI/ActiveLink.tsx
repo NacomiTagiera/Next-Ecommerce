@@ -8,13 +8,13 @@ import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 
-type Props<T extends string> = {
+interface Props<T extends string> extends LinkProps<T> {
 	href: Route<T> | UrlObject;
 	children?: React.ReactNode;
 	exact?: boolean;
 	className?: string;
 	activeClassName?: string;
-} & LinkProps<T>;
+}
 
 export const ActiveLink = <T extends string>({
 	href,

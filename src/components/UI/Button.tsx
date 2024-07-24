@@ -1,4 +1,5 @@
 import React, { type ComponentPropsWithRef } from "react";
+import { type IconType } from "react-icons";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { type Route } from "next";
@@ -15,7 +16,7 @@ export const buttonVariants = cva(
 					"text-white bg-skyfall-500 hover:bg-skyfall-600 focus:ring-skyfall-300 aria-disabled:bg-zinc-500",
 				outlined: "bg-transparent border border-slate-200 hover:bg-slate-100",
 				pill: "rounded-full text-white bg-skyfall-500 hover:bg-skyfall-600 focus:ring-skyfall-300",
-				text: "bg-transparent text-skyfall-500 hover:text-skyfall-600 focus:ring-2 focus:ring-skyfall-300",
+				text: "bg-transparent text-skyfall-500 hover:text-skyfall-600 focus:ring-2 focus:ring-skyfall-300 shadow-none",
 			},
 			size: {
 				sm: "text-sm px-3 py-2",
@@ -31,12 +32,13 @@ export const buttonVariants = cva(
 	},
 );
 
-export type ButtonProps = ComponentPropsWithRef<"button"> &
-	VariantProps<typeof buttonVariants> & {
-		href?: Route;
-		leadingIcon?: React.JSX.Element;
-		trailingIcon?: React.JSX.Element;
-	};
+export interface ButtonProps
+	extends ComponentPropsWithRef<"button">,
+		VariantProps<typeof buttonVariants> {
+	href?: Route;
+	leadingIcon?: IconType;
+	trailingIcon?: IconType;
+}
 
 export const Button = ({
 	variant,
@@ -44,24 +46,28 @@ export const Button = ({
 	className,
 	children,
 	href,
-	leadingIcon,
-	trailingIcon,
+	leadingIcon: LeadingIcon,
+	trailingIcon: TrailingIcon,
 	...rest
 }: ButtonProps) => {
+	const renderContent = () => (
+		<>
+			{LeadingIcon && <LeadingIcon className="me-2 size-5" aria-hidden />}
+			{children}
+			{TrailingIcon && <TrailingIcon className="ms-2 size-5" aria-hidden />}
+		</>
+	);
+
 	if (href)
 		return (
 			<Link href={href} className={cn(buttonVariants({ variant, size, className }))}>
-				{leadingIcon && leadingIcon}
-				{children}
-				{trailingIcon && trailingIcon}
+				{renderContent()}
 			</Link>
 		);
 
 	return (
 		<button className={cn(buttonVariants({ variant, size, className }))} {...rest}>
-			{leadingIcon && leadingIcon}
-			{children}
-			{trailingIcon && trailingIcon}
+			{renderContent()}
 		</button>
 	);
 };

@@ -1,5 +1,5 @@
-import { Orders } from "@/components/Orders";
-import { OrderListWrapper } from "@/components/Orders/OrdersWrapper";
+import { Orders } from "@/features/orders/components/Orders";
+import { OrderListWrapper } from "@/features/orders/components/OrdersWrapper";
 
 export default function OrdersPage() {
 	return (

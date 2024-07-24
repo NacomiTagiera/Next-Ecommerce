@@ -1,11 +1,10 @@
 import { revalidatePath } from "next/cache";
 import { type NextRequest } from "next/server";
 
-import { executeGraphql } from "@/app/api/graphqlApi";
-import { getReviewsByProductId } from "@/app/api/reviews";
+import { getProductByIdOrSlug } from "@/features/products/productDetails/api/fetchQueries";
+import { getReviewsByProductId } from "@/features/reviews/reviewsList/api/fetchQueries";
 import { ProductUpdateRatingDocument } from "@/graphql/generated/graphql";
-
-import { getProductByIdOrSlug } from "../../products";
+import { executeGraphql } from "@/lib/executeGraphql";
 
 export async function POST(request: NextRequest): Promise<Response> {
 	const { data: { product: { id: productId } = {} } = {} } = (await request.json()) as {
@@ -16,7 +15,7 @@ export async function POST(request: NextRequest): Promise<Response> {
 	}
 
 	const reviews = await getReviewsByProductId(productId);
-	const { slug } = await getProductByIdOrSlug({ id: productId });
+	const product = await getProductByIdOrSlug({ id: productId });
 	let averageRating = 0;
 
 	if (reviews && reviews.length > 0) {
@@ -30,7 +29,7 @@ export async function POST(request: NextRequest): Promise<Response> {
 			variables: { productId, rating: averageRating },
 		});
 
-		revalidatePath(`/product/${slug}`);
+		revalidatePath(`/product/${product?.slug}`);
 		revalidatePath("/");
 		return new Response("Rating updated", { status: 200 });
 	} catch (error) {

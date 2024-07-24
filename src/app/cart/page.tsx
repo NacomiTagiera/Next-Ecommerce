@@ -1,12 +1,11 @@
-import { handlePayment } from "@/actions/cart";
-import { CartList } from "@/components/Cart/CartList";
-import { CartSummary } from "@/components/Cart/CartSummary";
-import { CartWrapper } from "@/components/Cart/CartWrapper";
-import { EmptyCart } from "@/components/Cart/EmptyCart";
 import { ActionButton } from "@/components/UI/ActionButton";
+import { handlePayment } from "@/features/cart/api/actions";
+import { getCartFromCookies } from "@/features/cart/api/fetchQueries";
+import { CartList } from "@/features/cart/components/CartList";
+import { CartSummary } from "@/features/cart/components/CartSummary";
+import { CartWrapper } from "@/features/cart/components/CartWrapper";
+import { EmptyCart } from "@/features/cart/components/EmptyCart";
 import { formatPrice } from "@/lib/utils";
-
-import { getCartFromCookies } from "../api/cart";
 
 export default async function CartPage() {
 	const cart = await getCartFromCookies();

@@ -9,12 +9,13 @@ import { cn } from "@/lib/utils";
 
 import { buttonVariants } from "./Button";
 
-export type IconButtonProps = ComponentPropsWithRef<"button"> &
-	VariantProps<typeof buttonVariants> & {
-		icon: IconType;
-		hiddenLabel: string;
-		href?: Route;
-	};
+export interface IconButtonProps
+	extends ComponentPropsWithRef<"button">,
+		VariantProps<typeof buttonVariants> {
+	icon: IconType;
+	hiddenLabel: string;
+	href?: Route;
+}
 
 export const IconButton = ({
 	variant = "text",

@@ -1,12 +1,12 @@
-import type { IconType } from "react-icons";
+import { type IconType } from "react-icons";
 
-type Props = {
+interface Props {
 	href: string;
 	name: string;
-	Icon: IconType;
-};
+	icon: IconType;
+}
 
-export const FooterSocialLink = ({ href, name, Icon }: Props) => {
+export const FooterSocialLink = ({ href, name, icon: Icon }: Props) => {
 	return (
 		<a href={href} target="_blank" rel="noopener noreferrer" className="hover:animate-jelly">
 			<span className="sr-only">{name}</span>

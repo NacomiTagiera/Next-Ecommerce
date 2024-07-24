@@ -1,8 +1,8 @@
 import { type Metadata } from "next";
 import { redirect } from "next/navigation";
 
-import { updateOrderAfterPayment } from "@/actions/cart";
-import { CartSuccessView } from "@/components/Cart/CartSuccessView";
+import { updateOrderAfterPayment } from "@/features/cart/api/actions";
+import { CartSuccessView } from "@/features/cart/components/CartSuccessView";
 import { stripe } from "@/lib/stripe";
 
 export const metadata: Metadata = {
@@ -14,11 +14,11 @@ export const metadata: Metadata = {
 	},
 };
 
-type Props = {
+interface Props {
 	searchParams: {
 		intent_id: string;
 	};
-};
+}
 
 export default async function CartSuccessPage({ searchParams: { intent_id } }: Props) {
 	if (!process.env.STRIPE_SECRET_KEY) {

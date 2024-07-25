@@ -4,10 +4,10 @@ import { TabGroup, TabPanel, TabPanels } from "@headlessui/react";
 import type { Route } from "next";
 
 import { ActiveLink } from "@/components/UI/ActiveLink";
+import { Dialog } from "@/components/UI/Dialog";
 import { ImageLink } from "@/components/UI/ImageLink";
 import { type CategoryWithImage } from "@/types";
 
-import { Dialog } from "./Dialog";
 import { SearchInput } from "./SearchInput";
 import { TabList } from "./TabList";
 

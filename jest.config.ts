@@ -14,9 +14,6 @@ const config: Config = {
 	},
 	setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
 	testEnvironment: "jest-environment-jsdom",
-	transform: {
-		"^.+\\.(js|jsx|ts|tsx)$": ["babel-jest", { presets: ["next/babel"] }],
-	},
 };
 
 module.exports = createJestConfig(config);

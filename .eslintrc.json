@@ -4,6 +4,9 @@
 	"parserOptions": {
 		"project": "tsconfig.json"
 	},
+	"env": {
+		"jest/globals": true
+	},
 	"extends": [
 		"plugin:@typescript-eslint/recommended",
 		"plugin:@typescript-eslint/recommended-requiring-type-checking",

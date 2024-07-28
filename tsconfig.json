@@ -21,13 +21,14 @@
 		"noUnusedParameters": true,
 		"plugins": [
 			{
-				"name": "next",
-			},
+				"name": "next"
+			}
 		],
 		"paths": {
 			"@/*": ["./src/*"],
-			"/public/*": ["./public/*"],
+			"/public/*": ["./public/*"]
 		},
+		"types": ["jest", "@testing-library/jest-dom"]
 	},
 	"include": [
 		"next-env.d.ts",
@@ -35,7 +36,7 @@
 		"**/*.tsx",
 		".next/types/**/*.ts",
 		"tailwind.config.ts",
-		"next.config.mjs",
+		"next.config.mjs"
 	],
-	"exclude": ["node_modules"],
+	"exclude": ["node_modules"]
 }

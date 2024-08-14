@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button renders with default props 1`] = `
+<DocumentFragment>
+  <button
+    class="inline-flex items-center justify-center font-medium shadow-sm focus:ring-4 focus:outline-none rounded-md text-center transition-colors aria-disabled:cursor-not-allowed aria-disabled:shadow-none aria-disabled:pointer-events-none text-white bg-skyfall-500 hover:bg-skyfall-600 focus:ring-skyfall-300 aria-disabled:bg-zinc-500 text-sm px-5 py-2.5"
+  />
+</DocumentFragment>
+`;

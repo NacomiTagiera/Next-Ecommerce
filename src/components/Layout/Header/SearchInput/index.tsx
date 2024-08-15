@@ -32,7 +32,7 @@ export const SearchInput = ({ id, className }: Props) => {
 	}, [debouncedValue, router]);
 
 	return (
-		<div className={cn("w-full max-w-xs", className)}>
+		<div className={cn("w-full max-w-xs", className)} data-testid="search-input-wrapper">
 			<Label htmlFor={id} visibility="hidden">
 				Search For Products
 			</Label>

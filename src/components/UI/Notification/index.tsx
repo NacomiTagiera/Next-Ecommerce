@@ -1,29 +1,58 @@
 import { Fragment, useEffect } from "react";
 import { FaRegCheckCircle } from "react-icons/fa";
-import { MdClose, MdErrorOutline, MdInfoOutline } from "react-icons/md";
+import { MdClose, MdErrorOutline } from "react-icons/md";
 import { Transition } from "@headlessui/react";
 
-import { IconButton } from "./IconButton";
+import { IconButton } from "../IconButton";
 
 interface Props {
 	show: boolean;
 	message: string;
 	onClose: () => void;
 	status?: "success" | "error";
+	duration?: number;
 }
 
-export const Notification = ({ show, message, onClose, status }: Props) => {
+const getStatusProps = (status: "success" | "error") => {
+	switch (status) {
+		case "success":
+			return {
+				icon: <FaRegCheckCircle className="size-5 text-green-500" data-testid="success-icon" />,
+				message: "Success!",
+			};
+		case "error":
+		default:
+			return {
+				icon: <MdErrorOutline className="size-5 text-red-600" data-testid="error-icon" />,
+				message: "Ups! An error occurred",
+			};
+	}
+};
+
+export const Notification = ({
+	show,
+	message,
+	onClose,
+	status = "error",
+	duration = 5000,
+}: Props) => {
+	if (duration <= 0) {
+		throw new Error("Duration must be greater than 0");
+	}
+
 	useEffect(() => {
 		if (show) {
 			const timer = setTimeout(() => {
 				onClose();
-			}, 5000);
+			}, duration);
 
 			return () => {
 				clearTimeout(timer);
 			};
 		}
-	}, [show, onClose]);
+	}, [show, onClose, duration]);
+
+	const { icon, message: statusMessage } = getStatusProps(status);
 
 	return (
 		<div
@@ -44,19 +73,9 @@ export const Notification = ({ show, message, onClose, status }: Props) => {
 					<div className="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
 						<div className="p-4">
 							<div className="flex items-start">
-								<div className="flex-shrink-0 pt-1">
-									{status === "success" ? (
-										<FaRegCheckCircle className="size-5 text-green-500" />
-									) : status === "error" ? (
-										<MdErrorOutline className="size-5 text-red-600" />
-									) : (
-										<MdInfoOutline className="size-5 text-skyfall-500" />
-									)}
-								</div>
+								<div className="flex-shrink-0 pt-1">{icon}</div>
 								<div className="ml-3 w-0 flex-1">
-									<p className="font-medium">
-										{status === "success" ? "Success!" : "Ups! An error occurred"}
-									</p>
+									<p className="font-medium">{statusMessage}</p>
 									<p className="mt-1 text-sm text-zinc-500">{message}</p>
 								</div>
 								<div className="ml-4 flex flex-shrink-0">

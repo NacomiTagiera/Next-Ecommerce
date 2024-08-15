@@ -3,9 +3,10 @@
 import { ActionButton } from "@/components/UI/ActionButton";
 import { Notification } from "@/components/UI/Notification";
 
-import { ReviewFormField } from "../../reviewForm/components/ReviewFormField";
-import { StarRatingInput } from "../../reviewForm/components/StarRatingInput";
 import { useReviewForm } from "../hooks/useReviewForm";
+
+import { ReviewFormField } from "./ReviewFormField";
+import { StarRatingInput } from "./StarRatingInput";
 
 interface Props {
 	productId: string;

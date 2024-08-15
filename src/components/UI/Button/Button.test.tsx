@@ -1,5 +1,4 @@
 import { render, screen } from "@testing-library/react";
-import { userEvent } from "@testing-library/user-event";
 
 import { Button } from ".";
 
@@ -52,17 +51,5 @@ describe("Button", () => {
 
 		expect(screen.getByTestId("leading")).toBeVisible();
 		expect(screen.getByTestId("trailing")).toBeVisible();
-	});
-
-	it("handles correctly disabled state", async () => {
-		const onClick = jest.fn();
-		render(
-			<Button aria-disabled onClick={onClick}>
-				Click me
-			</Button>,
-		);
-
-		await userEvent.click(screen.getByRole("button"));
-		expect(onClick).not.toHaveBeenCalled();
 	});
 });

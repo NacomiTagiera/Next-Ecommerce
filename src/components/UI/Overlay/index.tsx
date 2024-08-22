@@ -21,12 +21,11 @@ export const Overlay = () => {
 			document.removeEventListener("keydown", onKeyDown);
 			document.body.classList.remove("overflow-hidden");
 		};
-	}, []);
+	}, [router]);
 
 	return (
 		<div
 			className="fixed inset-0 animate-fade-in bg-black/50 backdrop-blur-sm"
-			role="dialog"
 			aria-label="Close overlay"
 			aria-hidden
 			onClick={() => router.back()}

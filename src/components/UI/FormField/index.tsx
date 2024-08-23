@@ -1,6 +1,6 @@
-import { Input, type InputProps } from "./Input";
-import { Label } from "./Label";
-import { Textarea, type TextareaProps } from "./Textarea";
+import { Input, type InputProps } from "../Input";
+import { Label } from "../Label";
+import { Textarea, type TextareaProps } from "../Textarea";
 
 interface BaseProps {
 	issues?: string[];

@@ -38,7 +38,7 @@ export const SearchInput = ({ id, className }: Props) => {
 			</Label>
 			<div className="relative">
 				<span className="absolute inset-y-0 left-0 flex items-center pl-2">
-					<IoMdSearch className="size-5 text-gray-400" aria-hidden />
+					<IoMdSearch className="size-5 text-zinc-300" aria-hidden />
 				</span>
 				<Input
 					type="search"
@@ -48,6 +48,7 @@ export const SearchInput = ({ id, className }: Props) => {
 					onChange={handleChange}
 					placeholder="Search"
 					className="pl-9"
+					variant="outlined"
 					spellCheck="false"
 				/>
 			</div>

@@ -39,6 +39,7 @@ export const ReviewForm = ({ productId }: Props) => {
 					placeholder="Title"
 					max={50}
 					required
+					variant="filled"
 					issues={formState.issues?.headline}
 				/>
 				<ReviewFormField
@@ -47,6 +48,7 @@ export const ReviewForm = ({ productId }: Props) => {
 					placeholder="Your thoughts..."
 					maxLength={250}
 					required
+					variant="filled"
 					issues={formState.issues?.content}
 				/>
 				<div>
@@ -59,6 +61,7 @@ export const ReviewForm = ({ productId }: Props) => {
 					autoComplete="name"
 					max={50}
 					required
+					variant="filled"
 					issues={formState.issues?.name}
 				/>
 				<ReviewFormField
@@ -67,6 +70,7 @@ export const ReviewForm = ({ productId }: Props) => {
 					placeholder="you@example.com"
 					autoComplete="email"
 					required
+					variant="filled"
 					issues={formState.issues?.email}
 				/>
 				<ActionButton>Submit Review</ActionButton>

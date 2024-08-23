@@ -10,7 +10,7 @@ const labelVariants = cva("", {
 			error: "text-red-600",
 		},
 		visibility: {
-			shown: "block text-sm font-medium",
+			shown: "block text-sm font-medium leading-6",
 			hidden: "sr-only",
 		},
 	},

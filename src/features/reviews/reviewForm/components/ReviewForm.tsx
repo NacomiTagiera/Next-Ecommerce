@@ -1,11 +1,11 @@
 "use client";
 
 import { ActionButton } from "@/components/UI/ActionButton";
+import { FormField } from "@/components/UI/FormField";
 import { Notification } from "@/components/UI/Notification";
 
 import { useReviewForm } from "../hooks/useReviewForm";
 
-import { ReviewFormField } from "./ReviewFormField";
 import { StarRatingInput } from "./StarRatingInput";
 
 interface Props {
@@ -34,7 +34,7 @@ export const ReviewForm = ({ productId }: Props) => {
 				}}
 			/>
 			<form ref={formRef} className="mt-8 space-y-8" action={formAction}>
-				<ReviewFormField
+				<FormField
 					name="headline"
 					placeholder="Title"
 					max={50}
@@ -42,7 +42,7 @@ export const ReviewForm = ({ productId }: Props) => {
 					variant="filled"
 					issues={formState.issues?.headline}
 				/>
-				<ReviewFormField
+				<FormField
 					component="textarea"
 					name="content"
 					placeholder="Your thoughts..."
@@ -55,7 +55,7 @@ export const ReviewForm = ({ productId }: Props) => {
 					<span id="rating-label">Rating</span>
 					<StarRatingInput value={rating} onChange={(value) => setRating(value)} />
 				</div>
-				<ReviewFormField
+				<FormField
 					name="name"
 					placeholder="Preferred Name"
 					autoComplete="name"
@@ -64,7 +64,7 @@ export const ReviewForm = ({ productId }: Props) => {
 					variant="filled"
 					issues={formState.issues?.name}
 				/>
-				<ReviewFormField
+				<FormField
 					name="email"
 					type="email"
 					placeholder="you@example.com"

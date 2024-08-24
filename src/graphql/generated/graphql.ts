@@ -5249,6 +5249,8 @@ export type Product = Entity &
 		name: Scalars["String"]["output"];
 		orderItems: Array<OrderItem>;
 		price: Scalars["Int"]["output"];
+		productColorVariants: Array<ProductColorVariant>;
+		productSizeVariants: Array<ProductSizeVariant>;
 		/** The time the document was published. Null on documents in draft stage. */
 		publishedAt?: Maybe<Scalars["DateTime"]["output"]>;
 		/** User that last published this document */
@@ -5263,7 +5265,6 @@ export type Product = Entity &
 		updatedAt: Scalars["DateTime"]["output"];
 		/** User that last updated this document */
 		updatedBy?: Maybe<User>;
-		variants: Array<ProductVariants>;
 	};
 
 export type ProductCategoriesArgs = {
@@ -5340,6 +5341,30 @@ export type ProductOrderItemsArgs = {
 	where?: InputMaybe<OrderItemWhereInput>;
 };
 
+export type ProductProductColorVariantsArgs = {
+	after?: InputMaybe<Scalars["String"]["input"]>;
+	before?: InputMaybe<Scalars["String"]["input"]>;
+	first?: InputMaybe<Scalars["Int"]["input"]>;
+	forceParentLocale?: InputMaybe<Scalars["Boolean"]["input"]>;
+	last?: InputMaybe<Scalars["Int"]["input"]>;
+	locales?: InputMaybe<Array<Locale>>;
+	orderBy?: InputMaybe<ProductColorVariantOrderByInput>;
+	skip?: InputMaybe<Scalars["Int"]["input"]>;
+	where?: InputMaybe<ProductColorVariantWhereInput>;
+};
+
+export type ProductProductSizeVariantsArgs = {
+	after?: InputMaybe<Scalars["String"]["input"]>;
+	before?: InputMaybe<Scalars["String"]["input"]>;
+	first?: InputMaybe<Scalars["Int"]["input"]>;
+	forceParentLocale?: InputMaybe<Scalars["Boolean"]["input"]>;
+	last?: InputMaybe<Scalars["Int"]["input"]>;
+	locales?: InputMaybe<Array<Locale>>;
+	orderBy?: InputMaybe<ProductSizeVariantOrderByInput>;
+	skip?: InputMaybe<Scalars["Int"]["input"]>;
+	where?: InputMaybe<ProductSizeVariantWhereInput>;
+};
+
 export type ProductPublishedAtArgs = {
 	variation?: SystemDateTimeFieldVariation;
 };
@@ -5381,16 +5406,6 @@ export type ProductUpdatedByArgs = {
 	locales?: InputMaybe<Array<Locale>>;
 };
 
-export type ProductVariantsArgs = {
-	after?: InputMaybe<Scalars["String"]["input"]>;
-	before?: InputMaybe<Scalars["String"]["input"]>;
-	first?: InputMaybe<Scalars["Int"]["input"]>;
-	forceParentLocale?: InputMaybe<Scalars["Boolean"]["input"]>;
-	last?: InputMaybe<Scalars["Int"]["input"]>;
-	locales?: InputMaybe<Array<Locale>>;
-	skip?: InputMaybe<Scalars["Int"]["input"]>;
-};
-
 export type ProductColor =
 	| "BLACK"
 	| "BLUE"
@@ -5421,7 +5436,7 @@ export type ProductColorVariant = Entity &
 		/** Get the other localizations for this document */
 		localizations: Array<ProductColorVariant>;
 		name: Scalars["String"]["output"];
-		product?: Maybe<Product>;
+		products: Array<Product>;
 		/** The time the document was published. Null on documents in draft stage. */
 		publishedAt?: Maybe<Scalars["DateTime"]["output"]>;
 		/** User that last published this document */
@@ -5461,9 +5476,16 @@ export type ProductColorVariantLocalizationsArgs = {
 	locales?: Array<Locale>;
 };
 
-export type ProductColorVariantProductArgs = {
+export type ProductColorVariantProductsArgs = {
+	after?: InputMaybe<Scalars["String"]["input"]>;
+	before?: InputMaybe<Scalars["String"]["input"]>;
+	first?: InputMaybe<Scalars["Int"]["input"]>;
 	forceParentLocale?: InputMaybe<Scalars["Boolean"]["input"]>;
+	last?: InputMaybe<Scalars["Int"]["input"]>;
 	locales?: InputMaybe<Array<Locale>>;
+	orderBy?: InputMaybe<ProductOrderByInput>;
+	skip?: InputMaybe<Scalars["Int"]["input"]>;
+	where?: InputMaybe<ProductWhereInput>;
 };
 
 export type ProductColorVariantPublishedAtArgs = {
@@ -5518,7 +5540,7 @@ export type ProductColorVariantCreateInput = {
 	localizations?: InputMaybe<ProductColorVariantCreateLocalizationsInput>;
 	/** name input for default locale (en) */
 	name: Scalars["String"]["input"];
-	product?: InputMaybe<ProductCreateOneInlineInput>;
+	products?: InputMaybe<ProductCreateManyInlineInput>;
 	updatedAt?: InputMaybe<Scalars["DateTime"]["input"]>;
 };
 
@@ -5616,7 +5638,9 @@ export type ProductColorVariantManyWhereInput = {
 	id_not_starts_with?: InputMaybe<Scalars["ID"]["input"]>;
 	/** All values starting with the given string. */
 	id_starts_with?: InputMaybe<Scalars["ID"]["input"]>;
-	product?: InputMaybe<ProductWhereInput>;
+	products_every?: InputMaybe<ProductWhereInput>;
+	products_none?: InputMaybe<ProductWhereInput>;
+	products_some?: InputMaybe<ProductWhereInput>;
 	publishedAt?: InputMaybe<Scalars["DateTime"]["input"]>;
 	/** All values greater than the given value. */
 	publishedAt_gt?: InputMaybe<Scalars["DateTime"]["input"]>;
@@ -5674,7 +5698,7 @@ export type ProductColorVariantUpdateInput = {
 	localizations?: InputMaybe<ProductColorVariantUpdateLocalizationsInput>;
 	/** name input for default locale (en) */
 	name?: InputMaybe<Scalars["String"]["input"]>;
-	product?: InputMaybe<ProductUpdateOneInlineInput>;
+	products?: InputMaybe<ProductUpdateManyInlineInput>;
 };
 
 export type ProductColorVariantUpdateLocalizationDataInput = {
@@ -5864,7 +5888,9 @@ export type ProductColorVariantWhereInput = {
 	name_not_starts_with?: InputMaybe<Scalars["String"]["input"]>;
 	/** All values starting with the given string. */
 	name_starts_with?: InputMaybe<Scalars["String"]["input"]>;
-	product?: InputMaybe<ProductWhereInput>;
+	products_every?: InputMaybe<ProductWhereInput>;
+	products_none?: InputMaybe<ProductWhereInput>;
+	products_some?: InputMaybe<ProductWhereInput>;
 	publishedAt?: InputMaybe<Scalars["DateTime"]["input"]>;
 	/** All values greater than the given value. */
 	publishedAt_gt?: InputMaybe<Scalars["DateTime"]["input"]>;
@@ -5951,11 +5977,12 @@ export type ProductCreateInput = {
 	orderItems?: InputMaybe<OrderItemCreateManyInlineInput>;
 	/** price input for default locale (en) */
 	price: Scalars["Int"]["input"];
+	productColorVariants?: InputMaybe<ProductColorVariantCreateManyInlineInput>;
+	productSizeVariants?: InputMaybe<ProductSizeVariantCreateManyInlineInput>;
 	rating?: InputMaybe<Scalars["Float"]["input"]>;
 	reviews?: InputMaybe<ReviewCreateManyInlineInput>;
 	slug: Scalars["String"]["input"];
 	updatedAt?: InputMaybe<Scalars["DateTime"]["input"]>;
-	variants?: InputMaybe<ProductVariantsCreateManyInlineInput>;
 };
 
 export type ProductCreateLocalizationDataInput = {
@@ -6059,6 +6086,12 @@ export type ProductManyWhereInput = {
 	orderItems_every?: InputMaybe<OrderItemWhereInput>;
 	orderItems_none?: InputMaybe<OrderItemWhereInput>;
 	orderItems_some?: InputMaybe<OrderItemWhereInput>;
+	productColorVariants_every?: InputMaybe<ProductColorVariantWhereInput>;
+	productColorVariants_none?: InputMaybe<ProductColorVariantWhereInput>;
+	productColorVariants_some?: InputMaybe<ProductColorVariantWhereInput>;
+	productSizeVariants_every?: InputMaybe<ProductSizeVariantWhereInput>;
+	productSizeVariants_none?: InputMaybe<ProductSizeVariantWhereInput>;
+	productSizeVariants_some?: InputMaybe<ProductSizeVariantWhereInput>;
 	publishedAt?: InputMaybe<Scalars["DateTime"]["input"]>;
 	/** All values greater than the given value. */
 	publishedAt_gt?: InputMaybe<Scalars["DateTime"]["input"]>;
@@ -6131,10 +6164,6 @@ export type ProductManyWhereInput = {
 	/** All values that are not contained in given list. */
 	updatedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars["DateTime"]["input"]>>>;
 	updatedBy?: InputMaybe<UserWhereInput>;
-	/** All values in which the union is empty */
-	variants_empty?: InputMaybe<Scalars["Boolean"]["input"]>;
-	/** Matches if the union contains at least one connection to the provided item to the filter */
-	variants_some?: InputMaybe<ProductVariantsWhereInput>;
 };
 
 export type ProductOrderByInput =
@@ -6176,7 +6205,7 @@ export type ProductSizeVariant = Entity &
 		/** Get the other localizations for this document */
 		localizations: Array<ProductSizeVariant>;
 		name: Scalars["String"]["output"];
-		product?: Maybe<Product>;
+		products: Array<Product>;
 		/** The time the document was published. Null on documents in draft stage. */
 		publishedAt?: Maybe<Scalars["DateTime"]["output"]>;
 		/** User that last published this document */
@@ -6217,9 +6246,16 @@ export type ProductSizeVariantLocalizationsArgs = {
 	locales?: Array<Locale>;
 };
 
-export type ProductSizeVariantProductArgs = {
+export type ProductSizeVariantProductsArgs = {
+	after?: InputMaybe<Scalars["String"]["input"]>;
+	before?: InputMaybe<Scalars["String"]["input"]>;
+	first?: InputMaybe<Scalars["Int"]["input"]>;
 	forceParentLocale?: InputMaybe<Scalars["Boolean"]["input"]>;
+	last?: InputMaybe<Scalars["Int"]["input"]>;
 	locales?: InputMaybe<Array<Locale>>;
+	orderBy?: InputMaybe<ProductOrderByInput>;
+	skip?: InputMaybe<Scalars["Int"]["input"]>;
+	where?: InputMaybe<ProductWhereInput>;
 };
 
 export type ProductSizeVariantPublishedAtArgs = {
@@ -6273,7 +6309,7 @@ export type ProductSizeVariantCreateInput = {
 	localizations?: InputMaybe<ProductSizeVariantCreateLocalizationsInput>;
 	/** name input for default locale (en) */
 	name: Scalars["String"]["input"];
-	product?: InputMaybe<ProductCreateOneInlineInput>;
+	products?: InputMaybe<ProductCreateManyInlineInput>;
 	size: ProductSize;
 	updatedAt?: InputMaybe<Scalars["DateTime"]["input"]>;
 };
@@ -6365,7 +6401,9 @@ export type ProductSizeVariantManyWhereInput = {
 	id_not_starts_with?: InputMaybe<Scalars["ID"]["input"]>;
 	/** All values starting with the given string. */
 	id_starts_with?: InputMaybe<Scalars["ID"]["input"]>;
-	product?: InputMaybe<ProductWhereInput>;
+	products_every?: InputMaybe<ProductWhereInput>;
+	products_none?: InputMaybe<ProductWhereInput>;
+	products_some?: InputMaybe<ProductWhereInput>;
 	publishedAt?: InputMaybe<Scalars["DateTime"]["input"]>;
 	/** All values greater than the given value. */
 	publishedAt_gt?: InputMaybe<Scalars["DateTime"]["input"]>;
@@ -6429,7 +6467,7 @@ export type ProductSizeVariantUpdateInput = {
 	localizations?: InputMaybe<ProductSizeVariantUpdateLocalizationsInput>;
 	/** name input for default locale (en) */
 	name?: InputMaybe<Scalars["String"]["input"]>;
-	product?: InputMaybe<ProductUpdateOneInlineInput>;
+	products?: InputMaybe<ProductUpdateManyInlineInput>;
 	size?: InputMaybe<ProductSize>;
 };
 
@@ -6613,7 +6651,9 @@ export type ProductSizeVariantWhereInput = {
 	name_not_starts_with?: InputMaybe<Scalars["String"]["input"]>;
 	/** All values starting with the given string. */
 	name_starts_with?: InputMaybe<Scalars["String"]["input"]>;
-	product?: InputMaybe<ProductWhereInput>;
+	products_every?: InputMaybe<ProductWhereInput>;
+	products_none?: InputMaybe<ProductWhereInput>;
+	products_some?: InputMaybe<ProductWhereInput>;
 	publishedAt?: InputMaybe<Scalars["DateTime"]["input"]>;
 	/** All values greater than the given value. */
 	publishedAt_gt?: InputMaybe<Scalars["DateTime"]["input"]>;
@@ -6690,10 +6730,11 @@ export type ProductUpdateInput = {
 	orderItems?: InputMaybe<OrderItemUpdateManyInlineInput>;
 	/** price input for default locale (en) */
 	price?: InputMaybe<Scalars["Int"]["input"]>;
+	productColorVariants?: InputMaybe<ProductColorVariantUpdateManyInlineInput>;
+	productSizeVariants?: InputMaybe<ProductSizeVariantUpdateManyInlineInput>;
 	rating?: InputMaybe<Scalars["Float"]["input"]>;
 	reviews?: InputMaybe<ReviewUpdateManyInlineInput>;
 	slug?: InputMaybe<Scalars["String"]["input"]>;
-	variants?: InputMaybe<ProductVariantsUpdateManyInlineInput>;
 };
 
 export type ProductUpdateLocalizationDataInput = {
@@ -6806,94 +6847,6 @@ export type ProductUpsertWithNestedWhereUniqueInput = {
 	data: ProductUpsertInput;
 	/** Unique document search */
 	where: ProductWhereUniqueInput;
-};
-
-export type ProductVariants = ProductColorVariant | ProductSizeVariant;
-
-export type ProductVariantsConnectInput = {
-	ProductColorVariant?: InputMaybe<ProductColorVariantConnectInput>;
-	ProductSizeVariant?: InputMaybe<ProductSizeVariantConnectInput>;
-};
-
-export type ProductVariantsCreateInput = {
-	ProductColorVariant?: InputMaybe<ProductColorVariantCreateInput>;
-	ProductSizeVariant?: InputMaybe<ProductSizeVariantCreateInput>;
-};
-
-export type ProductVariantsCreateManyInlineInput = {
-	/** Connect multiple existing ProductVariants documents */
-	connect?: InputMaybe<Array<ProductVariantsWhereUniqueInput>>;
-	/** Create and connect multiple existing ProductVariants documents */
-	create?: InputMaybe<Array<ProductVariantsCreateInput>>;
-};
-
-export type ProductVariantsCreateOneInlineInput = {
-	/** Connect one existing ProductVariants document */
-	connect?: InputMaybe<ProductVariantsWhereUniqueInput>;
-	/** Create and connect one ProductVariants document */
-	create?: InputMaybe<ProductVariantsCreateInput>;
-};
-
-export type ProductVariantsUpdateInput = {
-	ProductColorVariant?: InputMaybe<ProductColorVariantUpdateInput>;
-	ProductSizeVariant?: InputMaybe<ProductSizeVariantUpdateInput>;
-};
-
-export type ProductVariantsUpdateManyInlineInput = {
-	/** Connect multiple existing ProductVariants documents */
-	connect?: InputMaybe<Array<ProductVariantsConnectInput>>;
-	/** Create and connect multiple ProductVariants documents */
-	create?: InputMaybe<Array<ProductVariantsCreateInput>>;
-	/** Delete multiple ProductVariants documents */
-	delete?: InputMaybe<Array<ProductVariantsWhereUniqueInput>>;
-	/** Disconnect multiple ProductVariants documents */
-	disconnect?: InputMaybe<Array<ProductVariantsWhereUniqueInput>>;
-	/** Override currently-connected documents with multiple existing ProductVariants documents */
-	set?: InputMaybe<Array<ProductVariantsWhereUniqueInput>>;
-	/** Update multiple ProductVariants documents */
-	update?: InputMaybe<Array<ProductVariantsUpdateWithNestedWhereUniqueInput>>;
-	/** Upsert multiple ProductVariants documents */
-	upsert?: InputMaybe<Array<ProductVariantsUpsertWithNestedWhereUniqueInput>>;
-};
-
-export type ProductVariantsUpdateManyWithNestedWhereInput = {
-	ProductColorVariant?: InputMaybe<ProductColorVariantUpdateManyWithNestedWhereInput>;
-	ProductSizeVariant?: InputMaybe<ProductSizeVariantUpdateManyWithNestedWhereInput>;
-};
-
-export type ProductVariantsUpdateOneInlineInput = {
-	/** Connect existing ProductVariants document */
-	connect?: InputMaybe<ProductVariantsWhereUniqueInput>;
-	/** Create and connect one ProductVariants document */
-	create?: InputMaybe<ProductVariantsCreateInput>;
-	/** Delete currently connected ProductVariants document */
-	delete?: InputMaybe<Scalars["Boolean"]["input"]>;
-	/** Disconnect currently connected ProductVariants document */
-	disconnect?: InputMaybe<Scalars["Boolean"]["input"]>;
-	/** Update single ProductVariants document */
-	update?: InputMaybe<ProductVariantsUpdateWithNestedWhereUniqueInput>;
-	/** Upsert single ProductVariants document */
-	upsert?: InputMaybe<ProductVariantsUpsertWithNestedWhereUniqueInput>;
-};
-
-export type ProductVariantsUpdateWithNestedWhereUniqueInput = {
-	ProductColorVariant?: InputMaybe<ProductColorVariantUpdateWithNestedWhereUniqueInput>;
-	ProductSizeVariant?: InputMaybe<ProductSizeVariantUpdateWithNestedWhereUniqueInput>;
-};
-
-export type ProductVariantsUpsertWithNestedWhereUniqueInput = {
-	ProductColorVariant?: InputMaybe<ProductColorVariantUpsertWithNestedWhereUniqueInput>;
-	ProductSizeVariant?: InputMaybe<ProductSizeVariantUpsertWithNestedWhereUniqueInput>;
-};
-
-export type ProductVariantsWhereInput = {
-	ProductColorVariant?: InputMaybe<ProductColorVariantWhereInput>;
-	ProductSizeVariant?: InputMaybe<ProductSizeVariantWhereInput>;
-};
-
-export type ProductVariantsWhereUniqueInput = {
-	ProductColorVariant?: InputMaybe<ProductColorVariantWhereUniqueInput>;
-	ProductSizeVariant?: InputMaybe<ProductSizeVariantWhereUniqueInput>;
 };
 
 /** This contains a set of filters that can be used to compare values internally */
@@ -7015,6 +6968,12 @@ export type ProductWhereInput = {
 	price_not?: InputMaybe<Scalars["Int"]["input"]>;
 	/** All values that are not contained in given list. */
 	price_not_in?: InputMaybe<Array<InputMaybe<Scalars["Int"]["input"]>>>;
+	productColorVariants_every?: InputMaybe<ProductColorVariantWhereInput>;
+	productColorVariants_none?: InputMaybe<ProductColorVariantWhereInput>;
+	productColorVariants_some?: InputMaybe<ProductColorVariantWhereInput>;
+	productSizeVariants_every?: InputMaybe<ProductSizeVariantWhereInput>;
+	productSizeVariants_none?: InputMaybe<ProductSizeVariantWhereInput>;
+	productSizeVariants_some?: InputMaybe<ProductSizeVariantWhereInput>;
 	publishedAt?: InputMaybe<Scalars["DateTime"]["input"]>;
 	/** All values greater than the given value. */
 	publishedAt_gt?: InputMaybe<Scalars["DateTime"]["input"]>;
@@ -7087,10 +7046,6 @@ export type ProductWhereInput = {
 	/** All values that are not contained in given list. */
 	updatedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars["DateTime"]["input"]>>>;
 	updatedBy?: InputMaybe<UserWhereInput>;
-	/** All values in which the union is empty */
-	variants_empty?: InputMaybe<Scalars["Boolean"]["input"]>;
-	/** Matches if the union contains at least one connection to the provided item to the filter */
-	variants_some?: InputMaybe<ProductVariantsWhereInput>;
 };
 
 /** The document in stages filter allows specifying a stage entry to cross compare the same document between different stages */
@@ -9775,8 +9730,6 @@ export type _SystemDateTimeFieldVariation = "base" | "combined" | "localization"
 
 export type CartFragment = {
 	id: string;
-	createdAt: unknown;
-	total: number;
 	orderItems: Array<{
 		id: string;
 		quantity: number;
@@ -9797,9 +9750,7 @@ export type CollectionListItemFragment = { slug: string; name: string };
 
 export type OrderFragment = {
 	updatedAt: unknown;
-	total: number;
 	id: string;
-	createdAt: unknown;
 	orderItems: Array<{
 		id: string;
 		quantity: number;
@@ -9825,10 +9776,8 @@ export type ProductDetailsFragment = {
 	rating?: number | null;
 	categories: Array<{ slug: string; name: string }>;
 	images: Array<{ url: string }>;
-	variants: Array<
-		| { __typename: "ProductColorVariant"; name: string }
-		| { __typename: "ProductSizeVariant"; name: string }
-	>;
+	productSizeVariants: Array<{ __typename: "ProductSizeVariant"; name: string }>;
+	productColorVariants: Array<{ __typename: "ProductColorVariant"; name: string }>;
 };
 
 export type ProductListItemFragment = {
@@ -9874,8 +9823,6 @@ export type CartCreateMutationVariables = Exact<{ [key: string]: never }>;
 export type CartCreateMutation = {
 	createOrder?: {
 		id: string;
-		createdAt: unknown;
-		total: number;
 		orderItems: Array<{
 			id: string;
 			quantity: number;
@@ -9951,8 +9898,6 @@ export type CartGetByIdQueryVariables = Exact<{
 export type CartGetByIdQuery = {
 	order?: {
 		id: string;
-		createdAt: unknown;
-		total: number;
 		orderItems: Array<{
 			id: string;
 			quantity: number;
@@ -9977,9 +9922,17 @@ export type CategoriesGetListQuery = {
 };
 
 export type CategoryGetBySlugQueryVariables = Exact<{
-	slug: Scalars["String"]["input"];
+	category: Scalars["String"]["input"];
+	priceGt: Scalars["Int"]["input"];
+	priceLt: Scalars["Int"]["input"];
+	ratingGt: Scalars["Float"]["input"];
+	ratingLt: Scalars["Float"]["input"];
+	colors?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
+	sizes?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
+	brand: Scalars["String"]["input"];
 	limit: Scalars["Int"]["input"];
 	offset: Scalars["Int"]["input"];
+	orderBy?: InputMaybe<ProductOrderByInput>;
 }>;
 
 export type CategoryGetBySlugQuery = {
@@ -10000,9 +9953,17 @@ export type CategoryGetBySlugQuery = {
 };
 
 export type CollectionGetBySlugQueryVariables = Exact<{
-	slug: Scalars["String"]["input"];
+	collection: Scalars["String"]["input"];
+	priceGt: Scalars["Int"]["input"];
+	priceLt: Scalars["Int"]["input"];
+	ratingGt: Scalars["Float"]["input"];
+	ratingLt: Scalars["Float"]["input"];
+	colors?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
+	sizes?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
+	brand: Scalars["String"]["input"];
 	limit: Scalars["Int"]["input"];
 	offset: Scalars["Int"]["input"];
+	orderBy?: InputMaybe<ProductOrderByInput>;
 }>;
 
 export type CollectionGetBySlugQuery = {
@@ -10044,9 +10005,7 @@ export type OrdersGetByEmailQueryVariables = Exact<{
 export type OrdersGetByEmailQuery = {
 	orders: Array<{
 		updatedAt: unknown;
-		total: number;
 		id: string;
-		createdAt: unknown;
 		orderItems: Array<{
 			id: string;
 			quantity: number;
@@ -10076,10 +10035,8 @@ export type ProductGetByIdQuery = {
 		rating?: number | null;
 		categories: Array<{ slug: string; name: string }>;
 		images: Array<{ url: string }>;
-		variants: Array<
-			| { __typename: "ProductColorVariant"; name: string }
-			| { __typename: "ProductSizeVariant"; name: string }
-		>;
+		productSizeVariants: Array<{ __typename: "ProductSizeVariant"; name: string }>;
+		productColorVariants: Array<{ __typename: "ProductColorVariant"; name: string }>;
 	} | null;
 };
 
@@ -10097,15 +10054,23 @@ export type ProductGetBySlugQuery = {
 		rating?: number | null;
 		categories: Array<{ slug: string; name: string }>;
 		images: Array<{ url: string }>;
-		variants: Array<
-			| { __typename: "ProductColorVariant"; name: string }
-			| { __typename: "ProductSizeVariant"; name: string }
-		>;
+		productSizeVariants: Array<{ __typename: "ProductSizeVariant"; name: string }>;
+		productColorVariants: Array<{ __typename: "ProductColorVariant"; name: string }>;
 	} | null;
 };
 
 export type ProductsGetBySearchQueryVariables = Exact<{
 	search: Scalars["String"]["input"];
+	priceGt: Scalars["Int"]["input"];
+	priceLt: Scalars["Int"]["input"];
+	ratingGt: Scalars["Float"]["input"];
+	ratingLt: Scalars["Float"]["input"];
+	colors?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
+	sizes?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
+	brand: Scalars["String"]["input"];
+	limit: Scalars["Int"]["input"];
+	offset: Scalars["Int"]["input"];
+	orderBy?: InputMaybe<ProductOrderByInput>;
 }>;
 
 export type ProductsGetBySearchQuery = {
@@ -10140,12 +10105,20 @@ export type ProductsGetCountInCollectionQuery = {
 	productsConnection: { aggregate: { count: number } };
 };
 
-export type ProductGetListQueryVariables = Exact<{
+export type ProductsGetListQueryVariables = Exact<{
+	priceGt: Scalars["Int"]["input"];
+	priceLt: Scalars["Int"]["input"];
+	ratingGt: Scalars["Float"]["input"];
+	ratingLt: Scalars["Float"]["input"];
+	colors?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
+	sizes?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
+	brand: Scalars["String"]["input"];
 	limit: Scalars["Int"]["input"];
 	offset: Scalars["Int"]["input"];
+	orderBy?: InputMaybe<ProductOrderByInput>;
 }>;
 
-export type ProductGetListQuery = {
+export type ProductsGetListQuery = {
 	products: Array<{
 		id: string;
 		slug: string;
@@ -10220,8 +10193,6 @@ export const CartFragmentDoc = new TypedDocumentString(
 	`
     fragment Cart on Order {
   id
-  createdAt
-  total
   orderItems {
     id
     quantity
@@ -10244,13 +10215,10 @@ export const OrderFragmentDoc = new TypedDocumentString(
 	`
     fragment Order on Order {
   updatedAt
-  total
   ...Cart
 }
     fragment Cart on Order {
   id
-  createdAt
-  total
   orderItems {
     id
     quantity
@@ -10277,15 +10245,6 @@ export const CategoryListItemFragmentDoc = new TypedDocumentString(
     `,
 	{ fragmentName: "CategoryListItem" },
 ) as unknown as TypedDocumentString<CategoryListItemFragment, unknown>;
-export const ProductColorVariantFragmentDoc = new TypedDocumentString(
-	`
-    fragment ProductColorVariant on ProductColorVariant {
-  __typename
-  name
-}
-    `,
-	{ fragmentName: "ProductColorVariant" },
-) as unknown as TypedDocumentString<ProductColorVariantFragment, unknown>;
 export const ProductSizeVariantFragmentDoc = new TypedDocumentString(
 	`
     fragment ProductSizeVariant on ProductSizeVariant {
@@ -10295,6 +10254,15 @@ export const ProductSizeVariantFragmentDoc = new TypedDocumentString(
     `,
 	{ fragmentName: "ProductSizeVariant" },
 ) as unknown as TypedDocumentString<ProductSizeVariantFragment, unknown>;
+export const ProductColorVariantFragmentDoc = new TypedDocumentString(
+	`
+    fragment ProductColorVariant on ProductColorVariant {
+  __typename
+  name
+}
+    `,
+	{ fragmentName: "ProductColorVariant" },
+) as unknown as TypedDocumentString<ProductColorVariantFragment, unknown>;
 export const ProductDetailsFragmentDoc = new TypedDocumentString(
 	`
     fragment ProductDetails on Product {
@@ -10310,13 +10278,11 @@ export const ProductDetailsFragmentDoc = new TypedDocumentString(
   images {
     url
   }
-  variants {
-    ... on ProductColorVariant {
-      ...ProductColorVariant
-    }
-    ... on ProductSizeVariant {
-      ...ProductSizeVariant
-    }
+  productSizeVariants {
+    ...ProductSizeVariant
+  }
+  productColorVariants {
+    ...ProductColorVariant
   }
 }
     fragment CategoryListItem on Category {
@@ -10393,8 +10359,6 @@ export const CartCreateDocument = new TypedDocumentString(`
 }
     fragment Cart on Order {
   id
-  createdAt
-  total
   orderItems {
     id
     quantity
@@ -10484,8 +10448,6 @@ export const CartGetByIdDocument = new TypedDocumentString(`
 }
     fragment Cart on Order {
   id
-  createdAt
-  total
   orderItems {
     id
     quantity
@@ -10515,11 +10477,16 @@ export const CategoriesGetListDocument = new TypedDocumentString(`
   name
 }`) as unknown as TypedDocumentString<CategoriesGetListQuery, CategoriesGetListQueryVariables>;
 export const CategoryGetBySlugDocument = new TypedDocumentString(`
-    query CategoryGetBySlug($slug: String!, $limit: Int!, $offset: Int!) {
-  category(where: {slug: $slug}) {
+    query CategoryGetBySlug($category: String!, $priceGt: Int!, $priceLt: Int!, $ratingGt: Float!, $ratingLt: Float!, $colors: [String!], $sizes: [String!], $brand: String!, $limit: Int!, $offset: Int!, $orderBy: ProductOrderByInput) {
+  category(where: {slug: $category}) {
     ...CategoryListItem
     description
-    products(first: $limit, skip: $offset) {
+    products(
+      where: {AND: [{price_gt: $priceGt}, {price_lt: $priceLt}, {rating_gt: $ratingGt}, {rating_lt: $ratingLt}, {productColorVariants_some: {name_in: $colors}}, {productSizeVariants_some: {name_in: $sizes}}, {name_contains: $brand}]}
+      first: $limit
+      skip: $offset
+      orderBy: $orderBy
+    ) {
       ...ProductListItem
     }
   }
@@ -10542,14 +10509,19 @@ fragment ProductListItem on Product {
   }
 }`) as unknown as TypedDocumentString<CategoryGetBySlugQuery, CategoryGetBySlugQueryVariables>;
 export const CollectionGetBySlugDocument = new TypedDocumentString(`
-    query CollectionGetBySlug($slug: String!, $limit: Int!, $offset: Int!) {
-  collection(where: {slug: $slug}) {
+    query CollectionGetBySlug($collection: String!, $priceGt: Int!, $priceLt: Int!, $ratingGt: Float!, $ratingLt: Float!, $colors: [String!], $sizes: [String!], $brand: String!, $limit: Int!, $offset: Int!, $orderBy: ProductOrderByInput) {
+  collection(where: {slug: $collection}) {
     ...CollectionListItem
     description
     image {
       url
     }
-    products(first: $limit, skip: $offset) {
+    products(
+      where: {AND: [{price_gt: $priceGt}, {price_lt: $priceLt}, {rating_gt: $ratingGt}, {rating_lt: $ratingLt}, {productColorVariants_some: {name_in: $colors}}, {productSizeVariants_some: {name_in: $sizes}}, {name_contains: $brand}]}
+      first: $limit
+      skip: $offset
+      orderBy: $orderBy
+    ) {
       ...ProductListItem
     }
   }
@@ -10593,8 +10565,6 @@ export const OrdersGetByEmailDocument = new TypedDocumentString(`
 }
     fragment Cart on Order {
   id
-  createdAt
-  total
   orderItems {
     id
     quantity
@@ -10612,7 +10582,6 @@ export const OrdersGetByEmailDocument = new TypedDocumentString(`
 }
 fragment Order on Order {
   updatedAt
-  total
   ...Cart
 }`) as unknown as TypedDocumentString<OrdersGetByEmailQuery, OrdersGetByEmailQueryVariables>;
 export const ProductGetByIdDocument = new TypedDocumentString(`
@@ -10642,13 +10611,11 @@ fragment ProductDetails on Product {
   images {
     url
   }
-  variants {
-    ... on ProductColorVariant {
-      ...ProductColorVariant
-    }
-    ... on ProductSizeVariant {
-      ...ProductSizeVariant
-    }
+  productSizeVariants {
+    ...ProductSizeVariant
+  }
+  productColorVariants {
+    ...ProductColorVariant
   }
 }
 fragment ProductSizeVariant on ProductSizeVariant {
@@ -10682,13 +10649,11 @@ fragment ProductDetails on Product {
   images {
     url
   }
-  variants {
-    ... on ProductColorVariant {
-      ...ProductColorVariant
-    }
-    ... on ProductSizeVariant {
-      ...ProductSizeVariant
-    }
+  productSizeVariants {
+    ...ProductSizeVariant
+  }
+  productColorVariants {
+    ...ProductColorVariant
   }
 }
 fragment ProductSizeVariant on ProductSizeVariant {
@@ -10696,8 +10661,13 @@ fragment ProductSizeVariant on ProductSizeVariant {
   name
 }`) as unknown as TypedDocumentString<ProductGetBySlugQuery, ProductGetBySlugQueryVariables>;
 export const ProductsGetBySearchDocument = new TypedDocumentString(`
-    query ProductsGetBySearch($search: String!) {
-  products(where: {_search: $search}) {
+    query ProductsGetBySearch($search: String!, $priceGt: Int!, $priceLt: Int!, $ratingGt: Float!, $ratingLt: Float!, $colors: [String!], $sizes: [String!], $brand: String!, $limit: Int!, $offset: Int!, $orderBy: ProductOrderByInput) {
+  products(
+    where: {AND: [{_search: $search}, {price_gt: $priceGt}, {price_lt: $priceLt}, {rating_gt: $ratingGt}, {rating_lt: $ratingLt}, {productColorVariants_some: {name_in: $colors}}, {productSizeVariants_some: {name_in: $sizes}}, {name_contains: $brand}]}
+    first: $limit
+    skip: $offset
+    orderBy: $orderBy
+  ) {
     ...ProductListItem
   }
 }
@@ -10747,9 +10717,14 @@ export const ProductsGetCountInCollectionDocument = new TypedDocumentString(`
 	ProductsGetCountInCollectionQuery,
 	ProductsGetCountInCollectionQueryVariables
 >;
-export const ProductGetListDocument = new TypedDocumentString(`
-    query ProductGetList($limit: Int!, $offset: Int!) {
-  products(first: $limit, skip: $offset) {
+export const ProductsGetListDocument = new TypedDocumentString(`
+    query ProductsGetList($priceGt: Int!, $priceLt: Int!, $ratingGt: Float!, $ratingLt: Float!, $colors: [String!], $sizes: [String!], $brand: String!, $limit: Int!, $offset: Int!, $orderBy: ProductOrderByInput) {
+  products(
+    where: {AND: [{price_gt: $priceGt}, {price_lt: $priceLt}, {rating_gt: $ratingGt}, {rating_lt: $ratingLt}, {productColorVariants_some: {name_in: $colors}}, {productSizeVariants_some: {name_in: $sizes}}, {name_contains: $brand}]}
+    first: $limit
+    skip: $offset
+    orderBy: $orderBy
+  ) {
     ...ProductListItem
   }
 }
@@ -10765,7 +10740,7 @@ export const ProductGetListDocument = new TypedDocumentString(`
   images(first: 1) {
     url
   }
-}`) as unknown as TypedDocumentString<ProductGetListQuery, ProductGetListQueryVariables>;
+}`) as unknown as TypedDocumentString<ProductsGetListQuery, ProductsGetListQueryVariables>;
 export const ProductsGetRelatedDocument = new TypedDocumentString(`
     query ProductsGetRelated($slug: String!, $categoriesSlugs: [String!]) {
   products(

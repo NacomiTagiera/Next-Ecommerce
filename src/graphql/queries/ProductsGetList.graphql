@@ -1,5 +1,31 @@
-query ProductGetList($limit: Int!, $offset: Int!) {
-	products(first: $limit, skip: $offset) {
+query ProductsGetList(
+	$priceGt: Int!
+	$priceLt: Int!
+	$ratingGt: Float!
+	$ratingLt: Float!
+	$colors: [String!]
+	$sizes: [String!]
+	$brand: String!
+	$limit: Int!
+	$offset: Int!
+	$orderBy: ProductOrderByInput
+) {
+	products(
+		where: {
+			AND: [
+				{ price_gt: $priceGt }
+				{ price_lt: $priceLt }
+				{ rating_gt: $ratingGt }
+				{ rating_lt: $ratingLt }
+				{ productColorVariants_some: { name_in: $colors } }
+				{ productSizeVariants_some: { name_in: $sizes } }
+				{ name_contains: $brand }
+			]
+		}
+		first: $limit
+		skip: $offset
+		orderBy: $orderBy
+	) {
 		...ProductListItem
 	}
 }

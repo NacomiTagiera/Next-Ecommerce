@@ -5,7 +5,7 @@ import { LuLoader } from "react-icons/lu";
 
 import { cn } from "@/lib/utils";
 
-import { Button, type ButtonProps } from "./Button";
+import { Button, type ButtonProps } from "../Button";
 
 interface Props extends ButtonProps {}
 
@@ -23,7 +23,7 @@ export const ActionButton = ({
 			type="submit"
 			size="fullWidth"
 			aria-disabled={pending}
-			leadingIcon={!pending ? leadingIcon : LuLoader}
+			leadingIcon={!pending ? leadingIcon : () => <LuLoader data-testid="loader-icon" />}
 			trailingIcon={!pending ? trailingIcon : undefined}
 			className={cn("px-8", className, {
 				"cursor-wait": pending,

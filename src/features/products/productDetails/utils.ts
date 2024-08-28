@@ -1,31 +1,23 @@
-import { type ReadonlyURLSearchParams } from "next/navigation";
-
 import { type VariantsType } from "./types";
 
-export const createUrl = (pathname: string, params: URLSearchParams | ReadonlyURLSearchParams) => {
-	const paramsString = params.toString();
-	const queryString = `${paramsString.length ? "?" : ""}${paramsString}`;
-
-	return `${pathname}${queryString}`;
-};
-
-export const getConvertedVariants = (variants: VariantsType) => {
-	if (!variants.length) {
+export const getConvertedVariants = ({
+	colors,
+	sizes,
+}: {
+	colors: VariantsType;
+	sizes: VariantsType;
+}) => {
+	if (colors.length === 0 && sizes.length === 0) {
 		return [];
 	}
 
-	const extractVariantNamesByType = (typeName: RegExp) =>
-		variants.reduce((names: string[], variant) => {
-			if (typeName.test(variant?.__typename)) {
-				names.push(variant.name);
-			}
-			return names;
-		}, []);
+	const convertedColors = colors.map((color) => color.name);
+	const convertedSizes = sizes.map((size) => size.name);
 
-	const colors = extractVariantNamesByType(/color/i);
-	const sizes = extractVariantNamesByType(/size/i);
-
-	const result = [...[{ name: "color", values: colors }], ...[{ name: "size", values: sizes }]];
+	const result = [
+		...[{ name: "color", values: convertedColors }],
+		...[{ name: "size", values: convertedSizes }],
+	];
 
 	return result;
 };

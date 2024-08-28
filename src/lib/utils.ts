@@ -1,7 +1,11 @@
 import clsx, { type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-import { PRODUCTS_PER_PAGE } from "./constants";
+import { type ReadonlyURLSearchParams } from "next/navigation";
+
+import { type ProductQueryParams } from "@/types";
+
+import { productColors, PRODUCTS_PER_PAGE, productSizes } from "./constants";
 
 export const cn = (...classes: ClassValue[]) => twMerge(clsx(...classes));
 
@@ -22,3 +26,39 @@ export const paginationArgs = (page: number) => ({
 	limit: PRODUCTS_PER_PAGE,
 	offset: (page - 1) * PRODUCTS_PER_PAGE,
 });
+
+export const createUrl = (pathname: string, params: URLSearchParams | ReadonlyURLSearchParams) => {
+	const paramsString = params.toString();
+	const queryString = `${paramsString.length ? "?" : ""}${paramsString}`;
+
+	return `${pathname}${queryString}`;
+};
+
+export const parseSearchParams = (
+	searchParams: { [key: string]: string | string[] | undefined },
+	page?: number,
+): ProductQueryParams => {
+	return {
+		priceGt: searchParams.priceGt ? parseInt(searchParams.priceGt as string, 10) : 0,
+		priceLt: searchParams.priceLt
+			? parseInt(searchParams.priceLt as string)
+			: Number.MAX_SAFE_INTEGER,
+		ratingGt: searchParams.ratingGt ? parseFloat(searchParams.ratingGt as string) : 0,
+		ratingLt: searchParams.ratingLt ? parseFloat(searchParams.ratingLt as string) : 5,
+		colors: searchParams.colors
+			? Array.isArray(searchParams.colors)
+				? searchParams.colors
+				: [searchParams.colors]
+			: [...productColors],
+		sizes: searchParams.sizes
+			? Array.isArray(searchParams.sizes)
+				? searchParams.sizes
+				: [searchParams.sizes]
+			: [...productSizes],
+		brand: searchParams.brand ? (searchParams.brand as string) : "",
+		orderBy: searchParams.orderBy
+			? (searchParams.orderBy as ProductQueryParams["orderBy"])
+			: undefined,
+		page: page || 1,
+	};
+};

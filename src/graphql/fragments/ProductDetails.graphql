@@ -12,9 +12,9 @@ fragment ProductDetails on Product {
 		url
 	}
 	productSizeVariants {
-		...ProductSizeVariant
+		name
 	}
 	productColorVariants {
-		...ProductColorVariant
+		name
 	}
 }

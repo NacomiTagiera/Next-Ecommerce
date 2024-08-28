@@ -5,7 +5,7 @@ import { BiSolidPackage } from "react-icons/bi";
 import { IoIosSettings } from "react-icons/io";
 import { PiSignOutBold } from "react-icons/pi";
 import { useClerk, useUser } from "@clerk/nextjs";
-import { Menu, Transition } from "@headlessui/react";
+import { Menu, MenuButton, MenuItem, MenuItems, Transition } from "@headlessui/react";
 
 import NextImage from "next/image";
 
@@ -38,19 +38,17 @@ export const UserProfileDropdown = () => {
 
 	return (
 		<Menu as="div" className="relative">
-			<div>
-				<Menu.Button className="relative flex w-8 rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-skyfall-400 focus:ring-offset-2 focus:ring-offset-skyfall-300">
-					<span className="absolute -inset-1.5" />
-					<span className="sr-only">Open user menu</span>
-					<NextImage
-						className="size-8 rounded-full"
-						src={userImage}
-						width="32"
-						height="32"
-						alt="Your avatar"
-					/>
-				</Menu.Button>
-			</div>
+			<MenuButton className="relative flex w-8 rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-skyfall-400 focus:ring-offset-2 focus:ring-offset-skyfall-300">
+				<span className="absolute -inset-1.5" />
+				<span className="sr-only">Open user menu</span>
+				<NextImage
+					className="size-8 rounded-full"
+					src={userImage}
+					width="32"
+					height="32"
+					alt="Your avatar"
+				/>
+			</MenuButton>
 			<Transition
 				as={Fragment}
 				enter="transition ease-out duration-100"
@@ -60,8 +58,8 @@ export const UserProfileDropdown = () => {
 				leaveFrom="transform opacity-100 scale-100"
 				leaveTo="transform opacity-0 scale-95"
 			>
-				<Menu.Items className="spacey-y-2 absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-zinc-900 ring-opacity-5 focus:outline-none">
-					<Menu.Item>
+				<MenuItems className="spacey-y-2 absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-zinc-900 ring-opacity-5 focus:outline-none">
+					<MenuItem>
 						<div className="flex items-center gap-2 px-4 py-2 text-sm">
 							<NextImage
 								className="size-7 rounded-full"
@@ -72,7 +70,7 @@ export const UserProfileDropdown = () => {
 							/>
 							<p className="font-semibold">{username}</p>
 						</div>
-					</Menu.Item>
+					</MenuItem>
 					{userLinks.map((item) => (
 						<UserProfileDropdownItem
 							key={item.label}
@@ -89,7 +87,7 @@ export const UserProfileDropdown = () => {
 							{item.label}
 						</UserProfileDropdownItem>
 					))}
-				</Menu.Items>
+				</MenuItems>
 			</Transition>
 		</Menu>
 	);

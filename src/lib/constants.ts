@@ -2,6 +2,47 @@ import { type Route } from "next";
 
 export const PRODUCTS_PER_PAGE = 4;
 
+export const productBrands = [
+	"Nike",
+	"Adidas",
+	"Puma",
+	"Under Armour",
+	"New Balance",
+	"Reebok",
+] as const;
+
+export const productColors = [
+	"Gray",
+	"White",
+	"Pink",
+	"Green",
+	"Blue",
+	"Black",
+	"Multicolor",
+	"Orange",
+	"Red",
+	"Yellow",
+	"Purple",
+] as const;
+
+export const productSizes = [
+	"XS",
+	"S",
+	"M",
+	"L",
+	"XL",
+	"36",
+	"37",
+	"38",
+	"39",
+	"40",
+	"41",
+	"42",
+	"43",
+	"44",
+	"45",
+] as const;
+
 export const navLinks: { text: string; href: Route }[] = [
 	{ text: "Home", href: "/" },
 	{ text: "All", href: "/products" },

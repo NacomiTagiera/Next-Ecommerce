@@ -1,5 +1,3 @@
-import { cn } from "@/lib/utils";
-
 interface Props {
 	colors: string[];
 	activeColor: string;
@@ -7,7 +5,9 @@ interface Props {
 }
 
 export const ColorPicker = ({ colors, activeColor, onColorChange }: Props) => {
-	if (!colors.length) return null;
+	if (colors.length === 0) {
+		return null;
+	}
 
 	const validActiveColor = colors.includes(activeColor) ? activeColor : colors[0];
 
@@ -20,12 +20,8 @@ export const ColorPicker = ({ colors, activeColor, onColorChange }: Props) => {
 					{colors.map((color, index) => (
 						<label
 							key={color}
-							className={cn(
-								`relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 ring-[${color}] focus:outline-none`,
-								{
-									"ring ring-offset-1": color === validActiveColor,
-								},
-							)}
+							title={color}
+							className="relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none"
 							style={{ boxShadow: color === validActiveColor ? `0 0 0 3px ${color}` : "" }}
 						>
 							<input
@@ -41,7 +37,7 @@ export const ColorPicker = ({ colors, activeColor, onColorChange }: Props) => {
 							</span>
 							<span
 								aria-hidden
-								className={cn(`h-8 w-8 rounded-full border border-opacity-10`)}
+								className="size-8 rounded-full border border-opacity-10"
 								style={{ backgroundColor: color, borderColor: color }}
 							></span>
 						</label>

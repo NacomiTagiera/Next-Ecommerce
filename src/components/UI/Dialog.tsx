@@ -9,15 +9,17 @@ interface Props {
 	children: React.ReactNode;
 	open: boolean;
 	onClose: () => void;
+	header: string;
 	showHeader?: boolean;
+	className?: string;
 }
 
-export const Dialog = ({ children, open, onClose, showHeader }: Props) => (
+export const Dialog = ({ children, open, onClose, header, showHeader, className }: Props) => (
 	<UiDialog
 		as="aside"
 		role="dialog"
 		aria-labelledby="dialog-header"
-		className="relative z-40"
+		className={cn("relative z-40", className)}
 		open={open}
 		onClose={onClose}
 	>
@@ -35,11 +37,11 @@ export const Dialog = ({ children, open, onClose, showHeader }: Props) => (
 						id="dialog-header"
 						className={cn(showHeader ? "text-lg font-medium text-zinc-900" : "sr-only")}
 					>
-						Menu
+						{header}
 					</h2>
 					<IconButton
 						icon={IoMdClose}
-						hiddenLabel="Close menu"
+						hiddenLabel="Close dialog"
 						onClick={onClose}
 						className="ml-auto"
 					/>

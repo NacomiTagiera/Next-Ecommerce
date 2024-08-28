@@ -9765,8 +9765,6 @@ export type OrderFragment = {
 	}>;
 };
 
-export type ProductColorVariantFragment = { __typename: "ProductColorVariant"; name: string };
-
 export type ProductDetailsFragment = {
 	id: string;
 	slug: string;
@@ -9776,8 +9774,8 @@ export type ProductDetailsFragment = {
 	rating?: number | null;
 	categories: Array<{ slug: string; name: string }>;
 	images: Array<{ url: string }>;
-	productSizeVariants: Array<{ __typename: "ProductSizeVariant"; name: string }>;
-	productColorVariants: Array<{ __typename: "ProductColorVariant"; name: string }>;
+	productSizeVariants: Array<{ name: string }>;
+	productColorVariants: Array<{ name: string }>;
 };
 
 export type ProductListItemFragment = {
@@ -9789,8 +9787,6 @@ export type ProductListItemFragment = {
 	categories: Array<{ name: string }>;
 	images: Array<{ url: string }>;
 };
-
-export type ProductSizeVariantFragment = { __typename: "ProductSizeVariant"; name: string };
 
 export type ReviewFragment = {
 	id: string;
@@ -10035,8 +10031,8 @@ export type ProductGetByIdQuery = {
 		rating?: number | null;
 		categories: Array<{ slug: string; name: string }>;
 		images: Array<{ url: string }>;
-		productSizeVariants: Array<{ __typename: "ProductSizeVariant"; name: string }>;
-		productColorVariants: Array<{ __typename: "ProductColorVariant"; name: string }>;
+		productSizeVariants: Array<{ name: string }>;
+		productColorVariants: Array<{ name: string }>;
 	} | null;
 };
 
@@ -10054,8 +10050,8 @@ export type ProductGetBySlugQuery = {
 		rating?: number | null;
 		categories: Array<{ slug: string; name: string }>;
 		images: Array<{ url: string }>;
-		productSizeVariants: Array<{ __typename: "ProductSizeVariant"; name: string }>;
-		productColorVariants: Array<{ __typename: "ProductColorVariant"; name: string }>;
+		productSizeVariants: Array<{ name: string }>;
+		productColorVariants: Array<{ name: string }>;
 	} | null;
 };
 
@@ -10085,12 +10081,42 @@ export type ProductsGetBySearchQuery = {
 	}>;
 };
 
-export type ProductsGetCountQueryVariables = Exact<{ [key: string]: never }>;
+export type ProductsGetCountQueryVariables = Exact<{
+	priceGt: Scalars["Int"]["input"];
+	priceLt: Scalars["Int"]["input"];
+	ratingGt: Scalars["Float"]["input"];
+	ratingLt: Scalars["Float"]["input"];
+	colors?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
+	sizes?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
+	brand: Scalars["String"]["input"];
+}>;
 
 export type ProductsGetCountQuery = { productsConnection: { aggregate: { count: number } } };
 
+export type ProductsGetCountBySearchQueryVariables = Exact<{
+	search: Scalars["String"]["input"];
+	priceGt: Scalars["Int"]["input"];
+	priceLt: Scalars["Int"]["input"];
+	ratingGt: Scalars["Float"]["input"];
+	ratingLt: Scalars["Float"]["input"];
+	colors?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
+	sizes?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
+	brand: Scalars["String"]["input"];
+}>;
+
+export type ProductsGetCountBySearchQuery = {
+	productsConnection: { aggregate: { count: number } };
+};
+
 export type ProductsGetCountInCategoryQueryVariables = Exact<{
 	slug?: InputMaybe<Scalars["String"]["input"]>;
+	priceGt: Scalars["Int"]["input"];
+	priceLt: Scalars["Int"]["input"];
+	ratingGt: Scalars["Float"]["input"];
+	ratingLt: Scalars["Float"]["input"];
+	colors?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
+	sizes?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
+	brand: Scalars["String"]["input"];
 }>;
 
 export type ProductsGetCountInCategoryQuery = {
@@ -10099,6 +10125,13 @@ export type ProductsGetCountInCategoryQuery = {
 
 export type ProductsGetCountInCollectionQueryVariables = Exact<{
 	slug?: InputMaybe<Scalars["String"]["input"]>;
+	priceGt: Scalars["Int"]["input"];
+	priceLt: Scalars["Int"]["input"];
+	ratingGt: Scalars["Float"]["input"];
+	ratingLt: Scalars["Float"]["input"];
+	colors?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
+	sizes?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
+	brand: Scalars["String"]["input"];
 }>;
 
 export type ProductsGetCountInCollectionQuery = {
@@ -10245,24 +10278,6 @@ export const CategoryListItemFragmentDoc = new TypedDocumentString(
     `,
 	{ fragmentName: "CategoryListItem" },
 ) as unknown as TypedDocumentString<CategoryListItemFragment, unknown>;
-export const ProductSizeVariantFragmentDoc = new TypedDocumentString(
-	`
-    fragment ProductSizeVariant on ProductSizeVariant {
-  __typename
-  name
-}
-    `,
-	{ fragmentName: "ProductSizeVariant" },
-) as unknown as TypedDocumentString<ProductSizeVariantFragment, unknown>;
-export const ProductColorVariantFragmentDoc = new TypedDocumentString(
-	`
-    fragment ProductColorVariant on ProductColorVariant {
-  __typename
-  name
-}
-    `,
-	{ fragmentName: "ProductColorVariant" },
-) as unknown as TypedDocumentString<ProductColorVariantFragment, unknown>;
 export const ProductDetailsFragmentDoc = new TypedDocumentString(
 	`
     fragment ProductDetails on Product {
@@ -10279,22 +10294,14 @@ export const ProductDetailsFragmentDoc = new TypedDocumentString(
     url
   }
   productSizeVariants {
-    ...ProductSizeVariant
+    name
   }
   productColorVariants {
-    ...ProductColorVariant
+    name
   }
 }
     fragment CategoryListItem on Category {
   slug
-  name
-}
-fragment ProductColorVariant on ProductColorVariant {
-  __typename
-  name
-}
-fragment ProductSizeVariant on ProductSizeVariant {
-  __typename
   name
 }`,
 	{ fragmentName: "ProductDetails" },
@@ -10594,10 +10601,6 @@ export const ProductGetByIdDocument = new TypedDocumentString(`
   slug
   name
 }
-fragment ProductColorVariant on ProductColorVariant {
-  __typename
-  name
-}
 fragment ProductDetails on Product {
   id
   slug
@@ -10612,15 +10615,11 @@ fragment ProductDetails on Product {
     url
   }
   productSizeVariants {
-    ...ProductSizeVariant
+    name
   }
   productColorVariants {
-    ...ProductColorVariant
+    name
   }
-}
-fragment ProductSizeVariant on ProductSizeVariant {
-  __typename
-  name
 }`) as unknown as TypedDocumentString<ProductGetByIdQuery, ProductGetByIdQueryVariables>;
 export const ProductGetBySlugDocument = new TypedDocumentString(`
     query ProductGetBySlug($slug: String!) {
@@ -10632,10 +10631,6 @@ export const ProductGetBySlugDocument = new TypedDocumentString(`
   slug
   name
 }
-fragment ProductColorVariant on ProductColorVariant {
-  __typename
-  name
-}
 fragment ProductDetails on Product {
   id
   slug
@@ -10650,15 +10645,11 @@ fragment ProductDetails on Product {
     url
   }
   productSizeVariants {
-    ...ProductSizeVariant
+    name
   }
   productColorVariants {
-    ...ProductColorVariant
+    name
   }
-}
-fragment ProductSizeVariant on ProductSizeVariant {
-  __typename
-  name
 }`) as unknown as TypedDocumentString<ProductGetBySlugQuery, ProductGetBySlugQueryVariables>;
 export const ProductsGetBySearchDocument = new TypedDocumentString(`
     query ProductsGetBySearch($search: String!, $priceGt: Int!, $priceLt: Int!, $ratingGt: Float!, $ratingLt: Float!, $colors: [String!], $sizes: [String!], $brand: String!, $limit: Int!, $offset: Int!, $orderBy: ProductOrderByInput) {
@@ -10685,17 +10676,35 @@ export const ProductsGetBySearchDocument = new TypedDocumentString(`
   }
 }`) as unknown as TypedDocumentString<ProductsGetBySearchQuery, ProductsGetBySearchQueryVariables>;
 export const ProductsGetCountDocument = new TypedDocumentString(`
-    query ProductsGetCount {
-  productsConnection {
+    query ProductsGetCount($priceGt: Int!, $priceLt: Int!, $ratingGt: Float!, $ratingLt: Float!, $colors: [String!], $sizes: [String!], $brand: String!) {
+  productsConnection(
+    where: {AND: [{price_gt: $priceGt}, {price_lt: $priceLt}, {rating_gt: $ratingGt}, {rating_lt: $ratingLt}, {name_contains: $brand}, {productColorVariants_some: {name_in: $colors}}, {OR: [{productSizeVariants_some: {name_in: $sizes}}, {productSizeVariants_none: {}}]}]}
+  ) {
     aggregate {
       count
     }
   }
 }
     `) as unknown as TypedDocumentString<ProductsGetCountQuery, ProductsGetCountQueryVariables>;
+export const ProductsGetCountBySearchDocument = new TypedDocumentString(`
+    query ProductsGetCountBySearch($search: String!, $priceGt: Int!, $priceLt: Int!, $ratingGt: Float!, $ratingLt: Float!, $colors: [String!], $sizes: [String!], $brand: String!) {
+  productsConnection(
+    where: {AND: [{_search: $search}, {price_gt: $priceGt}, {price_lt: $priceLt}, {rating_gt: $ratingGt}, {rating_lt: $ratingLt}, {name_contains: $brand}, {productColorVariants_some: {name_in: $colors}}, {OR: [{productSizeVariants_some: {name_in: $sizes}}, {productSizeVariants_none: {}}]}]}
+  ) {
+    aggregate {
+      count
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<
+	ProductsGetCountBySearchQuery,
+	ProductsGetCountBySearchQueryVariables
+>;
 export const ProductsGetCountInCategoryDocument = new TypedDocumentString(`
-    query ProductsGetCountInCategory($slug: String) {
-  productsConnection(where: {categories_some: {slug: $slug}}) {
+    query ProductsGetCountInCategory($slug: String, $priceGt: Int!, $priceLt: Int!, $ratingGt: Float!, $ratingLt: Float!, $colors: [String!], $sizes: [String!], $brand: String!) {
+  productsConnection(
+    where: {AND: [{categories_some: {slug: $slug}}, {price_gt: $priceGt}, {price_lt: $priceLt}, {rating_gt: $ratingGt}, {rating_lt: $ratingLt}, {name_contains: $brand}, {productColorVariants_some: {name_in: $colors}}, {OR: [{productSizeVariants_some: {name_in: $sizes}}, {productSizeVariants_none: {}}]}]}
+  ) {
     aggregate {
       count
     }
@@ -10706,8 +10715,10 @@ export const ProductsGetCountInCategoryDocument = new TypedDocumentString(`
 	ProductsGetCountInCategoryQueryVariables
 >;
 export const ProductsGetCountInCollectionDocument = new TypedDocumentString(`
-    query ProductsGetCountInCollection($slug: String) {
-  productsConnection(where: {collections_some: {slug: $slug}}) {
+    query ProductsGetCountInCollection($slug: String, $priceGt: Int!, $priceLt: Int!, $ratingGt: Float!, $ratingLt: Float!, $colors: [String!], $sizes: [String!], $brand: String!) {
+  productsConnection(
+    where: {AND: [{collections_some: {slug: $slug}}, {price_gt: $priceGt}, {price_lt: $priceLt}, {rating_gt: $ratingGt}, {rating_lt: $ratingLt}, {name_contains: $brand}, {productColorVariants_some: {name_in: $colors}}, {OR: [{productSizeVariants_some: {name_in: $sizes}}, {productSizeVariants_none: {}}]}]}
+  ) {
     aggregate {
       count
     }
@@ -10720,7 +10731,7 @@ export const ProductsGetCountInCollectionDocument = new TypedDocumentString(`
 export const ProductsGetListDocument = new TypedDocumentString(`
     query ProductsGetList($priceGt: Int!, $priceLt: Int!, $ratingGt: Float!, $ratingLt: Float!, $colors: [String!], $sizes: [String!], $brand: String!, $limit: Int!, $offset: Int!, $orderBy: ProductOrderByInput) {
   products(
-    where: {AND: [{price_gt: $priceGt}, {price_lt: $priceLt}, {rating_gt: $ratingGt}, {rating_lt: $ratingLt}, {productColorVariants_some: {name_in: $colors}}, {productSizeVariants_some: {name_in: $sizes}}, {name_contains: $brand}]}
+    where: {AND: [{price_gt: $priceGt}, {price_lt: $priceLt}, {rating_gt: $ratingGt}, {rating_lt: $ratingLt}, {name_contains: $brand}, {productColorVariants_some: {name_in: $colors}}, {OR: [{productSizeVariants_some: {name_in: $sizes}}, {productSizeVariants_none: {}}]}]}
     first: $limit
     skip: $offset
     orderBy: $orderBy

@@ -1,5 +1,29 @@
-query ProductsGetCountInCategory($slug: String) {
-	productsConnection(where: { categories_some: { slug: $slug } }) {
+query ProductsGetCountInCategory(
+	$slug: String
+	$priceGt: Int!
+	$priceLt: Int!
+	$ratingGt: Float!
+	$ratingLt: Float!
+	$colors: [String!]
+	$sizes: [String!]
+	$brand: String!
+) {
+	productsConnection(
+		where: {
+			AND: [
+				{ categories_some: { slug: $slug } }
+				{ price_gt: $priceGt }
+				{ price_lt: $priceLt }
+				{ rating_gt: $ratingGt }
+				{ rating_lt: $ratingLt }
+				{ name_contains: $brand }
+				{ productColorVariants_some: { name_in: $colors } }
+				{
+					OR: [{ productSizeVariants_some: { name_in: $sizes } }, { productSizeVariants_none: {} }] # If sizes is empty, return all products
+				}
+			]
+		}
+	) {
 		aggregate {
 			count
 		}

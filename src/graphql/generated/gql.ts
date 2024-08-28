@@ -18,14 +18,10 @@ const documents = {
 	"fragment CollectionListItem on Collection {\n  slug\n  name\n}":
 		types.CollectionListItemFragmentDoc,
 	"fragment Order on Order {\n  updatedAt\n  ...Cart\n}": types.OrderFragmentDoc,
-	"fragment ProductColorVariant on ProductColorVariant {\n  __typename\n  name\n}":
-		types.ProductColorVariantFragmentDoc,
-	"fragment ProductDetails on Product {\n  id\n  slug\n  name\n  description\n  price\n  rating\n  categories {\n    ...CategoryListItem\n  }\n  images {\n    url\n  }\n  productSizeVariants {\n    ...ProductSizeVariant\n  }\n  productColorVariants {\n    ...ProductColorVariant\n  }\n}":
+	"fragment ProductDetails on Product {\n  id\n  slug\n  name\n  description\n  price\n  rating\n  categories {\n    ...CategoryListItem\n  }\n  images {\n    url\n  }\n  productSizeVariants {\n    name\n  }\n  productColorVariants {\n    name\n  }\n}":
 		types.ProductDetailsFragmentDoc,
 	"fragment ProductListItem on Product {\n  id\n  slug\n  name\n  price\n  rating\n  categories(first: 1) {\n    name\n  }\n  images(first: 1) {\n    url\n  }\n}":
 		types.ProductListItemFragmentDoc,
-	"fragment ProductSizeVariant on ProductSizeVariant {\n  __typename\n  name\n}":
-		types.ProductSizeVariantFragmentDoc,
 	"fragment Review on Review {\n  id\n  name\n  email\n  rating\n  headline\n  content\n  createdAt\n}":
 		types.ReviewFragmentDoc,
 	"mutation CartAddItem($orderId: ID!, $itemId: ID!, $price: Int!, $quantity: Int!) {\n  upsertOrderItem(\n    where: {id: $orderId}\n    upsert: {create: {quantity: 1, total: $price, order: {connect: {id: $orderId}}, product: {connect: {id: $itemId}}}, update: {quantity: $quantity, total: $price}}\n  ) {\n    id\n  }\n}":
@@ -66,13 +62,15 @@ const documents = {
 		types.ProductGetBySlugDocument,
 	"query ProductsGetBySearch($search: String!, $priceGt: Int!, $priceLt: Int!, $ratingGt: Float!, $ratingLt: Float!, $colors: [String!], $sizes: [String!], $brand: String!, $limit: Int!, $offset: Int!, $orderBy: ProductOrderByInput) {\n  products(\n    where: {AND: [{_search: $search}, {price_gt: $priceGt}, {price_lt: $priceLt}, {rating_gt: $ratingGt}, {rating_lt: $ratingLt}, {productColorVariants_some: {name_in: $colors}}, {productSizeVariants_some: {name_in: $sizes}}, {name_contains: $brand}]}\n    first: $limit\n    skip: $offset\n    orderBy: $orderBy\n  ) {\n    ...ProductListItem\n  }\n}":
 		types.ProductsGetBySearchDocument,
-	"query ProductsGetCount {\n  productsConnection {\n    aggregate {\n      count\n    }\n  }\n}":
+	"query ProductsGetCount($priceGt: Int!, $priceLt: Int!, $ratingGt: Float!, $ratingLt: Float!, $colors: [String!], $sizes: [String!], $brand: String!) {\n  productsConnection(\n    where: {AND: [{price_gt: $priceGt}, {price_lt: $priceLt}, {rating_gt: $ratingGt}, {rating_lt: $ratingLt}, {name_contains: $brand}, {productColorVariants_some: {name_in: $colors}}, {OR: [{productSizeVariants_some: {name_in: $sizes}}, {productSizeVariants_none: {}}]}]}\n  ) {\n    aggregate {\n      count\n    }\n  }\n}":
 		types.ProductsGetCountDocument,
-	"query ProductsGetCountInCategory($slug: String) {\n  productsConnection(where: {categories_some: {slug: $slug}}) {\n    aggregate {\n      count\n    }\n  }\n}":
+	"query ProductsGetCountBySearch($search: String!, $priceGt: Int!, $priceLt: Int!, $ratingGt: Float!, $ratingLt: Float!, $colors: [String!], $sizes: [String!], $brand: String!) {\n  productsConnection(\n    where: {AND: [{_search: $search}, {price_gt: $priceGt}, {price_lt: $priceLt}, {rating_gt: $ratingGt}, {rating_lt: $ratingLt}, {name_contains: $brand}, {productColorVariants_some: {name_in: $colors}}, {OR: [{productSizeVariants_some: {name_in: $sizes}}, {productSizeVariants_none: {}}]}]}\n  ) {\n    aggregate {\n      count\n    }\n  }\n}":
+		types.ProductsGetCountBySearchDocument,
+	"query ProductsGetCountInCategory($slug: String, $priceGt: Int!, $priceLt: Int!, $ratingGt: Float!, $ratingLt: Float!, $colors: [String!], $sizes: [String!], $brand: String!) {\n  productsConnection(\n    where: {AND: [{categories_some: {slug: $slug}}, {price_gt: $priceGt}, {price_lt: $priceLt}, {rating_gt: $ratingGt}, {rating_lt: $ratingLt}, {name_contains: $brand}, {productColorVariants_some: {name_in: $colors}}, {OR: [{productSizeVariants_some: {name_in: $sizes}}, {productSizeVariants_none: {}}]}]}\n  ) {\n    aggregate {\n      count\n    }\n  }\n}":
 		types.ProductsGetCountInCategoryDocument,
-	"query ProductsGetCountInCollection($slug: String) {\n  productsConnection(where: {collections_some: {slug: $slug}}) {\n    aggregate {\n      count\n    }\n  }\n}":
+	"query ProductsGetCountInCollection($slug: String, $priceGt: Int!, $priceLt: Int!, $ratingGt: Float!, $ratingLt: Float!, $colors: [String!], $sizes: [String!], $brand: String!) {\n  productsConnection(\n    where: {AND: [{collections_some: {slug: $slug}}, {price_gt: $priceGt}, {price_lt: $priceLt}, {rating_gt: $ratingGt}, {rating_lt: $ratingLt}, {name_contains: $brand}, {productColorVariants_some: {name_in: $colors}}, {OR: [{productSizeVariants_some: {name_in: $sizes}}, {productSizeVariants_none: {}}]}]}\n  ) {\n    aggregate {\n      count\n    }\n  }\n}":
 		types.ProductsGetCountInCollectionDocument,
-	"query ProductsGetList($priceGt: Int!, $priceLt: Int!, $ratingGt: Float!, $ratingLt: Float!, $colors: [String!], $sizes: [String!], $brand: String!, $limit: Int!, $offset: Int!, $orderBy: ProductOrderByInput) {\n  products(\n    where: {AND: [{price_gt: $priceGt}, {price_lt: $priceLt}, {rating_gt: $ratingGt}, {rating_lt: $ratingLt}, {productColorVariants_some: {name_in: $colors}}, {productSizeVariants_some: {name_in: $sizes}}, {name_contains: $brand}]}\n    first: $limit\n    skip: $offset\n    orderBy: $orderBy\n  ) {\n    ...ProductListItem\n  }\n}":
+	"query ProductsGetList($priceGt: Int!, $priceLt: Int!, $ratingGt: Float!, $ratingLt: Float!, $colors: [String!], $sizes: [String!], $brand: String!, $limit: Int!, $offset: Int!, $orderBy: ProductOrderByInput) {\n  products(\n    where: {AND: [{price_gt: $priceGt}, {price_lt: $priceLt}, {rating_gt: $ratingGt}, {rating_lt: $ratingLt}, {name_contains: $brand}, {productColorVariants_some: {name_in: $colors}}, {OR: [{productSizeVariants_some: {name_in: $sizes}}, {productSizeVariants_none: {}}]}]}\n    first: $limit\n    skip: $offset\n    orderBy: $orderBy\n  ) {\n    ...ProductListItem\n  }\n}":
 		types.ProductsGetListDocument,
 	"query ProductsGetRelated($slug: String!, $categoriesSlugs: [String!]) {\n  products(\n    where: {slug_not: $slug, AND: {categories_some: {slug_in: $categoriesSlugs}}}\n    first: 4\n  ) {\n    ...ProductListItem\n  }\n}":
 		types.ProductsGetRelatedDocument,
@@ -108,13 +106,7 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-	source: "fragment ProductColorVariant on ProductColorVariant {\n  __typename\n  name\n}",
-): typeof import("./graphql").ProductColorVariantFragmentDoc;
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(
-	source: "fragment ProductDetails on Product {\n  id\n  slug\n  name\n  description\n  price\n  rating\n  categories {\n    ...CategoryListItem\n  }\n  images {\n    url\n  }\n  productSizeVariants {\n    ...ProductSizeVariant\n  }\n  productColorVariants {\n    ...ProductColorVariant\n  }\n}",
+	source: "fragment ProductDetails on Product {\n  id\n  slug\n  name\n  description\n  price\n  rating\n  categories {\n    ...CategoryListItem\n  }\n  images {\n    url\n  }\n  productSizeVariants {\n    name\n  }\n  productColorVariants {\n    name\n  }\n}",
 ): typeof import("./graphql").ProductDetailsFragmentDoc;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -122,12 +114,6 @@ export function graphql(
 export function graphql(
 	source: "fragment ProductListItem on Product {\n  id\n  slug\n  name\n  price\n  rating\n  categories(first: 1) {\n    name\n  }\n  images(first: 1) {\n    url\n  }\n}",
 ): typeof import("./graphql").ProductListItemFragmentDoc;
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(
-	source: "fragment ProductSizeVariant on ProductSizeVariant {\n  __typename\n  name\n}",
-): typeof import("./graphql").ProductSizeVariantFragmentDoc;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -252,25 +238,31 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-	source: "query ProductsGetCount {\n  productsConnection {\n    aggregate {\n      count\n    }\n  }\n}",
+	source: "query ProductsGetCount($priceGt: Int!, $priceLt: Int!, $ratingGt: Float!, $ratingLt: Float!, $colors: [String!], $sizes: [String!], $brand: String!) {\n  productsConnection(\n    where: {AND: [{price_gt: $priceGt}, {price_lt: $priceLt}, {rating_gt: $ratingGt}, {rating_lt: $ratingLt}, {name_contains: $brand}, {productColorVariants_some: {name_in: $colors}}, {OR: [{productSizeVariants_some: {name_in: $sizes}}, {productSizeVariants_none: {}}]}]}\n  ) {\n    aggregate {\n      count\n    }\n  }\n}",
 ): typeof import("./graphql").ProductsGetCountDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-	source: "query ProductsGetCountInCategory($slug: String) {\n  productsConnection(where: {categories_some: {slug: $slug}}) {\n    aggregate {\n      count\n    }\n  }\n}",
+	source: "query ProductsGetCountBySearch($search: String!, $priceGt: Int!, $priceLt: Int!, $ratingGt: Float!, $ratingLt: Float!, $colors: [String!], $sizes: [String!], $brand: String!) {\n  productsConnection(\n    where: {AND: [{_search: $search}, {price_gt: $priceGt}, {price_lt: $priceLt}, {rating_gt: $ratingGt}, {rating_lt: $ratingLt}, {name_contains: $brand}, {productColorVariants_some: {name_in: $colors}}, {OR: [{productSizeVariants_some: {name_in: $sizes}}, {productSizeVariants_none: {}}]}]}\n  ) {\n    aggregate {\n      count\n    }\n  }\n}",
+): typeof import("./graphql").ProductsGetCountBySearchDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+	source: "query ProductsGetCountInCategory($slug: String, $priceGt: Int!, $priceLt: Int!, $ratingGt: Float!, $ratingLt: Float!, $colors: [String!], $sizes: [String!], $brand: String!) {\n  productsConnection(\n    where: {AND: [{categories_some: {slug: $slug}}, {price_gt: $priceGt}, {price_lt: $priceLt}, {rating_gt: $ratingGt}, {rating_lt: $ratingLt}, {name_contains: $brand}, {productColorVariants_some: {name_in: $colors}}, {OR: [{productSizeVariants_some: {name_in: $sizes}}, {productSizeVariants_none: {}}]}]}\n  ) {\n    aggregate {\n      count\n    }\n  }\n}",
 ): typeof import("./graphql").ProductsGetCountInCategoryDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-	source: "query ProductsGetCountInCollection($slug: String) {\n  productsConnection(where: {collections_some: {slug: $slug}}) {\n    aggregate {\n      count\n    }\n  }\n}",
+	source: "query ProductsGetCountInCollection($slug: String, $priceGt: Int!, $priceLt: Int!, $ratingGt: Float!, $ratingLt: Float!, $colors: [String!], $sizes: [String!], $brand: String!) {\n  productsConnection(\n    where: {AND: [{collections_some: {slug: $slug}}, {price_gt: $priceGt}, {price_lt: $priceLt}, {rating_gt: $ratingGt}, {rating_lt: $ratingLt}, {name_contains: $brand}, {productColorVariants_some: {name_in: $colors}}, {OR: [{productSizeVariants_some: {name_in: $sizes}}, {productSizeVariants_none: {}}]}]}\n  ) {\n    aggregate {\n      count\n    }\n  }\n}",
 ): typeof import("./graphql").ProductsGetCountInCollectionDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-	source: "query ProductsGetList($priceGt: Int!, $priceLt: Int!, $ratingGt: Float!, $ratingLt: Float!, $colors: [String!], $sizes: [String!], $brand: String!, $limit: Int!, $offset: Int!, $orderBy: ProductOrderByInput) {\n  products(\n    where: {AND: [{price_gt: $priceGt}, {price_lt: $priceLt}, {rating_gt: $ratingGt}, {rating_lt: $ratingLt}, {productColorVariants_some: {name_in: $colors}}, {productSizeVariants_some: {name_in: $sizes}}, {name_contains: $brand}]}\n    first: $limit\n    skip: $offset\n    orderBy: $orderBy\n  ) {\n    ...ProductListItem\n  }\n}",
+	source: "query ProductsGetList($priceGt: Int!, $priceLt: Int!, $ratingGt: Float!, $ratingLt: Float!, $colors: [String!], $sizes: [String!], $brand: String!, $limit: Int!, $offset: Int!, $orderBy: ProductOrderByInput) {\n  products(\n    where: {AND: [{price_gt: $priceGt}, {price_lt: $priceLt}, {rating_gt: $ratingGt}, {rating_lt: $ratingLt}, {name_contains: $brand}, {productColorVariants_some: {name_in: $colors}}, {OR: [{productSizeVariants_some: {name_in: $sizes}}, {productSizeVariants_none: {}}]}]}\n    first: $limit\n    skip: $offset\n    orderBy: $orderBy\n  ) {\n    ...ProductListItem\n  }\n}",
 ): typeof import("./graphql").ProductsGetListDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.

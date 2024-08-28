@@ -9,14 +9,19 @@ import {
 import { Pagination } from "@/features/products/productsList/components/Pagination";
 import { ProductList } from "@/features/products/productsList/components/ProductsList";
 import { PRODUCTS_PER_PAGE } from "@/lib/constants";
+import { parseSearchParams } from "@/lib/utils";
+import { type PageProps } from "@/types";
 
-interface Props {
-	params: { category: string; pageNumber: string };
-	searchParams: { [key: string]: string | string[] | undefined };
+interface Props extends PageProps {
+	params: {
+		category: string;
+		pageNumber: string;
+	};
 }
 
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
-	const category = await getCategoryBySlug(params.category, 1);
+	const page = parseInt(params.pageNumber, 10) || 1;
+	const category = await getCategoryBySlug(params.category, parseSearchParams({}, page));
 
 	return {
 		title: category?.name,
@@ -25,8 +30,11 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
 };
 
 export default async function CategoryPage({ params, searchParams }: Props) {
-	const category = await getCategoryBySlug(params.category, +params.pageNumber);
-	const productsCount = await getProductsCountInCategory(params.category);
+	const page = parseInt(params.pageNumber, 10) || 1;
+	const parsedParams = parseSearchParams(searchParams, page);
+
+	const category = await getCategoryBySlug(params.category, parsedParams);
+	const productsCount = await getProductsCountInCategory(params.category, parsedParams);
 
 	if (!category?.products.length) {
 		return notFound();

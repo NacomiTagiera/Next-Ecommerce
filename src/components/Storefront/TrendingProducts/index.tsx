@@ -1,11 +1,12 @@
 import { SectionHeader } from "@/components/UI/SectionHeader";
 import { getProductsList } from "@/features/products/productsList/api/fetchQueries";
 import { ProductList } from "@/features/products/productsList/components/ProductsList";
+import { parseSearchParams } from "@/lib/utils";
 
 import { AllProductsLink } from "./AllProductsLink";
 
 export const TrendingProducts = async () => {
-	const products = await getProductsList(1);
+	const products = await getProductsList(parseSearchParams({}, 1));
 
 	return (
 		<section aria-labelledby="trending-heading">

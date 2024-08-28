@@ -17,9 +17,11 @@ query ProductsGetList(
 				{ price_lt: $priceLt }
 				{ rating_gt: $ratingGt }
 				{ rating_lt: $ratingLt }
-				{ productColorVariants_some: { name_in: $colors } }
-				{ productSizeVariants_some: { name_in: $sizes } }
 				{ name_contains: $brand }
+				{ productColorVariants_some: { name_in: $colors } }
+				{
+					OR: [{ productSizeVariants_some: { name_in: $sizes } }, { productSizeVariants_none: {} }] # If sizes is empty, return all products
+				}
 			]
 		}
 		first: $limit

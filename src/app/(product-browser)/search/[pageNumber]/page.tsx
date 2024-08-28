@@ -1,9 +1,10 @@
 import { type Metadata } from "next";
+import { notFound } from "next/navigation";
 
 import { SectionHeader } from "@/components/UI/SectionHeader";
 import {
-	getProductsCount,
-	getProductsList,
+	getProductsBySearch,
+	getProductsCountBySearch,
 } from "@/features/products/productsList/api/fetchQueries";
 import { Pagination } from "@/features/products/productsList/components/Pagination";
 import { ProductList } from "@/features/products/productsList/components/ProductsList";
@@ -11,17 +12,8 @@ import { PRODUCTS_PER_PAGE } from "@/lib/constants";
 import { parseSearchParams } from "@/lib/utils";
 import { type PageProps } from "@/types";
 
-export const generateStaticParams = async () => {
-	const productsCount = await getProductsCount(parseSearchParams({}));
-	const numberOfPages = Math.ceil(productsCount / PRODUCTS_PER_PAGE);
-
-	return Array.from({ length: numberOfPages }, (_, index) => ({
-		pageNumber: `${index + 1}`,
-	}));
-};
-
 export const metadata: Metadata = {
-	title: "All Products",
+	title: "Search Results",
 };
 
 interface Props extends PageProps {
@@ -30,12 +22,16 @@ interface Props extends PageProps {
 	};
 }
 
-export default async function ProductsPage({ params, searchParams }: Props) {
+export default async function SearchPage({ params, searchParams }: Props) {
+	if (!searchParams.query) {
+		return notFound();
+	}
+
 	const page = parseInt(params.pageNumber, 10) || 1;
 	const parsedParams = parseSearchParams(searchParams, page);
 
-	const products = await getProductsList(parsedParams);
-	const productsCount = await getProductsCount(parsedParams);
+	const products = await getProductsBySearch(searchParams.query as string, parsedParams);
+	const productsCount = await getProductsCountBySearch(searchParams.query as string, parsedParams);
 
 	const numberOfPages = Math.ceil(productsCount / PRODUCTS_PER_PAGE);
 
@@ -43,9 +39,8 @@ export default async function ProductsPage({ params, searchParams }: Props) {
 		<>
 			<div className="border-b border-zinc-300 pb-10 pt-24">
 				<SectionHeader
-					title="All Products"
-					description="Explore our wide range of high-quality products. From sports accessories to apparel, we
-					have everything you need!"
+					title={`Search results for "${searchParams.query as string}"`}
+					description={`Found ${products.length} products matching your search term. Did not find what you were looking for? Try different keywords.`}
 					id="products-heading"
 					className="mb-0"
 					headerClassName="text-4xl"
@@ -54,7 +49,7 @@ export default async function ProductsPage({ params, searchParams }: Props) {
 			</div>
 			<div className="pb-24 pt-10">
 				<ProductList products={products} />
-				<Pagination numberOfPages={numberOfPages} baseUrl="/products" searchParams={searchParams} />
+				<Pagination numberOfPages={numberOfPages} baseUrl="/search" searchParams={searchParams} />
 			</div>
 		</>
 	);

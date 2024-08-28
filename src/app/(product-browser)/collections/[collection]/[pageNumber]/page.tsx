@@ -9,6 +9,7 @@ import {
 import { Pagination } from "@/features/products/productsList/components/Pagination";
 import { ProductList } from "@/features/products/productsList/components/ProductsList";
 import { PRODUCTS_PER_PAGE } from "@/lib/constants";
+import { parseSearchParams } from "@/lib/utils";
 
 interface Props {
 	params: { collection: string; pageNumber: string };
@@ -16,7 +17,8 @@ interface Props {
 }
 
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
-	const collection = await getCollectionBySlug(params.collection, 1);
+	const page = parseInt(params.pageNumber, 10) || 1;
+	const collection = await getCollectionBySlug(params.collection, parseSearchParams({}, page));
 
 	return {
 		title: collection?.name,
@@ -25,8 +27,11 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
 };
 
 export default async function CollectionPage({ params, searchParams }: Props) {
-	const collection = await getCollectionBySlug(params.collection, +params.pageNumber);
-	const productsCount = await getProductsCountInCollection(params.collection);
+	const page = parseInt(params.pageNumber, 10) || 1;
+	const parsedParams = parseSearchParams(searchParams, page);
+
+	const collection = await getCollectionBySlug(params.collection, parsedParams);
+	const productsCount = await getProductsCountInCollection(params.collection, parsedParams);
 
 	if (!collection?.products.length) {
 		return notFound();

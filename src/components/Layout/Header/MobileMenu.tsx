@@ -27,7 +27,7 @@ interface Props {
 }
 
 export const MobileMenu = ({ open, setOpen, navigation }: Props) => (
-	<Dialog open={open} onClose={() => setOpen(false)}>
+	<Dialog header="Mobile navigation" open={open} onClose={() => setOpen(false)}>
 		<Suspense>
 			<SearchInput id="mobile-search" className="mx-auto block w-72 pt-3 lg:hidden" />
 		</Suspense>

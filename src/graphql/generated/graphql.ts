@@ -10489,7 +10489,7 @@ export const CategoryGetBySlugDocument = new TypedDocumentString(`
     ...CategoryListItem
     description
     products(
-      where: {AND: [{price_gt: $priceGt}, {price_lt: $priceLt}, {rating_gt: $ratingGt}, {rating_lt: $ratingLt}, {productColorVariants_some: {name_in: $colors}}, {productSizeVariants_some: {name_in: $sizes}}, {name_contains: $brand}]}
+      where: {AND: [{price_gte: $priceGt}, {price_lte: $priceLt}, {rating_gte: $ratingGt}, {rating_lte: $ratingLt}, {name_contains: $brand}, {productColorVariants_some: {name_in: $colors}}, {OR: [{productSizeVariants_some: {name_in: $sizes}}, {productSizeVariants_none: {}}]}]}
       first: $limit
       skip: $offset
       orderBy: $orderBy
@@ -10524,7 +10524,7 @@ export const CollectionGetBySlugDocument = new TypedDocumentString(`
       url
     }
     products(
-      where: {AND: [{price_gt: $priceGt}, {price_lt: $priceLt}, {rating_gt: $ratingGt}, {rating_lt: $ratingLt}, {productColorVariants_some: {name_in: $colors}}, {productSizeVariants_some: {name_in: $sizes}}, {name_contains: $brand}]}
+      where: {AND: [{price_gte: $priceGt}, {price_lte: $priceLt}, {rating_gte: $ratingGt}, {rating_lte: $ratingLt}, {name_contains: $brand}, {productColorVariants_some: {name_in: $colors}}, {OR: [{productSizeVariants_some: {name_in: $sizes}}, {productSizeVariants_none: {}}]}]}
       first: $limit
       skip: $offset
       orderBy: $orderBy
@@ -10654,7 +10654,7 @@ fragment ProductDetails on Product {
 export const ProductsGetBySearchDocument = new TypedDocumentString(`
     query ProductsGetBySearch($search: String!, $priceGt: Int!, $priceLt: Int!, $ratingGt: Float!, $ratingLt: Float!, $colors: [String!], $sizes: [String!], $brand: String!, $limit: Int!, $offset: Int!, $orderBy: ProductOrderByInput) {
   products(
-    where: {AND: [{_search: $search}, {price_gt: $priceGt}, {price_lt: $priceLt}, {rating_gt: $ratingGt}, {rating_lt: $ratingLt}, {productColorVariants_some: {name_in: $colors}}, {productSizeVariants_some: {name_in: $sizes}}, {name_contains: $brand}]}
+    where: {AND: [{_search: $search}, {price_gte: $priceGt}, {price_lte: $priceLt}, {rating_gte: $ratingGt}, {rating_lte: $ratingLt}, {name_contains: $brand}, {productColorVariants_some: {name_in: $colors}}, {OR: [{productSizeVariants_some: {name_in: $sizes}}, {productSizeVariants_none: {}}]}]}
     first: $limit
     skip: $offset
     orderBy: $orderBy
@@ -10678,7 +10678,7 @@ export const ProductsGetBySearchDocument = new TypedDocumentString(`
 export const ProductsGetCountDocument = new TypedDocumentString(`
     query ProductsGetCount($priceGt: Int!, $priceLt: Int!, $ratingGt: Float!, $ratingLt: Float!, $colors: [String!], $sizes: [String!], $brand: String!) {
   productsConnection(
-    where: {AND: [{price_gt: $priceGt}, {price_lt: $priceLt}, {rating_gt: $ratingGt}, {rating_lt: $ratingLt}, {name_contains: $brand}, {productColorVariants_some: {name_in: $colors}}, {OR: [{productSizeVariants_some: {name_in: $sizes}}, {productSizeVariants_none: {}}]}]}
+    where: {AND: [{price_gte: $priceGt}, {price_lte: $priceLt}, {rating_gte: $ratingGt}, {rating_lte: $ratingLt}, {name_contains: $brand}, {productColorVariants_some: {name_in: $colors}}, {OR: [{productSizeVariants_some: {name_in: $sizes}}, {productSizeVariants_none: {}}]}]}
   ) {
     aggregate {
       count
@@ -10689,7 +10689,7 @@ export const ProductsGetCountDocument = new TypedDocumentString(`
 export const ProductsGetCountBySearchDocument = new TypedDocumentString(`
     query ProductsGetCountBySearch($search: String!, $priceGt: Int!, $priceLt: Int!, $ratingGt: Float!, $ratingLt: Float!, $colors: [String!], $sizes: [String!], $brand: String!) {
   productsConnection(
-    where: {AND: [{_search: $search}, {price_gt: $priceGt}, {price_lt: $priceLt}, {rating_gt: $ratingGt}, {rating_lt: $ratingLt}, {name_contains: $brand}, {productColorVariants_some: {name_in: $colors}}, {OR: [{productSizeVariants_some: {name_in: $sizes}}, {productSizeVariants_none: {}}]}]}
+    where: {AND: [{_search: $search}, {price_gte: $priceGt}, {price_lte: $priceLt}, {rating_gte: $ratingGt}, {rating_lte: $ratingLt}, {name_contains: $brand}, {productColorVariants_some: {name_in: $colors}}, {OR: [{productSizeVariants_some: {name_in: $sizes}}, {productSizeVariants_none: {}}]}]}
   ) {
     aggregate {
       count
@@ -10703,7 +10703,7 @@ export const ProductsGetCountBySearchDocument = new TypedDocumentString(`
 export const ProductsGetCountInCategoryDocument = new TypedDocumentString(`
     query ProductsGetCountInCategory($slug: String, $priceGt: Int!, $priceLt: Int!, $ratingGt: Float!, $ratingLt: Float!, $colors: [String!], $sizes: [String!], $brand: String!) {
   productsConnection(
-    where: {AND: [{categories_some: {slug: $slug}}, {price_gt: $priceGt}, {price_lt: $priceLt}, {rating_gt: $ratingGt}, {rating_lt: $ratingLt}, {name_contains: $brand}, {productColorVariants_some: {name_in: $colors}}, {OR: [{productSizeVariants_some: {name_in: $sizes}}, {productSizeVariants_none: {}}]}]}
+    where: {AND: [{categories_some: {slug: $slug}}, {price_gte: $priceGt}, {price_lte: $priceLt}, {rating_gte: $ratingGt}, {rating_lte: $ratingLt}, {name_contains: $brand}, {productColorVariants_some: {name_in: $colors}}, {OR: [{productSizeVariants_some: {name_in: $sizes}}, {productSizeVariants_none: {}}]}]}
   ) {
     aggregate {
       count
@@ -10717,7 +10717,7 @@ export const ProductsGetCountInCategoryDocument = new TypedDocumentString(`
 export const ProductsGetCountInCollectionDocument = new TypedDocumentString(`
     query ProductsGetCountInCollection($slug: String, $priceGt: Int!, $priceLt: Int!, $ratingGt: Float!, $ratingLt: Float!, $colors: [String!], $sizes: [String!], $brand: String!) {
   productsConnection(
-    where: {AND: [{collections_some: {slug: $slug}}, {price_gt: $priceGt}, {price_lt: $priceLt}, {rating_gt: $ratingGt}, {rating_lt: $ratingLt}, {name_contains: $brand}, {productColorVariants_some: {name_in: $colors}}, {OR: [{productSizeVariants_some: {name_in: $sizes}}, {productSizeVariants_none: {}}]}]}
+    where: {AND: [{collections_some: {slug: $slug}}, {price_gte: $priceGt}, {price_lte: $priceLt}, {rating_gte: $ratingGt}, {rating_lte: $ratingLt}, {name_contains: $brand}, {productColorVariants_some: {name_in: $colors}}, {OR: [{productSizeVariants_some: {name_in: $sizes}}, {productSizeVariants_none: {}}]}]}
   ) {
     aggregate {
       count
@@ -10731,7 +10731,7 @@ export const ProductsGetCountInCollectionDocument = new TypedDocumentString(`
 export const ProductsGetListDocument = new TypedDocumentString(`
     query ProductsGetList($priceGt: Int!, $priceLt: Int!, $ratingGt: Float!, $ratingLt: Float!, $colors: [String!], $sizes: [String!], $brand: String!, $limit: Int!, $offset: Int!, $orderBy: ProductOrderByInput) {
   products(
-    where: {AND: [{price_gt: $priceGt}, {price_lt: $priceLt}, {rating_gt: $ratingGt}, {rating_lt: $ratingLt}, {name_contains: $brand}, {productColorVariants_some: {name_in: $colors}}, {OR: [{productSizeVariants_some: {name_in: $sizes}}, {productSizeVariants_none: {}}]}]}
+    where: {AND: [{price_gte: $priceGt}, {price_lte: $priceLt}, {rating_gte: $ratingGt}, {rating_lte: $ratingLt}, {name_contains: $brand}, {productColorVariants_some: {name_in: $colors}}, {OR: [{productSizeVariants_some: {name_in: $sizes}}, {productSizeVariants_none: {}}]}]}
     first: $limit
     skip: $offset
     orderBy: $orderBy

@@ -4,12 +4,15 @@ import React from "react";
 import { FaBars } from "react-icons/fa6";
 import { FiSearch } from "react-icons/fi";
 
+import dynamic from "next/dynamic";
+
 import { IconButton } from "@/components/UI/IconButton";
 import { useMobileMenu } from "@/hooks/useMobileMenu";
 import type { NavigationStructure } from "@/types";
 
 import { DesktopMenu } from "./DesktopMenu";
-import { MobileMenu } from "./MobileMenu";
+
+const MobileMenu = dynamic(() => import("./MobileMenu").then((mod) => mod.MobileMenu));
 
 interface Props extends NavigationStructure {
 	children?: React.JSX.Element | React.JSX.Element[];
@@ -20,7 +23,9 @@ export const Navbar = ({ children, navigation }: Props) => {
 
 	return (
 		<>
-			<MobileMenu open={mobileMenuOpen} setOpen={setMobileMenuOpen} navigation={navigation} />
+			{mobileMenuOpen && (
+				<MobileMenu open={mobileMenuOpen} setOpen={setMobileMenuOpen} navigation={navigation} />
+			)}
 			<header className="relative">
 				<nav aria-label="Top navigation">
 					<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

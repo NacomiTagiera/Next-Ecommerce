@@ -18,6 +18,7 @@
 		"@next/mdx": "^14.2.5",
 		"@parcel/watcher": "^2.4.1",
 		"@plaiceholder/next": "^3.0.0",
+		"@radix-ui/react-slider": "^1.2.0",
 		"@stripe/react-stripe-js": "^2.7.3",
 		"@stripe/stripe-js": "^4.1.0",
 		"@types/mdx": "^2.0.13",

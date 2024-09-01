@@ -1,12 +1,15 @@
 import { type Metadata } from "next";
 
+import { NoProductsFound } from "@/components/UI/NoProductsFound";
 import { SectionHeader } from "@/components/UI/SectionHeader";
 import {
 	getProductsCount,
 	getProductsList,
 } from "@/features/products/productsList/api/fetchQueries";
 import { Pagination } from "@/features/products/productsList/components/Pagination";
+import { ProductFilters } from "@/features/products/productsList/components/ProductFilters";
 import { ProductList } from "@/features/products/productsList/components/ProductsList";
+import { SortDropdown } from "@/features/products/productsList/components/SortDropdown";
 import { PRODUCTS_PER_PAGE } from "@/lib/constants";
 import { parseSearchParams } from "@/lib/utils";
 import { type PageProps } from "@/types";
@@ -35,13 +38,13 @@ export default async function ProductsPage({ params, searchParams }: Props) {
 	const parsedParams = parseSearchParams(searchParams, page);
 
 	const products = await getProductsList(parsedParams);
-	const productsCount = await getProductsCount(parsedParams);
 
+	const productsCount = await getProductsCount(parsedParams);
 	const numberOfPages = Math.ceil(productsCount / PRODUCTS_PER_PAGE);
 
 	return (
 		<>
-			<div className="border-b border-zinc-300 pb-10 pt-24">
+			<div className="border-b border-zinc-300 pb-16 pt-24">
 				<SectionHeader
 					title="All Products"
 					description="Explore our wide range of high-quality products. From sports accessories to apparel, we
@@ -50,11 +53,27 @@ export default async function ProductsPage({ params, searchParams }: Props) {
 					className="mb-0"
 					headerClassName="text-4xl"
 					Tag="h1"
+					center
 				/>
 			</div>
-			<div className="pb-24 pt-10">
-				<ProductList products={products} />
-				<Pagination numberOfPages={numberOfPages} baseUrl="/products" searchParams={searchParams} />
+			<div className="flex items-center justify-between pt-6">
+				<SortDropdown />
+				<ProductFilters />
+			</div>
+			<div className="mt-8 pb-24">
+				<h2 className="sr-only">Products List</h2>
+				{products.length > 0 ? (
+					<>
+						<ProductList products={products} />
+						<Pagination
+							numberOfPages={numberOfPages}
+							baseUrl="/products"
+							searchParams={searchParams}
+						/>
+					</>
+				) : (
+					<NoProductsFound />
+				)}
 			</div>
 		</>
 	);

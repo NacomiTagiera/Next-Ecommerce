@@ -12,10 +12,10 @@ query ProductsGetCountBySearch(
 		where: {
 			AND: [
 				{ _search: $search }
-				{ price_gt: $priceGt }
-				{ price_lt: $priceLt }
-				{ rating_gt: $ratingGt }
-				{ rating_lt: $ratingLt }
+				{ price_gte: $priceGt }
+				{ price_lte: $priceLt }
+				{ rating_gte: $ratingGt }
+				{ rating_lte: $ratingLt }
 				{ name_contains: $brand }
 				{ productColorVariants_some: { name_in: $colors } }
 				{

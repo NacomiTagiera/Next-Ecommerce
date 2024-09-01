@@ -41,20 +41,18 @@ export const parseSearchParams = (
 	return {
 		priceGt: searchParams.priceGt ? parseInt(searchParams.priceGt as string, 10) : 0,
 		priceLt: searchParams.priceLt
-			? parseInt(searchParams.priceLt as string)
+			? parseInt(searchParams.priceLt as string, 10)
 			: Number.MAX_SAFE_INTEGER,
 		ratingGt: searchParams.ratingGt ? parseFloat(searchParams.ratingGt as string) : 0,
 		ratingLt: searchParams.ratingLt ? parseFloat(searchParams.ratingLt as string) : 5,
-		colors: searchParams.colors
-			? Array.isArray(searchParams.colors)
-				? searchParams.colors
-				: [searchParams.colors]
-			: [...productColors],
-		sizes: searchParams.sizes
-			? Array.isArray(searchParams.sizes)
-				? searchParams.sizes
-				: [searchParams.sizes]
-			: [...productSizes],
+		colors:
+			searchParams.colors && typeof searchParams.colors === "string"
+				? searchParams.colors.split(",")
+				: productColors,
+		sizes:
+			searchParams.sizes && typeof searchParams.sizes === "string"
+				? searchParams.sizes.split(",")
+				: productSizes,
 		brand: searchParams.brand ? (searchParams.brand as string) : "",
 		orderBy: searchParams.orderBy
 			? (searchParams.orderBy as ProductQueryParams["orderBy"])
@@ -62,3 +60,5 @@ export const parseSearchParams = (
 		page: page || 1,
 	};
 };
+
+export const isInArray = <T>(array: T[], value: T) => array.includes(value);

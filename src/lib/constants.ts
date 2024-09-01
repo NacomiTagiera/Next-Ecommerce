@@ -3,12 +3,30 @@ import { type Route } from "next";
 export const PRODUCTS_PER_PAGE = 4;
 
 export const productBrands = [
-	"Nike",
-	"Adidas",
-	"Puma",
-	"Under Armour",
-	"New Balance",
-	"Reebok",
+	{
+		name: "Nike",
+		value: "Nike",
+	},
+	{
+		name: "Adidas",
+		value: "Adidas",
+	},
+	{
+		name: "Puma",
+		value: "Puma",
+	},
+	{
+		name: "New Balance",
+		value: "NB",
+	},
+	{
+		name: "Reebok",
+		value: "Reebok",
+	},
+	{
+		name: "Asics",
+		value: "Asics",
+	},
 ] as const;
 
 export const productColors = [
@@ -18,12 +36,11 @@ export const productColors = [
 	"Green",
 	"Blue",
 	"Black",
-	"Multicolor",
 	"Orange",
 	"Red",
 	"Yellow",
 	"Purple",
-] as const;
+];
 
 export const productSizes = [
 	"XS",
@@ -41,7 +58,16 @@ export const productSizes = [
 	"43",
 	"44",
 	"45",
-] as const;
+];
+
+export const ratings = [
+	{ stars: 5, ratingGt: 4.5, ratingLt: 5 },
+	{ stars: 4, ratingGt: 3.5, ratingLt: 4.49 },
+	{ stars: 3, ratingGt: 2.5, ratingLt: 3.49 },
+	{ stars: 2, ratingGt: 1.5, ratingLt: 2.49 },
+	{ stars: 1, ratingGt: 0.5, ratingLt: 1.49 },
+	{ stars: 0, ratingGt: 0, ratingLt: 0.49 },
+];
 
 export const navLinks: { text: string; href: Route }[] = [
 	{ text: "Home", href: "/" },

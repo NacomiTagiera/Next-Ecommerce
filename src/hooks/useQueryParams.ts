@@ -11,7 +11,9 @@ export const useQueryParams = <T>() => {
 
 	const setQueryParams = (params: Partial<T>) => {
 		Object.entries(params).forEach(([key, value]) => {
-			if (!value) {
+			if (value === undefined) {
+				urlSearchParams.delete(key);
+			} else if (Array.isArray(value) && value.length === 0) {
 				urlSearchParams.delete(key);
 			} else {
 				urlSearchParams.set(key, String(value));

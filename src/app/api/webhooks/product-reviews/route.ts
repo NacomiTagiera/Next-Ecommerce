@@ -6,10 +6,19 @@ import { getReviewsByProductId } from "@/features/reviews/reviewsList/api/fetchQ
 import { ProductUpdateRatingDocument } from "@/graphql/generated/graphql";
 import { executeGraphql } from "@/lib/executeGraphql";
 
-export async function POST(request: NextRequest): Promise<Response> {
-	const { data: { product: { id: productId } = {} } = {} } = (await request.json()) as {
-		data: { product: { id: string } };
+interface ProductData {
+	data?: {
+		product?: {
+			id?: string;
+		};
 	};
+}
+
+export async function POST(request: NextRequest) {
+	const { data } = (await request.json()) as unknown as ProductData;
+
+	const productId = data?.product?.id;
+
 	if (!productId) {
 		return new Response("Product ID not found", { status: 400 });
 	}

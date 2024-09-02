@@ -27,7 +27,7 @@ export const SearchInput = ({ id, className }: Props) => {
 
 	useEffect(() => {
 		if (debouncedValue.trim().length > 2) {
-			router.push(`/search?query=${debouncedValue.trim()}`);
+			router.push(`/search/1?query=${debouncedValue.trim()}`);
 		}
 	}, [debouncedValue, router]);
 

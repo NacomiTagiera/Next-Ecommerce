@@ -1,5 +1,5 @@
-query ProductsGetCountInCollection(
-	$slug: String
+query ProductsGetCountBySearch(
+	$search: String!
 	$priceGt: Int!
 	$priceLt: Int!
 	$ratingGt: Float!
@@ -11,7 +11,7 @@ query ProductsGetCountInCollection(
 	productsConnection(
 		where: {
 			AND: [
-				{ collections_some: { slug: $slug } }
+				{ _search: $search }
 				{ price_gte: $priceGt }
 				{ price_lte: $priceLt }
 				{ rating_gte: $ratingGt }

@@ -1,11 +1,43 @@
-query CollectionGetBySlug($slug: String!, $limit: Int!, $offset: Int!) {
-	collection(where: { slug: $slug }) {
+query CollectionGetBySlug(
+	$collection: String!
+	$priceGt: Int!
+	$priceLt: Int!
+	$ratingGt: Float!
+	$ratingLt: Float!
+	$colors: [String!]
+	$sizes: [String!]
+	$brand: String!
+	$limit: Int!
+	$offset: Int!
+	$orderBy: ProductOrderByInput
+) {
+	collection(where: { slug: $collection }) {
 		...CollectionListItem
 		description
 		image {
 			url
 		}
-		products(first: $limit, skip: $offset) {
+		products(
+			where: {
+				AND: [
+					{ price_gte: $priceGt }
+					{ price_lte: $priceLt }
+					{ rating_gte: $ratingGt }
+					{ rating_lte: $ratingLt }
+					{ name_contains: $brand }
+					{ productColorVariants_some: { name_in: $colors } }
+					{
+						OR: [
+							{ productSizeVariants_some: { name_in: $sizes } }
+							{ productSizeVariants_none: {} }
+						] # If sizes is empty, return all products
+					}
+				]
+			}
+			first: $limit
+			skip: $offset
+			orderBy: $orderBy
+		) {
 			...ProductListItem
 		}
 	}

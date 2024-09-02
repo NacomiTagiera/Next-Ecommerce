@@ -1,4 +1,4 @@
-import type { CategoryListItemFragment } from "./graphql/generated/graphql";
+import type { CategoryListItemFragment, ProductOrderByInput } from "./graphql/generated/graphql";
 
 export interface CategoryWithImage extends CategoryListItemFragment {
 	// Category and Collection list item fragments are the same
@@ -21,4 +21,22 @@ export interface NavigationStructure {
 			href: string;
 		}[];
 	};
+}
+
+export interface PageProps {
+	searchParams: {
+		[key: string]: string | string[] | undefined;
+	};
+}
+
+export interface ProductQueryParams {
+	priceGt: number;
+	priceLt: number;
+	ratingGt: number;
+	ratingLt: number;
+	colors: string[];
+	sizes: string[];
+	brand: string;
+	orderBy?: ProductOrderByInput;
+	page: number;
 }

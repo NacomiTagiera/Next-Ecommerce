@@ -4,10 +4,10 @@ import { TabGroup, TabPanel, TabPanels } from "@headlessui/react";
 import type { Route } from "next";
 
 import { ActiveLink } from "@/components/UI/ActiveLink";
+import { Dialog } from "@/components/UI/Dialog";
 import { ImageLink } from "@/components/UI/ImageLink";
 import { type CategoryWithImage } from "@/types";
 
-import { Dialog } from "./Dialog";
 import { SearchInput } from "./SearchInput";
 import { TabList } from "./TabList";
 
@@ -27,7 +27,7 @@ interface Props {
 }
 
 export const MobileMenu = ({ open, setOpen, navigation }: Props) => (
-	<Dialog open={open} onClose={() => setOpen(false)}>
+	<Dialog header="Mobile navigation" open={open} onClose={() => setOpen(false)}>
 		<Suspense>
 			<SearchInput id="mobile-search" className="mx-auto block w-72 pt-3 lg:hidden" />
 		</Suspense>

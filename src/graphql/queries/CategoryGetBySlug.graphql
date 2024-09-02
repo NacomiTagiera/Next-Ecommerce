@@ -1,8 +1,40 @@
-query CategoryGetBySlug($slug: String!, $limit: Int!, $offset: Int!) {
-	category(where: { slug: $slug }) {
+query CategoryGetBySlug(
+	$category: String!
+	$priceGt: Int!
+	$priceLt: Int!
+	$ratingGt: Float!
+	$ratingLt: Float!
+	$colors: [String!]
+	$sizes: [String!]
+	$brand: String!
+	$limit: Int!
+	$offset: Int!
+	$orderBy: ProductOrderByInput
+) {
+	category(where: { slug: $category }) {
 		...CategoryListItem
 		description
-		products(first: $limit, skip: $offset) {
+		products(
+			where: {
+				AND: [
+					{ price_gte: $priceGt }
+					{ price_lte: $priceLt }
+					{ rating_gte: $ratingGt }
+					{ rating_lte: $ratingLt }
+					{ name_contains: $brand }
+					{ productColorVariants_some: { name_in: $colors } }
+					{
+						OR: [
+							{ productSizeVariants_some: { name_in: $sizes } }
+							{ productSizeVariants_none: {} }
+						] # If sizes is empty, return all products
+					}
+				]
+			}
+			first: $limit
+			skip: $offset
+			orderBy: $orderBy
+		) {
 			...ProductListItem
 		}
 	}

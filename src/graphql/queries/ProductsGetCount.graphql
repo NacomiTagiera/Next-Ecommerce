@@ -1,5 +1,27 @@
-query ProductsGetCount {
-	productsConnection {
+query ProductsGetCount(
+	$priceGt: Int!
+	$priceLt: Int!
+	$ratingGt: Float!
+	$ratingLt: Float!
+	$colors: [String!]
+	$sizes: [String!]
+	$brand: String!
+) {
+	productsConnection(
+		where: {
+			AND: [
+				{ price_gte: $priceGt }
+				{ price_lte: $priceLt }
+				{ rating_gte: $ratingGt }
+				{ rating_lte: $ratingLt }
+				{ name_contains: $brand }
+				{ productColorVariants_some: { name_in: $colors } }
+				{
+					OR: [{ productSizeVariants_some: { name_in: $sizes } }, { productSizeVariants_none: {} }] # If sizes is empty, return all products
+				}
+			]
+		}
+	) {
 		aggregate {
 			count
 		}

@@ -9,7 +9,6 @@ import { ProductImage } from "@/features/products/productDetails/components/Prod
 import { ProductInfo } from "@/features/products/productDetails/components/ProductInfo";
 import { RelatedProducts } from "@/features/products/productDetails/components/RelatedProducts";
 import { VariantSelector } from "@/features/products/productDetails/components/VariantSelector";
-import { type VariantsType } from "@/features/products/productDetails/types";
 import { ReviewForm } from "@/features/reviews/reviewForm/components/ReviewForm";
 import { ReviewFormWrapper } from "@/features/reviews/reviewForm/components/ReviewFormWrapper";
 import { ReviewsList } from "@/features/reviews/reviewsList/components/ReviewsList";
@@ -27,15 +26,34 @@ export default async function ProductPage({ params }: Props) {
 		notFound();
 	}
 
-	const { id, categories, description, images, name, price, slug, variants, rating } = product;
+	const {
+		id,
+		slug,
+		categories,
+		description,
+		images,
+		name,
+		price,
+		rating,
+		productColorVariants,
+		productSizeVariants,
+	} = product;
 	const categoriesSlugs = categories.map((category) => category.slug);
+
+	productColorVariants.map((variant) => {
+		return variant.name;
+	});
+
+	productSizeVariants.map((variant) => {
+		return variant.name;
+	});
 
 	return (
 		<div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
 			<article className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">
 				<ProductImage name={name} images={images} />
 				<ProductInfo name={name} description={description} price={price} rating={rating}>
-					<VariantSelector variants={variants as VariantsType} />
+					<VariantSelector colors={productColorVariants} sizes={productSizeVariants} />
 					<AddToCartButton itemId={id} />
 				</ProductInfo>
 			</article>

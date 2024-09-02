@@ -11,12 +11,10 @@ fragment ProductDetails on Product {
 	images {
 		url
 	}
-	variants {
-		... on ProductColorVariant {
-			...ProductColorVariant
-		}
-		... on ProductSizeVariant {
-			...ProductSizeVariant
-		}
+	productSizeVariants {
+		name
+	}
+	productColorVariants {
+		name
 	}
 }

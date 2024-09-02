@@ -4,53 +4,49 @@ import { notFound } from "next/navigation";
 import { NoProductsFound } from "@/components/UI/NoProductsFound";
 import { SectionHeader } from "@/components/UI/SectionHeader";
 import {
-	getCollectionBySlug,
-	getProductsCountInCollection,
-} from "@/features/collections/api/fetchQueries";
+	getProductsBySearch,
+	getProductsCountBySearch,
+} from "@/features/products/productsList/api/fetchQueries";
 import { Pagination } from "@/features/products/productsList/components/Pagination";
 import { ProductFilters } from "@/features/products/productsList/components/ProductFilters";
 import { ProductList } from "@/features/products/productsList/components/ProductsList";
 import { SortDropdown } from "@/features/products/productsList/components/SortDropdown";
 import { PRODUCTS_PER_PAGE } from "@/lib/constants";
 import { parseSearchParams } from "@/lib/utils";
+import { type PageProps } from "@/types";
 
-interface Props {
-	params: { collection: string; pageNumber: string };
-	searchParams: { [key: string]: string | string[] | undefined };
-}
-
-export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
-	const page = parseInt(params.pageNumber, 10) || 1;
-	const collection = await getCollectionBySlug(params.collection, parseSearchParams({}, page));
-
-	return {
-		title: collection?.name,
-		description: collection?.description,
-	};
+export const metadata: Metadata = {
+	title: "Search Results",
 };
 
-export default async function CollectionPage({ params, searchParams }: Props) {
-	const page = parseInt(params.pageNumber, 10) || 1;
-	const parsedParams = parseSearchParams(searchParams, page);
+interface Props extends PageProps {
+	params: {
+		pageNumber: string;
+	};
+}
 
-	const collection = await getCollectionBySlug(params.collection, parsedParams);
-
-	if (!collection) {
+export default async function SearchPage({ params, searchParams }: Props) {
+	if (!searchParams.query) {
 		return notFound();
 	}
 
-	const productsCount = await getProductsCountInCollection(params.collection, parsedParams);
+	const page = parseInt(params.pageNumber, 10) || 1;
+	const parsedParams = parseSearchParams(searchParams, page);
+
+	const products = await getProductsBySearch(searchParams.query as string, parsedParams);
+
+	const productsCount = await getProductsCountBySearch(searchParams.query as string, parsedParams);
 	const numberOfPages = Math.ceil(productsCount / PRODUCTS_PER_PAGE);
 
 	return (
 		<>
 			<div className="border-b border-zinc-300 pb-16 pt-24">
 				<SectionHeader
-					title={collection.name}
-					description={`Check out the ${collection.name} collection. Get what you need to stay active and stylish!`}
+					title={`Search results for "${searchParams.query as string}"`}
+					description={`Found ${products.length} products matching your search term. Did not find what you were looking for? Try different keywords.`}
 					id="products-heading"
 					className="mb-0"
-					headerClassName="text-4xl capitalize"
+					headerClassName="text-4xl"
 					Tag="h1"
 					center
 				/>
@@ -60,12 +56,12 @@ export default async function CollectionPage({ params, searchParams }: Props) {
 				<ProductFilters />
 			</div>
 			<div className="mt-8 pb-24">
-				{collection.products.length > 0 ? (
+				{products.length > 0 ? (
 					<>
-						<ProductList products={collection.products} />
+						<ProductList products={products} />
 						<Pagination
 							numberOfPages={numberOfPages}
-							baseUrl={`/collections/${collection.slug}`}
+							baseUrl="/search"
 							searchParams={searchParams}
 						/>
 					</>

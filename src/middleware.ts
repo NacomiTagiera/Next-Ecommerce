@@ -4,8 +4,11 @@ import { NextResponse } from "next/server";
 const protectedRoutes = createRouteMatcher(["/checkout", "/orders", "/profile"]);
 
 export default clerkMiddleware((auth, req) => {
-	if (protectedRoutes(req)) {
-		auth().protect();
+	const { userId } = auth();
+
+	if (protectedRoutes(req) && !userId) {
+		const signInUrl = new URL("/sign-in", req.url);
+		return NextResponse.redirect(signInUrl);
 	}
 
 	return NextResponse.next();

@@ -1,4 +1,0 @@
-fragment ProductSizeVariant on ProductSizeVariant {
-	__typename
-	name
-}

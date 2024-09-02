@@ -87,6 +87,22 @@ export default async function RootLayout({
 			signInFallbackRedirectUrl="/products"
 			signUpFallbackRedirectUrl="/products"
 			afterSignOutUrl="/sign-in"
+			signInUrl="/sign-in"
+			signUpUrl="/sign-up"
+			appearance={{
+				variables: {
+					colorPrimary: "#3b82f6",
+					fontFamily: "var(--font-roboto-flex)",
+				},
+				elements: {
+					formButtonPrimary:
+						"inline-flex items-center justify-center rounded-md bg-skyfall-500 text-center font-medium text-white shadow-sm transition-colors hover:bg-skyfall-600 focus:outline-none focus:ring-4 focus:ring-skyfall-300",
+					formFieldInput:
+						"w-full rounded-lg border-solid border-transparent px-2 py-1.5 text-zinc-800 outline-none transition-colors placeholder:text-zinc-400 focus:border-skyfall-500 focus:ring-0",
+					formFieldLabel: "text-sm text-zinc-900 font-medium leading-none",
+					logoImage: "w-20 h-auto",
+				},
+			}}
 		>
 			<html lang="en">
 				<body

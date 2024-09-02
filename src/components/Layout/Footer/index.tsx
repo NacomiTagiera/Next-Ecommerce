@@ -3,15 +3,15 @@ import { FiFacebook, FiGithub, FiLinkedin } from "react-icons/fi";
 import Link from "next/link";
 
 import { Logo } from "@/components/UI/Logo";
+import { type CategoryListItemFragment } from "@/graphql/generated/graphql";
 import { footerLinks } from "@/lib/constants";
-import { type CategoryWithImage } from "@/types";
 
 import { FooterMenu } from "./FooterMenu";
 import { FooterSocialLink } from "./FooterSocialLink";
 
 interface Props {
-	categories: CategoryWithImage[];
-	collections: CategoryWithImage[];
+	categories: CategoryListItemFragment[];
+	collections: CategoryListItemFragment[];
 }
 
 export const socials = [

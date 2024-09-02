@@ -5,7 +5,9 @@ import { ActiveLink } from "@/components/UI/ActiveLink";
 interface Props<T extends string> {
 	numberOfPages: number;
 	baseUrl: Route<T>;
-	searchParams: { [key: string]: string | string[] | undefined };
+	searchParams: {
+		[key: string]: string | string[] | undefined;
+	};
 }
 
 export const Pagination = <T extends string>({

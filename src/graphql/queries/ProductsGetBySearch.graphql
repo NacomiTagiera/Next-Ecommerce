@@ -1,5 +1,35 @@
-query ProductsGetBySearch($search: String!) {
-	products(where: { _search: $search }) {
+query ProductsGetBySearch(
+	$search: String!
+	$priceGt: Int!
+	$priceLt: Int!
+	$ratingGt: Float!
+	$ratingLt: Float!
+	$colors: [String!]
+	$sizes: [String!]
+	$brand: String!
+	$limit: Int!
+	$offset: Int!
+	$orderBy: ProductOrderByInput
+) {
+	products(
+		where: {
+			AND: [
+				{ _search: $search }
+				{ price_gte: $priceGt }
+				{ price_lte: $priceLt }
+				{ rating_gte: $ratingGt }
+				{ rating_lte: $ratingLt }
+				{ name_contains: $brand }
+				{ productColorVariants_some: { name_in: $colors } }
+				{
+					OR: [{ productSizeVariants_some: { name_in: $sizes } }, { productSizeVariants_none: {} }] # If sizes is empty, return all products
+				}
+			]
+		}
+		first: $limit
+		skip: $offset
+		orderBy: $orderBy
+	) {
 		...ProductListItem
 	}
 }

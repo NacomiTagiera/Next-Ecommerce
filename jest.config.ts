@@ -10,6 +10,7 @@ const config: Config = {
 	moduleDirectories: ["node_modules", "<rootDir>/"],
 	moduleNameMapper: {
 		"^@/components/(.*)$": "<rootDir>/components/$1",
+		"^@/hooks/(.*)$": "<rootDir>/src/hooks/$1",
 		"^/public/(.*)$": "<rootDir>/public/$1",
 	},
 	setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],

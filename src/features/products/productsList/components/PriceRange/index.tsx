@@ -3,17 +3,25 @@ import { useEffect, useState } from "react";
 import { Range } from "@/components/UI/Range";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useQueryParams } from "@/hooks/useQueryParams";
-import { formatPrice } from "@/lib/utils";
+import { clamp, formatPrice, safeParseInt } from "@/lib/utils";
 
-import { priceRangeLimits } from "../constants";
+import { priceRangeLimits } from "../../constants";
 
 export const PriceRange = () => {
 	const { queryParams, setQueryParams } = useQueryParams();
-	const [value, setValue] = useState<[number, number]>(
-		queryParams.get("priceGt") && queryParams.get("priceLt")
-			? [parseInt(queryParams.get("priceGt")!), parseInt(queryParams.get("priceLt")!)]
-			: priceRangeLimits,
-	);
+	const [value, setValue] = useState<[number, number]>(() => {
+		const minPrice = clamp(
+			safeParseInt(queryParams.get("priceGt"), priceRangeLimits[0]),
+			priceRangeLimits[0],
+			priceRangeLimits[1],
+		);
+		const maxPrice = clamp(
+			safeParseInt(queryParams.get("priceLt"), priceRangeLimits[1]),
+			priceRangeLimits[0],
+			priceRangeLimits[1],
+		);
+		return [minPrice, maxPrice];
+	});
 	const debouncedValue = useDebounce(value, 500);
 
 	useEffect(() => {

@@ -8,7 +8,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Input } from "@/components/UI/Input";
 import { Label } from "@/components/UI/Label";
 import { useDebounce } from "@/hooks/useDebounce";
-import { cn } from "@/lib/utils";
+import { cn, createUrl } from "@/lib/utils";
 
 interface Props {
 	id: string;
@@ -27,7 +27,9 @@ export const SearchInput = ({ id, className }: Props) => {
 
 	useEffect(() => {
 		if (debouncedValue.trim().length > 2) {
-			router.push(`/search/1?query=${debouncedValue.trim()}`);
+			const params = new URLSearchParams({ query: debouncedValue.trim() });
+			const url = createUrl("/search/1", params);
+			router.push(url);
 		}
 	}, [debouncedValue, router]);
 

@@ -56,7 +56,7 @@ describe("SearchInput", () => {
 		await userEvent.type(input, "query");
 
 		await waitFor(() => {
-			expect(pushMock).toHaveBeenCalledWith("/search?query=query");
+			expect(pushMock).toHaveBeenCalledWith("/search/1?query=query");
 		});
 	});
 

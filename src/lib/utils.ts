@@ -22,6 +22,14 @@ export const formatDate = (date: unknown) =>
 		day: "numeric",
 	});
 
+export const clamp = (value: number, min: number, max: number) =>
+	Math.min(Math.max(value, min), max);
+
+export const safeParseInt = (value: string | null, defaultValue: number) => {
+	const parsed = parseInt(value ?? "", 10);
+	return isNaN(parsed) ? defaultValue : parsed;
+};
+
 export const paginationArgs = (page: number) => ({
 	limit: PRODUCTS_PER_PAGE,
 	offset: (page - 1) * PRODUCTS_PER_PAGE,

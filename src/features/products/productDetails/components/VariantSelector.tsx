@@ -22,7 +22,7 @@ export const VariantSelector = ({ colors, sizes }: Props) => {
 	}
 
 	return convertedVariants.map(({ name, values }) => {
-		const activeValue = queryParams.get(name) || "";
+		const activeValue = queryParams.get(name) || values[0] || "";
 		const handleVariantChange = (value: string) => {
 			setQueryParams({ [name]: value });
 		};

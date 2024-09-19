@@ -12,7 +12,7 @@ import { ProductFilters } from "@/features/products/productsList/components/Prod
 import { ProductList } from "@/features/products/productsList/components/ProductsList";
 import { SortDropdown } from "@/features/products/productsList/components/SortDropdown";
 import { PRODUCTS_PER_PAGE } from "@/lib/constants";
-import { parseSearchParams } from "@/lib/utils";
+import { parseSearchParams, safeParseInt } from "@/lib/utils";
 import { type PageProps } from "@/types";
 
 export const metadata: Metadata = {
@@ -30,7 +30,7 @@ export default async function SearchPage({ params, searchParams }: Props) {
 		return notFound();
 	}
 
-	const page = parseInt(params.pageNumber, 10) || 1;
+	const page = safeParseInt(params.pageNumber, 1);
 	const parsedParams = parseSearchParams(searchParams, page);
 
 	const products = await getProductsBySearch(searchParams.query as string, parsedParams);

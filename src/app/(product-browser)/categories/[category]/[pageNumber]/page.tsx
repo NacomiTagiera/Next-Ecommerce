@@ -12,7 +12,7 @@ import { ProductFilters } from "@/features/products/productsList/components/Prod
 import { ProductList } from "@/features/products/productsList/components/ProductsList";
 import { SortDropdown } from "@/features/products/productsList/components/SortDropdown";
 import { PRODUCTS_PER_PAGE } from "@/lib/constants";
-import { parseSearchParams } from "@/lib/utils";
+import { parseSearchParams, safeParseInt } from "@/lib/utils";
 import { type PageProps } from "@/types";
 
 interface Props extends PageProps {
@@ -23,7 +23,7 @@ interface Props extends PageProps {
 }
 
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
-	const page = parseInt(params.pageNumber, 10) || 1;
+	const page = safeParseInt(params.pageNumber, 1);
 	const category = await getCategoryBySlug(params.category, parseSearchParams({}, page));
 
 	return {
@@ -33,7 +33,7 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
 };
 
 export default async function CategoryPage({ params, searchParams }: Props) {
-	const page = parseInt(params.pageNumber, 10) || 1;
+	const page = safeParseInt(params.pageNumber, 1);
 	const parsedParams = parseSearchParams(searchParams, page);
 
 	const category = await getCategoryBySlug(params.category, parsedParams);

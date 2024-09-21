@@ -28,8 +28,8 @@ export const Range = ({ min, max, value, onChange, step = 1, minDistance = 1, la
 			<Slider.Track className="relative flex h-[3px] grow rounded-full bg-zinc-400">
 				<Slider.Range className="absolute h-full rounded-full bg-skyfall-500" />
 			</Slider.Track>
-			<Slider.Thumb className="block size-5 rounded-full bg-skyfall-500" />
-			<Slider.Thumb className="block size-5 rounded-full bg-skyfall-500" />
+			<Slider.Thumb className="block size-5 rounded-full bg-skyfall-500" data-testid="min-thumb" />
+			<Slider.Thumb className="block size-5 rounded-full bg-skyfall-500" data-testid="max-thumb" />
 		</Slider.Root>
 	);
 };

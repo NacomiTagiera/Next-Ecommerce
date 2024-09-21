@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Input renders with default props 1`] = `
+<DocumentFragment>
+  <div
+    class="relative"
+  >
+    <input
+      class="block w-full border-0 py-1.5 transition-colors duration-200 ease-in-out sm:text-sm sm:leading-6 peer focus:ring-0 text-zinc-800 ring-zinc-300 hover:ring-zinc-400 placeholder:text-zinc-400 focus:ring-skyfall-500"
+    />
+    <div
+      aria-hidden="true"
+      class="absolute inset-x-0 bottom-0 border-t transition-colors duration-200 ease-in-out peer-hover:border-t-2 peer-focus:border-t-2"
+    />
+  </div>
+</DocumentFragment>
+`;

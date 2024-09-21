@@ -1,6 +1,6 @@
-import { Input, type InputProps } from "@/components/UI/Input";
-import { Label } from "@/components/UI/Label";
-import { Textarea, type TextareaProps } from "@/components/UI/Textarea";
+import { Input, type InputProps } from "../Input";
+import { Label } from "../Label";
+import { Textarea, type TextareaProps } from "../Textarea";
 
 interface BaseProps {
 	issues?: string[];
@@ -16,7 +16,7 @@ interface TextareaFieldProps extends BaseProps, TextareaProps {
 
 type Props = InputFieldProps | TextareaFieldProps;
 
-export const ReviewFormField = ({ component = "input", issues, name, ...rest }: Props) => {
+export const FormField = ({ component = "input", issues, name, ...rest }: Props) => {
 	const errorId = `${name}-error`;
 
 	return (
@@ -29,9 +29,8 @@ export const ReviewFormField = ({ component = "input", issues, name, ...rest }: 
 					id={name}
 					name={name}
 					color={issues ? "error" : "primary"}
-					className="bg-white"
-					aria-describedby={errorId}
-					aria-invalid={!!issues}
+					aria-invalid={!!issues?.length}
+					aria-errormessage={errorId}
 					{...(rest as InputProps)}
 				/>
 			) : (
@@ -39,14 +38,13 @@ export const ReviewFormField = ({ component = "input", issues, name, ...rest }: 
 					id={name}
 					name={name}
 					color={issues ? "error" : "primary"}
-					className="bg-white"
-					aria-describedby={errorId}
-					aria-invalid={!!issues}
+					aria-invalid={!!issues?.length}
+					aria-errormessage={errorId}
 					{...(rest as TextareaProps)}
 				/>
 			)}
-			{issues && (
-				<p id={errorId} className="text-sm font-medium text-red-600" aria-live="polite">
+			{!!issues?.length && (
+				<p id={errorId} className="text-center text-xs text-red-800" aria-live="assertive">
 					{issues[0]}
 				</p>
 			)}

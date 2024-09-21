@@ -22,6 +22,14 @@ export const formatDate = (date: unknown) =>
 		day: "numeric",
 	});
 
+export const clamp = (value: number, min: number, max: number) =>
+	Math.min(Math.max(value, min), max);
+
+export const safeParseInt = (value: string | null, defaultValue: number) => {
+	const parsed = parseInt(value ?? "", 10);
+	return isNaN(parsed) ? defaultValue : parsed;
+};
+
 export const paginationArgs = (page: number) => ({
 	limit: PRODUCTS_PER_PAGE,
 	offset: (page - 1) * PRODUCTS_PER_PAGE,
@@ -39,9 +47,9 @@ export const parseSearchParams = (
 	page?: number,
 ): ProductQueryParams => {
 	return {
-		priceGt: searchParams.priceGt ? parseInt(searchParams.priceGt as string, 10) : 0,
+		priceGt: searchParams.priceGt ? safeParseInt(searchParams.priceGt as string, 0) : 0,
 		priceLt: searchParams.priceLt
-			? parseInt(searchParams.priceLt as string, 10)
+			? safeParseInt(searchParams.priceLt as string, 0)
 			: Number.MAX_SAFE_INTEGER,
 		ratingGt: searchParams.ratingGt ? parseFloat(searchParams.ratingGt as string) : 0,
 		ratingLt: searchParams.ratingLt ? parseFloat(searchParams.ratingLt as string) : 5,
@@ -57,7 +65,7 @@ export const parseSearchParams = (
 		orderBy: searchParams.orderBy
 			? (searchParams.orderBy as ProductQueryParams["orderBy"])
 			: undefined,
-		page: page || 1,
+		page: page ?? 1,
 	};
 };
 

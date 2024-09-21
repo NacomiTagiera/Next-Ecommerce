@@ -7,10 +7,10 @@ const labelVariants = cva("", {
 	variants: {
 		color: {
 			primary: "text-zinc-900",
-			error: "text-red-600",
+			error: "text-red-800",
 		},
 		visibility: {
-			shown: "block text-sm font-medium",
+			shown: "block text-sm font-medium leading-6",
 			hidden: "sr-only",
 		},
 	},

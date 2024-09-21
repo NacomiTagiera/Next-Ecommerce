@@ -3,8 +3,8 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 
-const textareaVariants = cva(
-	"block size-full min-h-[100px] resize-none border-0 py-1.5 transition-colors duration-200 ease-in-out sm:text-sm sm:leading-6",
+const inputVariants = cva(
+	"block w-full border-0 py-1.5 transition-colors duration-200 ease-in-out sm:text-sm sm:leading-6",
 	{
 		variants: {
 			variant: {
@@ -26,21 +26,18 @@ const textareaVariants = cva(
 	},
 );
 
-export type TextareaProps = ComponentPropsWithoutRef<"textarea"> &
-	VariantProps<typeof textareaVariants>;
+export type InputProps = ComponentPropsWithoutRef<"input"> & VariantProps<typeof inputVariants>;
 
-export const Textarea = ({ variant, color, className, ...rest }: TextareaProps) => {
-	const textarea = (
-		<textarea className={cn(textareaVariants({ variant, color, className }))} {...rest} />
-	);
+export const Input = ({ variant, color, className, ...rest }: InputProps) => {
+	const input = <input className={cn(inputVariants({ variant, color, className }))} {...rest} />;
 
 	if (variant === "outlined") {
-		return textarea;
+		return input;
 	}
 
 	return (
 		<div className="relative">
-			{textarea}
+			{input}
 			<div
 				aria-hidden
 				className={cn(

@@ -8,7 +8,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Input } from "@/components/UI/Input";
 import { Label } from "@/components/UI/Label";
 import { useDebounce } from "@/hooks/useDebounce";
-import { cn } from "@/lib/utils";
+import { cn, createUrl } from "@/lib/utils";
 
 interface Props {
 	id: string;
@@ -27,18 +27,20 @@ export const SearchInput = ({ id, className }: Props) => {
 
 	useEffect(() => {
 		if (debouncedValue.trim().length > 2) {
-			router.push(`/search/1?query=${debouncedValue.trim()}`);
+			const params = new URLSearchParams({ query: debouncedValue.trim() });
+			const url = createUrl("/search/1", params);
+			router.push(url);
 		}
 	}, [debouncedValue, router]);
 
 	return (
-		<div className={cn("w-full max-w-xs", className)}>
+		<div className={cn("w-full max-w-xs", className)} data-testid="search-input-wrapper">
 			<Label htmlFor={id} visibility="hidden">
 				Search For Products
 			</Label>
 			<div className="relative">
 				<span className="absolute inset-y-0 left-0 flex items-center pl-2">
-					<IoMdSearch className="size-5 text-gray-400" aria-hidden />
+					<IoMdSearch className="size-5 text-zinc-300" aria-hidden />
 				</span>
 				<Input
 					type="search"
@@ -48,6 +50,7 @@ export const SearchInput = ({ id, className }: Props) => {
 					onChange={handleChange}
 					placeholder="Search"
 					className="pl-9"
+					variant="outlined"
 					spellCheck="false"
 				/>
 			</div>

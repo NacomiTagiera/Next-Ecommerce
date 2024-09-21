@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Label renders with default props 1`] = `
+<DocumentFragment>
+  <label
+    class="text-zinc-900 block text-sm font-medium leading-6"
+  />
+</DocumentFragment>
+`;

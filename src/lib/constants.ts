@@ -184,7 +184,7 @@ export const footerLinks = [
 		items: [
 			{
 				name: "About us",
-				href: "/about-us",
+				href: "/about",
 			},
 			{
 				name: "Contact",
@@ -192,7 +192,7 @@ export const footerLinks = [
 			},
 			{
 				name: "FAQs",
-				href: "/faqs",
+				href: "/faq",
 			},
 		],
 	},

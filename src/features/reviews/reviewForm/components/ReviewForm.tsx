@@ -33,7 +33,7 @@ export const ReviewForm = ({ productId }: Props) => {
 					setShowNotification(false);
 				}}
 			/>
-			<form ref={formRef} className="mt-8 space-y-8" action={formAction}>
+			<form ref={formRef} className="mt-8 space-y-8 lg:sticky lg:top-28" action={formAction}>
 				<FormField
 					name="headline"
 					placeholder="Title"

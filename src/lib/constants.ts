@@ -1,3 +1,7 @@
+import { LiaShippingFastSolid } from "react-icons/lia";
+import { MdOutlineCurrencyExchange } from "react-icons/md";
+import { SiAdguard } from "react-icons/si";
+
 import { type Route } from "next";
 
 export const PRODUCTS_PER_PAGE = 4;
@@ -161,19 +165,19 @@ export const testimonials = [
 export const incentives = [
 	{
 		name: "Free delivery",
-		imageSrc: "https://tailwindui.com/img/ecommerce/icons/icon-shipping-simple.svg",
+		icon: LiaShippingFastSolid,
 		description:
 			"Free shipping on all orders over $100.00. We're not kidding. No purchase necessary.",
 	},
 	{
 		name: "2-year warranty",
-		imageSrc: "https://tailwindui.com/img/ecommerce/icons/icon-warranty-simple.svg",
+		icon: SiAdguard,
 		description:
 			"If it breaks in the first 2 years we will replace it. Unless you break it on purpose. Then we won't.",
 	},
 	{
 		name: "Free returns",
-		imageSrc: "https://tailwindui.com/img/ecommerce/icons/icon-exchange-simple.svg",
+		icon: MdOutlineCurrencyExchange,
 		description: "Return it within 30 days for any reason. We'll even pay for the return shipping.",
 	},
 ] as const;

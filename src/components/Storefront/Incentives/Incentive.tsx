@@ -1,19 +1,17 @@
-import { BlurredImage } from "@/components/UI/BlurredImage";
+import { type IconType } from "react-icons";
 
 interface Props {
 	name: string;
-	imageSrc: string;
+	icon: IconType;
 	description: string;
 }
 
-export const Incentive = async ({ name, imageSrc, description }: Props) => (
-	<div className="sm:flex lg:block">
-		<div className="sm:flex-shrink-0">
-			<BlurredImage src={imageSrc} alt={name} width={64} height={64} className="h-16 w-16" />
-		</div>
+export const Incentive = async ({ name, icon: Icon, description }: Props) => (
+	<article className="sm:flex lg:block">
+		<Icon className="size-14 text-zinc-900 sm:flex-shrink-0 lg:size-16" aria-hidden />
 		<div className="mt-4 sm:ml-6 sm:mt-0 lg:ml-0 lg:mt-6">
-			<h3 className="text-sm font-medium text-gray-900">{name}</h3>
-			<p className="mt-2 text-sm text-gray-700">{description}</p>
+			<h3 className="text-sm font-medium text-zinc-900 lg:text-base">{name}</h3>
+			<p className="mt-2 text-sm text-zinc-700">{description}</p>
 		</div>
-	</div>
+	</article>
 );

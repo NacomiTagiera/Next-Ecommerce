@@ -8,7 +8,10 @@ interface Props {
 
 export const OrderItemHeader = ({ total, orderDate }: Props) => {
 	const orderDateTime = new Date(orderDate).getTime();
-	const isDelivered = orderDateTime - new Date().getTime() / (1000 * 60 * 60 * 24) > 7;
+	const currentTime = new Date().getTime();
+
+	const daysSinceOrder = (currentTime - orderDateTime) / (1000 * 60 * 60 * 24);
+	const isDelivered = daysSinceOrder > 7;
 
 	return (
 		<div className="pb-5 sm:flex sm:items-center sm:justify-between sm:space-x-6 sm:px-6 lg:space-x-8">

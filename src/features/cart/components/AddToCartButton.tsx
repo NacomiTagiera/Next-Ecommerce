@@ -22,7 +22,7 @@ export const AddToCartButton = ({ itemId }: { itemId: string }) => {
 				<ActionButton
 					leadingIcon={FiShoppingBag}
 					className="mt-10 px-8 sm:max-w-xs"
-					onClick={() => router.push("/cart")}
+					onClick={() => router.push("/cart", { scroll: false })}
 				>
 					Add to Cart
 				</ActionButton>
@@ -37,7 +37,7 @@ export const AddToCartButton = ({ itemId }: { itemId: string }) => {
 					<ActionButton
 						leadingIcon={FiShoppingBag}
 						className="rounded-none"
-						onClick={() => router.push("/cart")}
+						onClick={() => router.push("/cart", { scroll: false })}
 					>
 						Add to Cart
 					</ActionButton>

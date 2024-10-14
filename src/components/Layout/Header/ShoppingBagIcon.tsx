@@ -12,6 +12,7 @@ export const ShoppingBagIcon = async () => {
 		<div className="ml-3 flow-root">
 			<Link
 				href="/cart"
+				scroll={false}
 				className="group flex items-center focus:outline-none focus:ring-2 focus:ring-skyfall-300"
 				title="View cart"
 			>

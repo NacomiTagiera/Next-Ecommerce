@@ -1,0 +1,25 @@
+import { contactInfo } from "./contactInfo";
+
+# Get in touch
+
+<div className="mb-8 text-center">
+	Are you having problems with your order? Or maybe you want to get to know us better? Contact us!
+</div>
+
+<section className="grid grid-cols-1 justify-items-center gap-8 text-center sm:grid-cols-2 sm:text-left">
+	{contactInfo.map((contact) => (
+		<article key={contact.id} className="p-10">
+			<h2 className="mb-3 text-xl font-medium">{contact.title}</h2>
+			<address className="not-italic">
+				<div className="mb-2">
+					<a href={`mailto:${contact.email}`} className="text-skyfall-600">
+						{contact.email}
+					</a>
+				</div>
+				<div>
+					<a href={`tel:${contact.phone}`}>{contact.phone}</a>
+				</div>
+			</address>
+		</article>
+	))}
+</section>

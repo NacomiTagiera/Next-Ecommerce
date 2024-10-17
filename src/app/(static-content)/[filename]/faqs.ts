@@ -35,4 +35,4 @@ export const faqs = [
 		answer:
 			"Yes, all our products are ethically sourced, and we work with manufacturers who adhere to fair trade and sustainable practices.",
 	},
-];
+] as const;

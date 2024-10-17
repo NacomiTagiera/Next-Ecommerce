@@ -59,7 +59,7 @@ export const useCheckout = (shipping: StripeAddressElementChangeEvent["value"]) 
 		const { error } = await stripe.confirmPayment({
 			elements,
 			confirmParams: {
-				return_url: `${process.env.NEXT_PUBLIC_URL}/cart/success?intent_id=${intent_id}`,
+				return_url: `${window.location.origin}/cart/success?intent_id=${intent_id}`,
 				shipping: {
 					name: shipping.name,
 					address: {

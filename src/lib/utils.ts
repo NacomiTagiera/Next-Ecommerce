@@ -46,6 +46,19 @@ export const createUrl = (pathname: string, params: URLSearchParams | ReadonlyUR
 	return `${pathname}${queryString}`;
 };
 
+type PromiseToTupleResult<T> = [Error, null] | [null, Awaited<T>];
+export const unpackPromise = async <T extends Promise<unknown>>(
+	promise: T,
+): Promise<PromiseToTupleResult<T>> => {
+	try {
+		const result = await promise;
+		return [null, result];
+	} catch (maybeError) {
+		const error = maybeError instanceof Error ? maybeError : new Error(String(maybeError));
+		return [error, null];
+	}
+};
+
 export const parseSearchParams = (
 	searchParams: { [key: string]: string | string[] | undefined },
 	page?: number,

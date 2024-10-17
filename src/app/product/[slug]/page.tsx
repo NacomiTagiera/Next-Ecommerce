@@ -40,13 +40,8 @@ export default async function ProductPage({ params }: Props) {
 	} = product;
 	const categoriesSlugs = categories.map((category) => category.slug);
 
-	productColorVariants.map((variant) => {
-		return variant.name;
-	});
-
-	productSizeVariants.map((variant) => {
-		return variant.name;
-	});
+	productColorVariants.map((variant) => variant.name);
+	productSizeVariants.map((variant) => variant.name);
 
 	return (
 		<div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">

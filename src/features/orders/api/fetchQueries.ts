@@ -1,8 +1,4 @@
-import {
-	OrderItemsPublishDocument,
-	OrderPublishDocument,
-	OrdersGetByEmailDocument,
-} from "@/graphql/generated/graphql";
+import { OrdersGetByEmailDocument } from "@/graphql/generated/graphql";
 import { executeGraphql } from "@/lib/executeGraphql";
 
 export const getUserOrders = async (email: string) => {
@@ -16,18 +12,4 @@ export const getUserOrders = async (email: string) => {
 	});
 
 	return orders;
-};
-
-export const publishOrder = async (id: string) => {
-	await executeGraphql({
-		query: OrderPublishDocument,
-		variables: { id },
-	});
-};
-
-export const publishOrderItems = async (id: string) => {
-	await executeGraphql({
-		query: OrderItemsPublishDocument,
-		variables: { orderId: id },
-	});
 };

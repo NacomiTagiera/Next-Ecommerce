@@ -3,7 +3,7 @@ import { userEvent } from "@testing-library/user-event";
 
 import { useQueryParams } from "@/hooks/useQueryParams";
 
-import { VariantSelector } from "./VariantSelector";
+import { VariantSelector } from ".";
 
 jest.mock("@/hooks/useQueryParams", () => ({
 	useQueryParams: jest.fn(),

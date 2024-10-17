@@ -1,5 +1,5 @@
 query OrdersGetByEmail($email: String!) {
-	orders(where: { email: $email }, orderBy: createdAt_DESC) {
+	orders(where: { email: $email }, stage: DRAFT, orderBy: updatedAt_DESC) {
 		...Order
 	}
 }

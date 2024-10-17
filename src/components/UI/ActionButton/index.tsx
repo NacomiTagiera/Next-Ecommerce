@@ -23,8 +23,18 @@ export const ActionButton = ({
 			type="submit"
 			size="fullWidth"
 			aria-disabled={pending}
-			leadingIcon={!pending ? leadingIcon : () => <LuLoader data-testid="loader-icon" />}
-			trailingIcon={!pending ? trailingIcon : undefined}
+			leadingIcon={
+				!pending
+					? leadingIcon
+					: () => (
+							<LuLoader
+								data-testid="loader-icon"
+								className="mr-2 size-5 animate-spin"
+								aria-hidden
+							/>
+						)
+			}
+			trailingIcon={trailingIcon}
 			className={cn("px-8", className, {
 				"cursor-wait": pending,
 			})}

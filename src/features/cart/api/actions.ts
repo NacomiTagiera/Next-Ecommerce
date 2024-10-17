@@ -143,6 +143,6 @@ export const updateOrderAfterPayment = async ({
 	return updateOrder.id;
 };
 
-export const deleteCartIdCookie = async () => {
+export const clearCartCookie = async () => {
 	setCookie("cartId", "");
 };

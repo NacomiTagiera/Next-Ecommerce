@@ -1,5 +1,0 @@
-mutation OrderItemsPublish($orderId: ID!) {
-	publishManyOrderItems(where: { order: { id: $orderId } }, to: PUBLISHED) {
-		count
-	}
-}

@@ -1,8 +1,8 @@
 import { type Metadata } from "next";
 import { redirect } from "next/navigation";
 
-import { updateOrderAfterPayment } from "@/features/cart/api/actions";
 import { CartSuccessView } from "@/features/cart/components/CartSuccessView";
+import { ClearCartCookie } from "@/features/cart/components/ClearCartCookie";
 import { stripe } from "@/lib/stripe";
 
 export const metadata: Metadata = {
@@ -35,12 +35,10 @@ export default async function CartSuccessPage({ searchParams: { intent_id } }: P
 		redirect("/cart");
 	}
 
-	await updateOrderAfterPayment({
-		orderId: paymentIntent.metadata.orderId,
-		userEmail: paymentIntent.receipt_email ?? "",
-		total: paymentIntent.amount,
-		stripeCheckoutId: paymentIntent.id,
-	});
-
-	return <CartSuccessView total={paymentIntent.amount} />;
+	return (
+		<>
+			<CartSuccessView total={paymentIntent.amount} />
+			<ClearCartCookie />
+		</>
+	);
 }

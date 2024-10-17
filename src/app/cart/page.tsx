@@ -5,28 +5,29 @@ import { CartList } from "@/features/cart/components/CartList";
 import { CartSummary } from "@/features/cart/components/CartSummary";
 import { CartWrapper } from "@/features/cart/components/CartWrapper";
 import { EmptyCart } from "@/features/cart/components/EmptyCart";
-import { formatPrice } from "@/lib/utils";
+import { calculateItemsTotal, formatPrice } from "@/lib/utils";
 
 export default async function CartPage() {
 	const cart = await getCartFromCookies();
 
-	const totalPrice =
-		cart?.orderItems.reduce((acc, item) => acc + item.total * item.quantity, 0) || 0;
+	if (!cart || !cart.orderItems || cart.orderItems.length === 0) {
+		return (
+			<CartWrapper>
+				<EmptyCart />
+			</CartWrapper>
+		);
+	}
+
+	const totalPrice = calculateItemsTotal(cart.orderItems);
 
 	return (
 		<CartWrapper>
-			{cart && cart.orderItems.length > 0 ? (
-				<>
-					<CartList items={cart.orderItems} view="fullView" />
-					<CartSummary price={formatPrice(totalPrice / 100)}>
-						<form action={handlePayment}>
-							<ActionButton className="mt-6">Checkout</ActionButton>
-						</form>
-					</CartSummary>
-				</>
-			) : (
-				<EmptyCart />
-			)}
+			<CartList items={cart.orderItems} view="fullView" />
+			<CartSummary price={formatPrice(totalPrice / 100)}>
+				<form action={handlePayment}>
+					<ActionButton className="mt-6">Checkout</ActionButton>
+				</form>
+			</CartSummary>
 		</CartWrapper>
 	);
 }

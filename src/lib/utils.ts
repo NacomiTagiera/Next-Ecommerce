@@ -3,11 +3,15 @@ import { twMerge } from "tailwind-merge";
 
 import { type ReadonlyURLSearchParams } from "next/navigation";
 
+import { type CartFragment } from "@/graphql/generated/graphql";
 import { type ProductQueryParams } from "@/types";
 
 import { productColors, PRODUCTS_PER_PAGE, productSizes } from "./constants";
 
 export const cn = (...classes: ClassValue[]) => twMerge(clsx(...classes));
+
+export const calculateItemsTotal = (items: CartFragment["orderItems"]) =>
+	items.reduce((acc, item) => acc + (item?.product?.price ?? 0) * item.quantity, 0);
 
 export const formatPrice = (price: number) =>
 	new Intl.NumberFormat("en-US", {

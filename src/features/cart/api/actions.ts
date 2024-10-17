@@ -3,7 +3,6 @@
 import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 
-import { publishOrder, publishOrderItems } from "@/features/orders/api/fetchQueries";
 import { getProductByIdOrSlug } from "@/features/products/productDetails/api/fetchQueries";
 import {
 	CartAddItemDocument,
@@ -15,6 +14,7 @@ import { getUserEmail } from "@/lib/clerkHelpers";
 import { setCookie } from "@/lib/cookies";
 import { executeGraphql } from "@/lib/executeGraphql";
 import { stripe } from "@/lib/stripe";
+import { calculateItemsTotal } from "@/lib/utils";
 
 import { getCartFromCookies, getOrCreateCart } from "./fetchQueries";
 
@@ -91,13 +91,16 @@ export const handlePayment = async () => {
 	}
 
 	const userEmail = await getUserEmail();
+	const total = calculateItemsTotal(cart.orderItems);
 
 	const paymentIntent = await stripe.paymentIntents.create({
-		amount: cart.orderItems.reduce((total, item) => total + item.total * item.quantity, 0),
+		amount: total,
 		currency: "usd",
 		receipt_email: userEmail,
 		metadata: {
 			orderId: cart.id,
+			email: userEmail ?? "",
+			total: total.toString(),
 		},
 	});
 
@@ -135,7 +138,6 @@ export const updateOrderAfterPayment = async ({
 		throw new Error("Error updating order after payment");
 	}
 
-	await Promise.all([publishOrder(updateOrder.id), publishOrderItems(updateOrder.id)]);
 	revalidateTag("orders");
 
 	return updateOrder.id;

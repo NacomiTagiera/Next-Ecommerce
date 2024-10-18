@@ -6133,6 +6133,12 @@ export type ReviewCreateMutationVariables = Exact<{
 
 export type ReviewCreateMutation = { createReview?: { id: string } | null };
 
+export type ReviewPublishMutationVariables = Exact<{
+	id: Scalars["ID"]["input"];
+}>;
+
+export type ReviewPublishMutation = { publishReview?: { id: string } | null };
+
 export type CartGetByIdQueryVariables = Exact<{
 	id: Scalars["ID"]["input"];
 }>;
@@ -6669,6 +6675,13 @@ export const ReviewCreateDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<ReviewCreateMutation, ReviewCreateMutationVariables>;
+export const ReviewPublishDocument = new TypedDocumentString(`
+    mutation ReviewPublish($id: ID!) {
+  publishReview(where: {id: $id}, to: PUBLISHED) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<ReviewPublishMutation, ReviewPublishMutationVariables>;
 export const CartGetByIdDocument = new TypedDocumentString(`
     query CartGetById($id: ID!) {
   order(where: {id: $id}, stage: DRAFT) {
@@ -6998,11 +7011,7 @@ export const ProductsGetRelatedDocument = new TypedDocumentString(`
 }`) as unknown as TypedDocumentString<ProductsGetRelatedQuery, ProductsGetRelatedQueryVariables>;
 export const ReviewsGetByProductIdDocument = new TypedDocumentString(`
     query ReviewsGetByProductId($productId: ID!) {
-  reviews(
-    where: {product: {id: $productId}}
-    stage: DRAFT
-    orderBy: createdAt_DESC
-  ) {
+  reviews(where: {product: {id: $productId}}, orderBy: createdAt_DESC) {
     ...Review
   }
 }

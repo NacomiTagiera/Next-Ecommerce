@@ -45,14 +45,14 @@ describe("ActionButton", () => {
 		expect(screen.getByTestId("leading-icon")).toBeVisible();
 	});
 
-	it("does not render the trailing icon when pending", () => {
+	it("renders the trailing icon when pending", () => {
 		mockedUseFormStatus.mockReturnValue({ pending: true });
 
 		render(
 			<ActionButton trailingIcon={() => <svg data-testid="trailing-icon" />}>Submit</ActionButton>,
 		);
 
-		expect(screen.queryByTestId("trailing-icon")).not.toBeInTheDocument();
+		expect(screen.queryByTestId("trailing-icon")).toBeVisible();
 	});
 
 	it("passes the rest of the props to the button", () => {

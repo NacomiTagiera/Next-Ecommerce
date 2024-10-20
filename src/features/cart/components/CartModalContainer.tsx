@@ -6,7 +6,7 @@ interface Props {
 
 export const CartModalContainer = ({ children }: Props) => (
 	<aside
-		className="absolute inset-0 z-40 flex justify-end"
+		className="fixed inset-0 z-40 flex justify-end"
 		aria-labelledby="cart-modal-title"
 		role="dialog"
 		aria-modal="true"

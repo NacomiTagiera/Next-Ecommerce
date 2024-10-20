@@ -2,11 +2,10 @@
 
 import { useQueryParams } from "@/hooks/useQueryParams";
 
-import { type VariantsType } from "../types";
-import { getConvertedVariants } from "../utils";
-
-import { ColorPicker } from "./ColorPicker";
-import { SizeSelector } from "./SizeSelector";
+import { type VariantsType } from "../../types";
+import { getConvertedVariants } from "../../utils";
+import { ColorPicker } from "../ColorPicker";
+import { SizeSelector } from "../SizeSelector";
 
 interface Props {
 	colors: VariantsType;
@@ -22,7 +21,7 @@ export const VariantSelector = ({ colors, sizes }: Props) => {
 	}
 
 	return convertedVariants.map(({ name, values }) => {
-		const activeValue = queryParams.get(name) || values[0] || "";
+		const activeValue = queryParams.get(name) ?? values[0] ?? "";
 		const handleVariantChange = (value: string) => {
 			setQueryParams({ [name]: value });
 		};

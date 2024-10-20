@@ -11,11 +11,11 @@ export const ReviewsList = async ({ productId }: { productId: string }) => {
 				<span className="ms-1 text-sm text-zinc-600">({reviews.length})</span>
 			</h3>
 			{reviews.length > 0 ? (
-				<ul className="space-y-10">
+				<div className="space-y-10">
 					{reviews.map((review) => (
 						<ReviewsListItem key={review.id} review={review} />
 					))}
-				</ul>
+				</div>
 			) : (
 				<p className="py-10 text-center text-lg text-zinc-600">
 					No reviews yet. Be the first to review this product!

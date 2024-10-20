@@ -3,8 +3,8 @@ import { FiShoppingBag } from "react-icons/fi";
 import { redirect } from "next/navigation";
 
 import { Button } from "@/components/UI/Button";
-import { type OrderFragment } from "@/graphql/generated/graphql";
 import { getUserEmail } from "@/lib/clerkHelpers";
+import { calculateItemsTotal } from "@/lib/utils";
 
 import { getUserOrders } from "../api/fetchQueries";
 
@@ -20,26 +20,15 @@ export const Orders = async () => {
 	const orders = await getUserOrders(userEmail);
 	if (!orders || orders.length === 0) {
 		return (
-			<>
-				<FiShoppingBag className="size-16" aria-hidden />
-				<h2 className="mt-6 text-center text-2xl font-bold">
+			<div className="mx-auto flex flex-col items-center justify-center">
+				<FiShoppingBag className="size-16 md:size-20" aria-hidden />
+				<h2 className="mb-4 mt-6 text-center text-2xl font-semibold md:text-3xl md:font-bold">
 					You haven&apos;t made any purchases yet
 				</h2>
-				<Button href="/products" className="mt-4 transition-shadow hover:shadow-md">
-					Browse products
-				</Button>
-			</>
+				<Button href="/products">Browse products</Button>
+			</div>
 		);
 	}
-
-	const getTotalAmount = (order: OrderFragment) => {
-		return order.orderItems.reduce((acc, item) => {
-			if (item.product) {
-				return acc + item.product.price * item.quantity;
-			}
-			return acc;
-		}, 0);
-	};
 
 	return (
 		<>
@@ -49,7 +38,10 @@ export const Orders = async () => {
 
 				return (
 					<div key={order.id} className="rounded-lg bg-white px-4 py-6">
-						<OrderItemHeader total={getTotalAmount(order)} orderDate={order.updatedAt as string} />
+						<OrderItemHeader
+							total={calculateItemsTotal(order.orderItems)}
+							orderDate={order.updatedAt as string}
+						/>
 						<table className="mt-4 w-full text-center text-zinc-500 sm:mt-6">
 							<caption className="sr-only">Products</caption>
 							<thead className="sr-only text-center text-sm text-zinc-500 sm:not-sr-only">

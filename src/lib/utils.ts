@@ -3,11 +3,15 @@ import { twMerge } from "tailwind-merge";
 
 import { type ReadonlyURLSearchParams } from "next/navigation";
 
+import { type CartFragment } from "@/graphql/generated/graphql";
 import { type ProductQueryParams } from "@/types";
 
 import { productColors, PRODUCTS_PER_PAGE, productSizes } from "./constants";
 
 export const cn = (...classes: ClassValue[]) => twMerge(clsx(...classes));
+
+export const calculateItemsTotal = (items: CartFragment["orderItems"]) =>
+	items.reduce((acc, item) => acc + (item?.product?.price ?? 0) * item.quantity, 0);
 
 export const formatPrice = (price: number) =>
 	new Intl.NumberFormat("en-US", {
@@ -40,6 +44,19 @@ export const createUrl = (pathname: string, params: URLSearchParams | ReadonlyUR
 	const queryString = `${paramsString.length ? "?" : ""}${paramsString}`;
 
 	return `${pathname}${queryString}`;
+};
+
+type PromiseToTupleResult<T> = [Error, null] | [null, Awaited<T>];
+export const unpackPromise = async <T extends Promise<unknown>>(
+	promise: T,
+): Promise<PromiseToTupleResult<T>> => {
+	try {
+		const result = await promise;
+		return [null, result];
+	} catch (maybeError) {
+		const error = maybeError instanceof Error ? maybeError : new Error(String(maybeError));
+		return [error, null];
+	}
 };
 
 export const parseSearchParams = (

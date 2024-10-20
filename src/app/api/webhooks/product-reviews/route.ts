@@ -23,12 +23,14 @@ export async function POST(request: NextRequest) {
 		return new Response("Product ID not found", { status: 400 });
 	}
 
-	const reviews = await getReviewsByProductId(productId);
-	const product = await getProductByIdOrSlug({ id: productId });
+	const [reviews, product] = await Promise.all([
+		getReviewsByProductId(productId),
+		getProductByIdOrSlug({ id: productId }),
+	]);
 	let averageRating = 0;
 
 	if (reviews && reviews.length > 0) {
-		const totalRating = reviews.reduce((acc, review) => acc + review.rating, 0);
+		const totalRating = reviews.reduce((acc, review) => acc + (review.rating ?? 0), 0);
 		averageRating = parseFloat((totalRating / reviews.length).toFixed(2));
 	}
 
@@ -40,7 +42,7 @@ export async function POST(request: NextRequest) {
 
 		revalidatePath(`/product/${product?.slug}`);
 		revalidatePath("/");
-		return new Response("Rating updated", { status: 200 });
+		return new Response(`Rating updated: ${averageRating}`, { status: 200 });
 	} catch (error) {
 		return new Response("Failed to update rating", { status: 500 });
 	}

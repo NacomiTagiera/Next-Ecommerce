@@ -16,7 +16,7 @@ export const createReviewAction = async (productId: string, _prev: FormState, da
 	const { rating, ...rest } = formData;
 
 	const parsed = reviewSchema.safeParse({
-		rating: Number(rating),
+		rating: rating ? Number(rating) : 0,
 		...rest,
 	});
 
